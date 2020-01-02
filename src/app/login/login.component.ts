@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   username: string;
   password: string;
+  submitted = false;
   @Output() isAuth = new EventEmitter<boolean>();
 
   constructor(
