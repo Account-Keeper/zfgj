@@ -1,11 +1,47 @@
-<h2>Login</h2>
-<form>
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" formControlName="username" class="form-control" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 min-vh-100 d-flex flex-column justify-content-center">
+            <div class="row">
+                <div class="col-12 mx-auto">
+                    <!-- form card login -->
+                    <div class="card rounded shadow shadow-sm">
+                        <div class="card-header">
+                            <h3 class="mb-0">登陆</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="form" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="uname1">用户名</label>
+                                    <input type="text" [(ngModel)]="username"
+                                        [ngClass]="{ 'is-invalid': submitted && f.username.errors,'form-control rounded-0':true }"
+                                        name="uname1" id="uname1" [ngModelOptions]="{standalone: true}">
+                                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                        <div *ngIf="f.username.errors.required">请输入用户名</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>密码</label>
+                                    <input type="password" [(ngModel)]="password"
+                                        [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'form-control rounded-0':true }"
+                                        id="pwd1" required="" [ngModelOptions]="{standalone: true}" >
+                                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                        <div *ngIf="f.username.errors.required">请输入密码</div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success btn-lg float-right"
+                                    id="btnLogin">Login</button>
+                            </form>
+                        </div>
+                        <!--/card-block-->
+                    </div>
+                    <!-- /form card login -->
+
+                </div>
+            </div>
+            <!--/row-->
+        </div>
+        <!--/col-->
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control"/>
-    </div>
-</form>
+    <!--/row-->
+</div>
+<!--/container-->
