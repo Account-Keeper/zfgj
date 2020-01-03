@@ -6,30 +6,28 @@
                     <!-- form card login -->
                     <div class="card rounded shadow shadow-sm">
                         <div class="card-header">
-                            <h3 class="mb-0">登陆</h3>
+                            <h3 class="mb-0">用户登录</h3>
                         </div>
                         <div class="card-body">
                             <form class="form" (ngSubmit)="onSubmit()">
-                                <div class="form-group">
-                                    <label for="uname1">用户名</label>
-                                    <input type="text" [(ngModel)]="username"
-                                        [ngClass]="{ 'is-invalid': submitted && f.username.errors,'form-control rounded-0':true }"
-                                        name="uname1" id="uname1" [ngModelOptions]="{standalone: true}">
-                                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                        <div *ngIf="f.username.errors.required">请输入用户名</div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>密码</label>
-                                    <input type="password" [(ngModel)]="password"
-                                        [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'form-control rounded-0':true }"
-                                        id="pwd1" required="" [ngModelOptions]="{standalone: true}" >
-                                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                        <div *ngIf="f.username.errors.required">请输入密码</div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success btn-lg float-right"
-                                    id="btnLogin">Login</button>
+                                <p><mat-form-field class="form-full-width">
+                                    <input matInput placeholder="用户名" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
+                                    <mat-error *ngIf="usernameFormControl.hasError('required')">
+                                            请输入用户名
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                            <p>
+                                <mat-form-field class="form-full-width">
+                                    <input matInput placeholder="密码" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+                                    <mat-error *ngIf="passwordFormControl.hasError('required')">
+                                            请输入密码
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+
+                              
+                                <button mat-raised-button class="float-right" >登录</button>
                             </form>
                         </div>
                         <!--/card-block-->
