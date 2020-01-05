@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ConfigService } from '../config.service';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private service: ConfigService,
     private formBuilder: FormBuilder,
+    private r: Router,
   ) { 
     
     
@@ -58,9 +60,9 @@ export class LoginComponent implements OnInit {
 
     this.service.login(username,password).subscribe(data=>{
       console.log(data);
-      if(data.response === 'success'){
+      if(data.success){
         this.isAuth.emit(true);
-        //this.r.navigate([''], {queryParams:{'page':1,'view':'grid'}});
+        this.r.navigate(['']);
       }
       else
         this.isAuth.emit(false);

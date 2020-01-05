@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
@@ -13,25 +14,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 //Material modules
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSliderModule} from '@angular/material/slider';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent },
-  //{ path: '**', component: PageNotFoundComponent }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    SidebarComponent,
+    NavbarComponent
   ],
   imports: [
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    ),
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -40,9 +45,18 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatCardModule,
+    MatCheckboxModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    ),
   ],
   providers: [
-    ConfigService
+    ConfigService,
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
