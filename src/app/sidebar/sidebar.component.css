@@ -6,6 +6,10 @@
     right: 0;
   }
 
+  .mat-sidenav-content {
+    align-content: center;
+  }
+
   .sidebar-1 {
       width: 20%;
   }
@@ -16,4 +20,31 @@
     overflow: auto;
     border: 1px solid #555;
   }
+
+  .list-group-item {
+    border-radius: 0;
+    background-color: white;
+    color: grey;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-color: #d1d5d6;
+    border-top-width: thin;
+    white-space: nowrap;
+    font-size: 20px;
+    margin: 2px 20px;
+}
+
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: lightgray;
+  color: black;
+}
+
+.list-group-item a {
+  border:0px;
+}
+
+.list-group-item:not(.collapsed) {
+}
   
