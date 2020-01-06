@@ -12,8 +12,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 60%;
 }
 
-.fa {
+.fa,.material-icons {
     cursor: pointer;
+}
+
+.material-icons:hover {
+    color: orange;
 }
 
 .fa:hover {

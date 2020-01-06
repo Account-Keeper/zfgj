@@ -16,14 +16,23 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
 import { NavbarComponent } from './navbar/navbar.component';
+import { UserConfigComponent } from './user-config/user-config.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { LeadsComponent } from './leads/leads.component';
+import { PerformanceComponent } from './performance/performance.component';
+import { AccountingComponent } from './accounting/accounting.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'user-config', component: UserConfigComponent },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '' }
 ];
@@ -34,7 +43,12 @@ const appRoutes: Routes = [
     LoginComponent,
     HomeComponent,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    UserConfigComponent,
+    JobsComponent,
+    LeadsComponent,
+    PerformanceComponent,
+    AccountingComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +63,9 @@ const appRoutes: Routes = [
     MatSliderModule,
     MatCardModule,
     MatCheckboxModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatIconModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

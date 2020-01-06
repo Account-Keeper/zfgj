@@ -4,15 +4,21 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, map, first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 
+export const ROLES = [
+  {role_name: '一般用户',is_writable:false},
+  {role_name: '管理员',is_writable:true},
+  {role_name: '主管', is_writable:false},
+  {role_name: '超级管理员', is_writable:true},
+];
 
 export const url_api = 'http://111.229.24.199:8001/';
 const API_TOKEN = "";
 
-export default interface User {
+export class User {
     username: string;
     password: string;
     role_id: 0;
-  }
+}
 
 @Injectable()
 export class ConfigService {
@@ -54,7 +60,7 @@ export class ConfigService {
     .pipe(map(data=>{
       if(data){
         localStorage.setItem('currentUser', JSON.stringify(data.result));
-        this.currentUserSubject.next(data);
+        this.currentUserSubject.next(data.result);
       }
       return data;
     }));
@@ -87,4 +93,31 @@ export class ConfigService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
+
+  getUsers(filter) {
+    const params = new HttpParams()
+        .set("api_token", API_TOKEN)
+        .set("username", filter['username'] || '')
+        .set("first_name", filter['first_name'] || '');
+
+    return this.http.get<any>(url_api+'user/all', {headers: this.getHeaders()})
+    .pipe(map(data=>{
+      if(data){
+        return data;
+      }
+      return data;
+    }));
+  }
+
+  getRoleNameById(id){
+    let obj = ROLES[id];
+    if(obj)
+      return obj['role_name'];
+  
+    return '';
+  };
 }
+
+
+//external functions
+
