@@ -12,12 +12,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 60%;
 }
 
-.fa {
+.fa,.material-icons {
     cursor: pointer;
+}
+
+.material-icons:hover {
+    color: orange;
 }
 
 .fa:hover {
     color: orange;
+}
+
+@media only screen and (min-width: 800px) { 
+    .container-1 {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+    }  
 }
 
 @media only screen and (max-width: 600px) { 

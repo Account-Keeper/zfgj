@@ -1,3 +1,25 @@
 .navbar-nav .nav-link {
     color: black;
   }
+
+.toolbar-fullscreen {
+    display: none;
+    background-color: #3A3634;
+}
+
+.title-link {
+  color: white;
+  font-weight: bold;
+}
+
+.toolbar-filler {
+  background-color: #3A3634;
+  flex: 1 1 auto;
+  margin: 10px;
+}
+
+.sidenav-toggle-button {
+  background-color: #3A3634;
+  color: white;
+  border: 0px;
+}

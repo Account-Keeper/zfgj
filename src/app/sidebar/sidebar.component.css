@@ -1,13 +1,22 @@
 .sidebar-container {
     position: absolute;
+    width: 100%;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
   }
 
+  .mat-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
   .sidebar-1 {
-      width: 20%;
+      width: 15%;
+      background-color: #3A3634;
   }
   
   .sidebar-events {
@@ -16,4 +25,44 @@
     overflow: auto;
     border: 1px solid #555;
   }
+
+
+  .list-group-item {
+    border-radius: 0;
+    background-color: #3A3634;
+    color: grey;
+    border:0px;
+    white-space: nowrap;
+    font-size: 20px;
+    margin: 2px 20px;
+}
+
+.list-group-title {
+  color: #9e9ba4;
+  font-weight: bold;
+  border-bottom: 0;
+  border-bottom-width: 0px;
+}
+
+.list-group-item:hover:not(.list-group-title) {
+  cursor: pointer;
+  background-color: #3A3634;
+  color: lightgray;
+}
+
+.list-group-item a {
+	outline: none;
+	text-decoration: none;
+	position: relative;
+	color: #9e9ba4;
+	display: inline-block;
+}
+
+.list-group-item a:hover {
+  color: lightgray;
+}
+
+.active-list-item a{
+  color: lightgray!important;
+}
   

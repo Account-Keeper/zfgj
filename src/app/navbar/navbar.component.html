@@ -1,24 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark pink scrolling-navbar">
-      <i class="fa fa-bars mx-2" (click)="onToggleBar()"></i>
-      <a class="navbar-brand text-secondary">
-        <strong>SAAS</strong>
-      </a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-          </li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-                <a class="nav-link" href="/user">Config</a>
-              </li>
-          <li class="nav-item">
-            <a class="nav-link">dgao</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="!isAuth" (click)="login()">登录</a>
-            <a class="nav-link" *ngIf="isAuth" (click)="logout()">注销</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+
+    <mat-toolbar id="appToolbar" class="toolbar-filler">
+      <button md-icon-button (click)="onToggleBar()" class="md-icon-button sidenav-toggle-button">
+        <mat-icon aria-label="Menu" class="material-icons" >menu</mat-icon>
+      </button>
+      <h1 class="component-title">
+        <a class="title-link">SAAS</a>
+      </h1>
+      <span class="toolbar-filler"></span>
+      <button id="button-logout" md-button class="sidenav-toggle-button" *ngIf="isAuth" (click)="logout()">注销</button>
+    </mat-toolbar>   

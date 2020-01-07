@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       console.log(data);
       if(data.success){
         this.isAuth.emit(true);
-        this.r.navigate(['']);
+        this.r.navigate(['/home']);
       }
       else
         this.isAuth.emit(false);

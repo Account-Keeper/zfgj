@@ -1,4 +1,6 @@
 import { Component, OnInit, Output,EventEmitter } from '@angular/core';
+import { ConfigService }  from '../config.service';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,15 +10,34 @@ import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 export class NavbarComponent implements OnInit {
   logo: string;
   open; boolean;
+  title = 'app';
+  isAuth: boolean;
+  currentUser: Object;
 
   @Output() toggle = new EventEmitter<boolean>();
 
-  constructor() {
+  constructor(
+    private service: ConfigService,
+    private router: Router,
+  ) {
     this.logo = '';
     this.open = false;
    }
 
   ngOnInit() {
+    if(this.service.currentUserValue){
+      this.isAuth = true;
+    }
+    else{
+      this.isAuth = false;
+    }
+
+    this.service.change.subscribe(data => {
+      if(data){
+        this.isAuth = true;
+        this.currentUser = {...data};
+      }
+    });
   }
 
   onToggleBar () {
@@ -29,7 +50,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-
+    this.service.logout();
+    this.isAuth = false;
+    this.router.navigate(['/login']);
   }
 
 }
