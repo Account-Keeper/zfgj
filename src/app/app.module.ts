@@ -22,12 +22,18 @@ import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavbarComponent } from './navbar/navbar.component';
-import { UserConfigComponent } from './user-config/user-config.component';
+import { UserConfigComponent, UserRemoveConfirmDialog } from './user-config/user-config.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { LeadsComponent } from './leads/leads.component';
 import { PerformanceComponent } from './performance/performance.component';
 import { AccountingComponent } from './accounting/accounting.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -45,6 +51,7 @@ const appRoutes: Routes = [
     SidebarComponent,
     NavbarComponent,
     UserConfigComponent,
+    UserRemoveConfirmDialog,
     JobsComponent,
     LeadsComponent,
     PerformanceComponent,
@@ -66,11 +73,18 @@ const appRoutes: Routes = [
     MatTableModule,
     MatToolbarModule,
     MatIconModule,
+    MatRadioModule,
+    MatSelectModule,
+    FlexLayoutModule,
+    MatDialogModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule ,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
   ],
+  entryComponents: [UserConfigComponent, UserRemoveConfirmDialog],
   providers: [
     ConfigService,
     {provide: LocationStrategy, useClass: PathLocationStrategy}

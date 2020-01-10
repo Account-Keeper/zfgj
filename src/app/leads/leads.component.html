@@ -1,1 +1,26 @@
 <p>leads works!</p>
+
+
+<!-- Content table -->
+<div class="container" *ngIf="!isEdit">
+    <p>
+        <mat-icon aria-label="Add new lead" class="material-icons" (click)="onAdd()">add</mat-icon>
+    </p>
+    <mat-progress-spinner
+        class="spinner-1"
+        color="accent"
+        mode="indeterminate"
+        diameter="40"
+        value=30 *ngIf="isLoading">
+    </mat-progress-spinner>
+
+    <table mat-table [dataSource]="leads" class="mat-elevation-z8">
+        <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef> 用户名 </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

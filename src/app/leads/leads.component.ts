@@ -7,7 +7,10 @@ import { LeadService } from '../lead.service';
   styleUrls: ['./leads.component.css']
 })
 export class LeadsComponent implements OnInit {
-  private leads = [];
+  isEdit = false;
+  isLoading=false;
+  user = {};
+  leads = [];
 
   constructor(
     private lead_service: LeadService
@@ -25,6 +28,6 @@ export class LeadsComponent implements OnInit {
         this.leads = arr;
       }
     });
-  }
+
 
 }
