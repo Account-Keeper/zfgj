@@ -109,6 +109,44 @@ export class ConfigService {
     }));
   }
 
+  saveUser(user: object) {
+    const params: URLSearchParams = new URLSearchParams();
+          params.append("api_token", API_TOKEN);
+
+    if(user['id'])//update
+    {
+      return this.http.put<any>(url_api+'user/'+user['id'], user, {headers: this.getHeaders()})
+      .pipe(map(data=>{
+        if(data ){
+          return data;
+        }
+        return null;
+      }));
+    }
+    else {//add new
+    return this.http.post<any>(url_api+'user', user, {headers: this.getHeaders()})
+    .pipe(map(data=>{
+      if(data){
+        return data;
+      }
+      return data;
+    }));
+    }
+  }
+
+  removeUser(id) {
+    const params: URLSearchParams = new URLSearchParams();
+          params.append("api_token", API_TOKEN);
+
+      return this.http.delete<any>(url_api+'user/'+id,{headers: this.getHeaders()})
+      .pipe(map(data=>{
+        if(data ){
+          return data;
+        }
+        return null;
+      }));
+  }
+
   getRoleNameById(id){
     let obj = ROLES[id];
     if(obj)

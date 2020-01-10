@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./leads.component.css']
 })
 export class LeadsComponent implements OnInit {
+  isEdit = false;
+  isLoading=false;
+  user = {};
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onAdd() {
+
   }
 
 }
