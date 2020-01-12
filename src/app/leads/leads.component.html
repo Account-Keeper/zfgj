@@ -1,5 +1,3 @@
-<p>leads works!</p>
-
 
 <!-- Content table -->
 <div class="container" *ngIf="!isEdit">
@@ -15,9 +13,27 @@
     </mat-progress-spinner>
 
     <table mat-table [dataSource]="leads" class="mat-elevation-z8">
-        <ng-container matColumnDef="username">
-            <th mat-header-cell *matHeaderCellDef> 用户名 </th>
-            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        <ng-container matColumnDef="contact_name">
+            <th mat-header-cell *matHeaderCellDef> 联系人 </th>
+            <td mat-cell *matCellDef="let element"> {{element.contact_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="contact_phone">
+            <th mat-header-cell *matHeaderCellDef> 联系方式 </th>
+            <td mat-cell *matCellDef="let element"> {{element.contact_phone}} </td>
+        </ng-container>
+        <ng-container matColumnDef="contact_email">
+            <th mat-header-cell *matHeaderCellDef> 邮箱 </th>
+            <td mat-cell *matCellDef="let element"> {{element.contact_email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="status_name">
+            <th mat-header-cell *matHeaderCellDef> 状态 </th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.status_name}} 
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="source_name">
+            <th mat-header-cell *matHeaderCellDef> 线索 </th>
+            <td mat-cell *matCellDef="let element"> {{element.source_name}} </td>
         </ng-container>
         
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

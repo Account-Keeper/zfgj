@@ -62,6 +62,32 @@ export class LeadService {
     }));
   }
 
+  getStatus(filter) {
+    const params = new HttpParams()
+        .set("api_token", API_TOKEN);
+
+    return this.http.get<any>(url_api+'leads/status/all', {headers: this.getHeaders()})
+    .pipe(map(data=>{
+      if(data){
+        return data;
+      }
+      return data;
+    }));
+  }
+
+  getSource(filter) {
+    const params = new HttpParams()
+        .set("api_token", API_TOKEN);
+
+    return this.http.get<any>(url_api+'leads/source/all', {headers: this.getHeaders()})
+    .pipe(map(data=>{
+      if(data){
+        return data;
+      }
+      return data;
+    }));
+  }
+
 }
 
 
