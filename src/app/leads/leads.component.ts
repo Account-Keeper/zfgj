@@ -11,15 +11,20 @@ import { simplifyDatetime } from '../utility';
 })
 export class LeadsComponent implements OnInit {
   isEdit = false;
+  isDetail = false;
   isLoading=false;
   user = {};
   leads = [];
   lead_status = [];
   lead_source = [];
   lead = {};
+  filter = {};
+  selectedLead = {};
   simplifyDatetime = simplifyDatetime;
   displayedColumns: string[] = ['selected','contact_name','city','contact_phone','contact_email',
-      'source_name','status_name','assignee','detail','created_date'];
+      'source_name','status_name','assignee','detail','updated_date'];
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
 
   constructor(
     private lead_service: LeadService,
@@ -37,7 +42,10 @@ export class LeadsComponent implements OnInit {
     this.lead['contact_name'] = new FormControl();
     this.lead['contact_email'] = new FormControl();
     this.lead['contact_phone'] = new FormControl();
+    this.lead['city'] = new FormControl();
     this.lead['lead_cost'] = new FormControl();
+
+    this.filter['city'] = new FormControl;
   }
 
   getLeads() {
@@ -50,7 +58,7 @@ export class LeadsComponent implements OnInit {
           item['status_name'] = status_name.label;
           item['source_name'] = source_name.label;
           item['customer_fullname'] = `${item.first_name} ${item.last_name}`;
-          item['created_date'] = this.simplifyDatetime(item['created_date']);
+          item['updated_date'] = this.simplifyDatetime(item['updated_date']);
           item['detail'] = item.id;
         });
         this.leads = arr;
@@ -89,23 +97,45 @@ export class LeadsComponent implements OnInit {
 
   onAssign(id) {
     let user = this.config_service.currentUserValue;
-    let t = 0;
+    const lead = {};
+    lead['id'] = id;
+    lead['assignee'] = user.id;
+    this.lead_service.saveLead(lead).subscribe(data=>{
+      if(data){
+        this.getLeads();
+      }
+    });
   }
 
   onAddLead() {
+    this.isEdit = true;
+    this.isDetail = false;
+  }
+
+  onAddUser() {
+    let user = this.config_service.currentUserValue;
+    this.lead['assignee'] = user.id;
+  }
+
+  onSave() {
 
   }
 
   onUpdateLead() {
-    
+
   }
 
   OnDetail(id) {
-
+    const lead = this.leads.find(item=>item.id === id);
+    this.selectedLead = lead;
+    this.isDetail = true;
   }
 
-  onAdd() {
-
+  onCancel(load) {
+    this.isEdit = false;
+    this.isDetail = false;
+    if(load)
+      this.getStatus();
   }
 
 }

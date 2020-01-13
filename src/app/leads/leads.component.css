@@ -1,3 +1,12 @@
 table {
     width: 100%;
 }
+
+.cell_datetime {
+    width: 150px;
+}
+
+.btn-add {
+    background-color: #275B89;
+    color: white;
+}

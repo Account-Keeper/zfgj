@@ -1,9 +1,120 @@
+<div class="container" *ngIf="isDetail">
+    <table class="table">
+        <tr>
+            <td>联系人</td>
+            <td>{{selectedLead.contact_name}}</td>
+        </tr>
+        <tr>
+            <td>地区</td>
+            <td>{{selectedLead.city}}</td>
+        </tr>
+        <tr>
+            <td>联系方式</td>
+            <td>{{selectedLead.contact_phone}}</td>
+        </tr>
+        <tr>
+            <td>邮箱</td>
+            <td>{{selectedLead.contact_email}}</td>
+        </tr>
+        <tr>
+            <td>来源</td>
+            <td>{{selectedLead.source_name}}</td>
+        </tr>
+        <tr>
+            <td>状态</td>
+            <td>{{selectedLead.status_name}} </td>
+        </tr>
+        <tr>
+            <td>办理人</td>
+            <td>{{displayUser(selectedLead.assignee)}}</td>
+        </tr>
+    </table>
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
+        <button mat-raised-button (click)="onCancel(false)">退出</button>
+    </div>
+</div>
+<div class="container" *ngIf="isEdit">
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div fxFlex="33%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="lead['contact_name']" placeholder="联系人" required>
+            </mat-form-field>
+        </div>
+        <div fxFlex="33%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="lead['contact_phone']" placeholder="联系电话" required>
+            </mat-form-field>
+        </div>
+        <div fxFlex="33%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="lead['contact_email']" placeholder="联系邮箱" >
+            </mat-form-field>
+        </div>
+    </div>
+   
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div  fxFlex="33%">
+            <mat-form-field class="full">
+                <mat-select [formControl]="lead['source_id']" placeholder="来源" required>
+                    <mat-option *ngFor="let r of lead_source" [value]="r.id">
+                        {{r.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div  fxFlex="33%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="lead['city']" placeholder="地区">
+            </mat-form-field>
+        </div>
+        <div  fxFlex="33%">
+            <span *ngIf="lead['assignee']">{{lead['assignee']}}</span>
+            <button mat-raised-button color="accent" (click)="onAddUser()" *ngIf="!lead['assignee']">领取</button>
+        </div>
+    </div>
 
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
+        <button mat-raised-button (click)="onSave()">保存</button>
+        <button mat-raised-button (click)="onCancel(false)">取消</button>
+    </div>
+</div>
 <!-- Content table -->
-<div class="container" *ngIf="!isEdit">
-    <p>
-        <mat-icon aria-label="Add new lead" class="material-icons" (click)="onAdd()">add</mat-icon>
-    </p>
+<div class="container-fluid" *ngIf="!isEdit && !isDetail">
+    <div class="row">
+        <div class="col-3">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker1" placeholder="起止时间" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker2" placeholder="终止时间"
+                       [formControl]="serializedDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="col-2">
+            <mat-form-field class="full">
+                <input matInput [formControl]="filter['city']" placeholder="来源" >
+            </mat-form-field>
+        </div>
+        <div class="col-2"><input type="text" class="form-control" placeholder="地区"></div>
+        <div class="col-2"><button type="button" class="btn btn-default">搜索</button></div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3"><input type="text" class="form-control" placeholder="状态"></div>
+        <div class="col-3"><input type="text" class="form-control" placeholder="人员"></div>
+        <div class="col-4"><input type="text" class="form-control" placeholder="模糊查询"></div>
+        <div class="col-2"><button type="button" class="btn btn-default">导出</button></div>
+    </div>
+    <div class="mt-2 mb-2">
+        <button class="btn-add" mat-mini-fab aria-label="添加" (click)="onAddLead()">
+            <mat-icon aria-label="Add new lead"  class="material-icons">add</mat-icon>
+        </button>
+    </div>
     <mat-progress-spinner
         class="spinner-1"
         color="accent"
@@ -58,9 +169,9 @@
                 <button mat-raised-button (click)="OnDetail(element.id)">详情 </button>
             </td>
         </ng-container>
-        <ng-container matColumnDef="created_date">
-            <th mat-header-cell *matHeaderCellDef>  </th>
-            <td mat-cell *matCellDef="let element"> {{element.created_date}} </td>
+        <ng-container matColumnDef="updated_date">
+            <th mat-header-cell *matHeaderCellDef  class="cell_datetime">  </th>
+            <td mat-cell *matCellDef="let element"> {{element.updated_date}} </td>
         </ng-container>
         
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

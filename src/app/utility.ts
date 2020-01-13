@@ -8,5 +8,5 @@ export function simplifyDatetime(dt) {
     let d =  Date.parse(dt);
     let n = new Date(d);
     
-    return `${n.getFullYear()}-${n.getMonth()}-${n.getDate()} ${n.getHours()}:${n.getMinutes()}:${n.getSeconds()}`;
+    return `${n.getFullYear()}-${n.getMonth()}-${n.getDate()} ${n.getHours()}:${n.getMinutes()}`;
 }
