@@ -13,6 +13,12 @@
     </mat-progress-spinner>
 
     <table mat-table [dataSource]="leads" class="mat-elevation-z8">
+        <ng-container matColumnDef="selected">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-checkbox></mat-checkbox>
+            </td>
+        </ng-container>
         <ng-container matColumnDef="contact_name">
             <th mat-header-cell *matHeaderCellDef> 联系人 </th>
             <td mat-cell *matCellDef="let element"> {{element.contact_name}} </td>
@@ -21,9 +27,17 @@
             <th mat-header-cell *matHeaderCellDef> 联系方式 </th>
             <td mat-cell *matCellDef="let element"> {{element.contact_phone}} </td>
         </ng-container>
+        <ng-container matColumnDef="source_name">
+            <th mat-header-cell *matHeaderCellDef> 来源 </th>
+            <td mat-cell *matCellDef="let element"> {{element.source_name}} </td>
+        </ng-container>
         <ng-container matColumnDef="contact_email">
             <th mat-header-cell *matHeaderCellDef> 邮箱 </th>
             <td mat-cell *matCellDef="let element"> {{element.contact_email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef> 地区 </th>
+            <td mat-cell *matCellDef="let element"> {{element.city}} </td>
         </ng-container>
         <ng-container matColumnDef="status_name">
             <th mat-header-cell *matHeaderCellDef> 状态 </th>
@@ -31,9 +45,22 @@
                 {{element.status_name}} 
             </td>
         </ng-container>
-        <ng-container matColumnDef="source_name">
-            <th mat-header-cell *matHeaderCellDef> 线索 </th>
-            <td mat-cell *matCellDef="let element"> {{element.source_name}} </td>
+        <ng-container matColumnDef="assignee">
+            <th mat-header-cell *matHeaderCellDef>  </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-raised-button color="accent" *ngIf="!element.assignee" (click)="onAssign(element.id)">领取 </button>
+                <span>{{displayUser(element.assignee)}}</span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="detail">
+            <th mat-header-cell *matHeaderCellDef>  </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-raised-button (click)="OnDetail(element.id)">详情 </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="created_date">
+            <th mat-header-cell *matHeaderCellDef>  </th>
+            <td mat-cell *matCellDef="let element"> {{element.created_date}} </td>
         </ng-container>
         
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

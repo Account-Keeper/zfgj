@@ -62,6 +62,31 @@ export class LeadService {
     }));
   }
 
+  saveLead(lead: object) {
+    const params: URLSearchParams = new URLSearchParams();
+          params.append("api_token", API_TOKEN);
+
+    if(lead['id'])//update
+    {
+      return this.http.put<any>(url_api+'leads/'+lead['id'], lead, {headers: this.getHeaders()})
+      .pipe(map(data=>{
+        if(data ){
+          return data;
+        }
+        return null;
+      }));
+    }
+    else {//add new
+    return this.http.post<any>(url_api+'leads', lead, {headers: this.getHeaders()})
+    .pipe(map(data=>{
+      if(data){
+        return data;
+      }
+      return data;
+    }));
+    }
+  }
+
   getStatus(filter) {
     const params = new HttpParams()
         .set("api_token", API_TOKEN);

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LeadService } from '../lead.service';
+import { ConfigService } from '../config.service';
 import { FormControl } from '@angular/forms';
+import { simplifyDatetime } from '../utility';
 
 @Component({
   selector: 'app-leads',
@@ -15,10 +17,13 @@ export class LeadsComponent implements OnInit {
   lead_status = [];
   lead_source = [];
   lead = {};
-  displayedColumns: string[] = ['contact_name','contact_phone','contact_email','source_name','status_name'];
+  simplifyDatetime = simplifyDatetime;
+  displayedColumns: string[] = ['selected','contact_name','city','contact_phone','contact_email',
+      'source_name','status_name','assignee','detail','created_date'];
 
   constructor(
-    private lead_service: LeadService
+    private lead_service: LeadService,
+    private config_service: ConfigService,
   ) { }
 
   ngOnInit() {
@@ -45,6 +50,8 @@ export class LeadsComponent implements OnInit {
           item['status_name'] = status_name.label;
           item['source_name'] = source_name.label;
           item['customer_fullname'] = `${item.first_name} ${item.last_name}`;
+          item['created_date'] = this.simplifyDatetime(item['created_date']);
+          item['detail'] = item.id;
         });
         this.leads = arr;
       }
@@ -73,6 +80,29 @@ export class LeadsComponent implements OnInit {
     });
   }
 
+  displayUser(assignee) {
+    if(!assignee && !Array.isArray(assignee))
+      return '';
+
+    return `${assignee[0].first_name} ${assignee[0].last_name}`;
+  }
+
+  onAssign(id) {
+    let user = this.config_service.currentUserValue;
+    let t = 0;
+  }
+
+  onAddLead() {
+
+  }
+
+  onUpdateLead() {
+    
+  }
+
+  OnDetail(id) {
+
+  }
 
   onAdd() {
 
