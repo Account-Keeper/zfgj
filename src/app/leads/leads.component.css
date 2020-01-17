@@ -10,3 +10,7 @@ table {
     background-color: #275B89;
     color: white;
 }
+
+.full {
+    width: 100%;
+}

@@ -83,7 +83,7 @@
     <div class="row">
         <div class="col-3">
             <mat-form-field>
-                <input matInput [matDatepicker]="picker1" placeholder="起止时间" [formControl]="date">
+                <input matInput [matDatepicker]="picker1" placeholder="起止时间" [formControl]="filter['date_from']">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
@@ -91,24 +91,59 @@
         <div class="col-3">
             <mat-form-field>
                 <input matInput [matDatepicker]="picker2" placeholder="终止时间"
-                       [formControl]="serializedDate">
+                       [formControl]="filter['date_to']">
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
         </div>
         <div class="col-2">
             <mat-form-field class="full">
-                <input matInput [formControl]="filter['city']" placeholder="来源" >
+                <input matInput [formControl]="filter['lead_source']" placeholder="来源" >
             </mat-form-field>
         </div>
-        <div class="col-2"><input type="text" class="form-control" placeholder="地区"></div>
-        <div class="col-2"><button type="button" class="btn btn-default">搜索</button></div>
+        <div class="col-2">
+            <mat-form-field class="full">
+                <input matInput [formControl]="filter['city']" placeholder="地区" >
+            </mat-form-field>
+        </div>
+        <div class="col-1">
+            <div class="row">
+                <div class="col-6">
+            <button mat-raised-button  (click)="getLeads()">搜索</button>
+            </div>
+            <div class="col-6">
+            <button mat-raised-button  (click)="onRefresh()">刷新</button>
+            </div>
+            </div>
+        </div>
     </div>
     <div class="row mt-2">
-        <div class="col-3"><input type="text" class="form-control" placeholder="状态"></div>
-        <div class="col-3"><input type="text" class="form-control" placeholder="人员"></div>
-        <div class="col-4"><input type="text" class="form-control" placeholder="模糊查询"></div>
-        <div class="col-2"><button type="button" class="btn btn-default">导出</button></div>
+        <div class="col-3">
+            <mat-form-field>
+                <mat-select [formControl]="filter['status']" placeholder="状态" required>
+                    <mat-option *ngFor="let r of lead_status" [value]="r.id">
+                        {{r.label}}
+                    </mat-option>
+                </mat-select> 
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field>
+                <mat-select [formControl]="filter['assignee']" placeholder="人员" required>
+                    <mat-option *ngFor="let r of users" [value]="r.id">
+                        {{r.display_name}}
+                    </mat-option>
+                </mat-select> 
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="full">
+                <input matInput [formControl]="filter['search']" placeholder="模糊查询" >
+            </mat-form-field>
+        </div>
+        <div class="col-2">
+            <button  mat-raised-button>导出</button>
+        </div>
     </div>
     <div class="mt-2 mb-2">
         <button class="btn-add" mat-mini-fab aria-label="添加" (click)="onAddLead()">
@@ -157,7 +192,7 @@
             </td>
         </ng-container>
         <ng-container matColumnDef="assignee">
-            <th mat-header-cell *matHeaderCellDef>  </th>
+            <th mat-header-cell *matHeaderCellDef> 办理人 </th>
             <td mat-cell *matCellDef="let element"> 
                 <button mat-raised-button color="accent" *ngIf="!element.assignee" (click)="onAssign(element.id)">领取 </button>
                 <span>{{displayUser(element.assignee)}}</span>

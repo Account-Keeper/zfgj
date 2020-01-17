@@ -95,12 +95,15 @@ export class ConfigService {
   }
 
   getUsers(filter) {
-    const params = new HttpParams()
+    let params = new HttpParams()
         .set("api_token", API_TOKEN)
-        .set("username", filter['username'] || '')
-        .set("first_name", filter['first_name'] || '');
+        for(let f in filter){
+          if(filter[f]) {
+            params = params.set(f, filter[f]);
+          }
+        }
 
-    return this.http.get<any>(url_api+'user/all', {headers: this.getHeaders()})
+    return this.http.get<any>(url_api+'user/all', {headers: this.getHeaders(), params: params})
     .pipe(map(data=>{
       if(data){
         return data;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LeadService } from '../lead.service';
 import { ConfigService } from '../config.service';
 import { FormControl } from '@angular/forms';
-import { simplifyDatetime } from '../utility';
+import { simplifyDatetime, formatDate } from '../utility';
 
 @Component({
   selector: 'app-leads',
@@ -14,6 +14,7 @@ export class LeadsComponent implements OnInit {
   isDetail = false;
   isLoading=false;
   user = {};
+  users = [];
   leads = [];
   lead_status = [];
   lead_source = [];
@@ -39,17 +40,44 @@ export class LeadsComponent implements OnInit {
   initLead() {
     this.lead = {};
     this.lead['source_id'] = new FormControl();
-    this.lead['contact_name'] = new FormControl();
+    this.lead['assignee'] = new FormControl();
     this.lead['contact_email'] = new FormControl();
     this.lead['contact_phone'] = new FormControl();
     this.lead['city'] = new FormControl();
     this.lead['lead_cost'] = new FormControl();
 
+    this.filter['date_from'] = new FormControl;
+    this.filter['date_to'] = new FormControl;
     this.filter['city'] = new FormControl;
+    this.filter['assignee'] = new FormControl;
+    this.filter['lead_source'] = new FormControl;
+    this.filter['search'] = new FormControl;
+    this.filter['status'] = new FormControl;
+
+    this.getUsers();
   }
 
   getLeads() {
-    this.lead_service.getLeads({}).subscribe(data=>{
+    let filters = {};
+    let date_from = this.filter['date_from'].value;
+    let date_to = this.filter['date_to'].value;
+
+    date_from = Date.parse(date_from);
+    date_to = Date.parse(date_to);
+    let df = new Date(date_from);
+    if(date_from){
+      filters['date_from'] = formatDate(df);
+    }
+    if(this.filter['lead_source'].value) {
+      filters['source_ids'] = [parseInt(this.filter['lead_source'].value)];
+    }
+    filters['date_to'] = this.filter['date_to'].value;
+    filters['city'] = this.filter['city'].value;
+    filters['assignee'] = this.filter['assignee'].value;
+    filters['search'] = this.filter['search'].value;
+    filters['status'] = this.filter['status'].value;
+
+    this.lead_service.getLeads(filters).subscribe(data=>{
       if(data){
         let arr = [...data['results']];
         arr.forEach(item=>{
@@ -67,6 +95,18 @@ export class LeadsComponent implements OnInit {
     this.isLoading = false;
   }
 
+  getUsers() {
+    this.config_service.getUsers({}).subscribe(data=>{
+      if(data){
+        let arr = [...data['results']];
+        arr.forEach(item=>{
+          item['display_name'] = item['first_name'] + item['last_name'];
+        });
+        this.users = [...arr];
+      }
+    });
+  }
+
   getStatus() {
     this.isLoading = true;
     this.lead_service.getStatus({}).subscribe(data=>{
@@ -76,6 +116,11 @@ export class LeadsComponent implements OnInit {
         this.getSource();
       }
     });
+  }
+
+  onRefresh() {
+    this.initLead();
+    this.getLeads();
   }
 
   getSource() {
@@ -99,7 +144,7 @@ export class LeadsComponent implements OnInit {
     let user = this.config_service.currentUserValue;
     const lead = {};
     lead['id'] = id;
-    lead['assignee'] = user.id;
+    lead['assignee'] = user['id'];
     this.lead_service.saveLead(lead).subscribe(data=>{
       if(data){
         this.getLeads();
@@ -114,7 +159,7 @@ export class LeadsComponent implements OnInit {
 
   onAddUser() {
     let user = this.config_service.currentUserValue;
-    this.lead['assignee'] = user.id;
+    this.lead['assignee'] = user['id'];
   }
 
   onSave() {
@@ -138,4 +183,13 @@ export class LeadsComponent implements OnInit {
       this.getStatus();
   }
 
+  claim_time(created, assigned) {
+  const created_date = new Date(created);
+  const assigned_date = new Date(assigned);
+
+  //created = date_parser.parse(self.data['created'].partition('+')[0])
+  //assigned = date_parser.parse(self.data['assigned'].partition('+')[0])
+  //seconds = (assigned - created).total_seconds()
+  //return format_seconds(seconds)
+  }
 }

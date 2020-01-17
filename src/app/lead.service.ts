@@ -50,10 +50,15 @@ export class LeadService {
   };
 
   getLeads(filter) {
-    const params = new HttpParams()
-        .set("api_token", API_TOKEN);
+    let params = new HttpParams()
+    .set("api_token", API_TOKEN)
+    for(let f in filter){
+      if(filter[f]) {
+        params = params.set(f, filter[f]);
+      }
+    }
 
-    return this.http.get<any>(url_api+'leads', {headers: this.getHeaders()})
+    return this.http.get<any>(url_api+'leads', {headers: this.getHeaders(), params: params})
     .pipe(map(data=>{
       if(data){
         return data;

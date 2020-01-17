@@ -1,12 +1,84 @@
 
 
-export function simplifyDatetime(dt) {
+export function simplifyDatetime(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear(),
+        hour = '' + d.getHours(),
+        min = '' + d.getMinutes();
 
-    if(!dt)
-        return '';
-        
-    let d =  Date.parse(dt);
-    let n = new Date(d);
-    
-    return `${n.getFullYear()}-${n.getMonth()}-${n.getDate()} ${n.getHours()}:${n.getMinutes()}`;
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+    if (hour.length < 2) {
+        hour = `0${hour}`;
+    }
+
+    if (min.length < 2) {
+        min = `0${min}`;
+    }
+
+
+    return [year, month, day].join('-') + ' ' +hour + ':' + min;
+}
+
+export function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+export function format_seconds(seconds) {
+    /*
+    Examples:
+        >>> format_seconds(1)
+        '1 Second'
+        >>> format_seconds(30)
+        '30 Seconds'
+        >>> format_seconds(60)
+        '1 Minute'
+        >>> format_seconds(60 * 15)
+        '15 Minutes'
+        >>> format_seconds(60 * 60)
+        '1 Hour'
+        >>> format_seconds(60 * 60 * 2)
+        '2 Hours'
+        >>> format_seconds(60 * 60 * 24)
+        '1 Day'
+        >>> format_seconds(60 * 60 * 48)
+        '2 Days'
+   
+   let _seconds = 0;
+
+    if(seconds < 0)
+        _seconds = 0
+
+    d = datetime(1, 1, 1) + timedelta(seconds=seconds)
+    days = timedelta(seconds=seconds).days
+    if days:
+        unit = "Day"
+        value = days
+    elif d.hour:
+        unit = "Hour"
+        value = d.hour
+    elif d.minute:
+        unit = "Minute"
+        value = d.minute
+    else:
+        unit = "Second"
+        value = seconds
+    if value > 1:
+        unit = unit + "s"
+    return '{} {}'.format(value, unit)
+ */
 }
