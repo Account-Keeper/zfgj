@@ -3,38 +3,42 @@ import { HttpClient, HttpHeaders, HttpErrorResponse, HttpEventType, HttpParams }
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, map, first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BaseService } from './config.service';
 
 export const url_api = 'http://111.229.24.199:8001/';
 const API_TOKEN = "";
 
 
 @Injectable()
-export class LeadService {
+export class LeadService extends BaseService {
+  private lead_status = [];
+  private lead_source = [];
 
   constructor(
     private http: HttpClient,
     public router: Router
   ) {
-    try{
+    super();
+    try {
+      this.getSource({});
+      this.getStatus({});
     }
     catch (e) {
       if (e instanceof SyntaxError) {
-          console.log(e, true);
+        console.log(e, true);
       } else {
-          console.log(e, false);
+        console.log(e, false);
       }
+    }
+
   }
 
-   }
+  get leadStatus() {
+    return this.lead_status;
+  }
 
-  private getHeaders(headersConfig?: object): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
-      'Access-Control-Allow-Credentials': 'true'
-    });
+  get leadSource() {
+    return this.lead_source;
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -49,73 +53,86 @@ export class LeadService {
       'Something bad happened; please try again later.');
   };
 
+  getHeaders() {
+    const token = localStorage.getItem('token') || null;
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
+      'Access-Control-Allow-Credentials': 'true',
+      'Authorization': token
+    });
+  }
+
   getLeads(filter) {
-    let params = new HttpParams()
-    .set("api_token", API_TOKEN)
-    for(let f in filter){
-      if(filter[f]) {
+    let params = new HttpParams();
+    for (let f in filter) {
+      if (filter[f]) {
         params = params.set(f, filter[f]);
       }
     }
-
-    return this.http.get<any>(url_api+'leads', {headers: this.getHeaders(), params: params})
-    .pipe(map(data=>{
-      if(data){
+    let h = this.getHeaders();
+    return this.http.get<any>(url_api + 'leads', { headers: this.getHeaders(), params: params })
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
         return data;
-      }
-      return data;
-    }));
+      }));
   }
 
   saveLead(lead: object) {
     const params: URLSearchParams = new URLSearchParams();
-          params.append("api_token", API_TOKEN);
+    params.append("api_token", API_TOKEN);
 
-    if(lead['id'])//update
+    if (lead['id'])//update
     {
-      return this.http.put<any>(url_api+'leads/'+lead['id'], lead, {headers: this.getHeaders()})
-      .pipe(map(data=>{
-        if(data ){
-          return data;
-        }
-        return null;
-      }));
+      return this.http.put<any>(url_api + 'leads/' + lead['id'], lead, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return null;
+        }));
     }
     else {//add new
-    return this.http.post<any>(url_api+'leads', lead, {headers: this.getHeaders()})
-    .pipe(map(data=>{
-      if(data){
-        return data;
-      }
-      return data;
-    }));
+      return this.http.post<any>(url_api + 'leads', lead, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return data;
+        }));
     }
   }
 
   getStatus(filter) {
     const params = new HttpParams()
-        .set("api_token", API_TOKEN);
+      .set("api_token", API_TOKEN);
 
-    return this.http.get<any>(url_api+'leads/status/all', {headers: this.getHeaders()})
-    .pipe(map(data=>{
-      if(data){
+    return this.http.get<any>(url_api + 'leads/status/all', { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          this.lead_status = [...data['results']];
+          return data;
+        }
         return data;
-      }
-      return data;
-    }));
+      }));
   }
 
   getSource(filter) {
     const params = new HttpParams()
-        .set("api_token", API_TOKEN);
+      .set("api_token", API_TOKEN);
 
-    return this.http.get<any>(url_api+'leads/source/all', {headers: this.getHeaders()})
-    .pipe(map(data=>{
-      if(data){
+    return this.http.get<any>(url_api + 'leads/source/all', { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          this.lead_source = [...data['results']];
+          return data;
+        }
         return data;
-      }
-      return data;
-    }));
+      }));
   }
 
 }

@@ -3,6 +3,8 @@ import { LeadService } from '../lead.service';
 import { ConfigService } from '../config.service';
 import { FormControl } from '@angular/forms';
 import { simplifyDatetime, formatDate } from '../utility';
+import {from as fromPromise, of} from 'rxjs';
+import {catchError, flatMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-leads',
@@ -34,17 +36,19 @@ export class LeadsComponent implements OnInit {
 
   ngOnInit() {
     this.initLead();
-    this.getStatus();
+
   }
 
   initLead() {
     this.lead = {};
     this.lead['source_id'] = new FormControl();
     this.lead['assignee'] = new FormControl();
+    this.lead['contact_name'] = new FormControl();
     this.lead['contact_email'] = new FormControl();
     this.lead['contact_phone'] = new FormControl();
     this.lead['city'] = new FormControl();
     this.lead['lead_cost'] = new FormControl();
+    this.lead['status'] = new FormControl();
 
     this.filter['date_from'] = new FormControl;
     this.filter['date_to'] = new FormControl;
@@ -54,7 +58,7 @@ export class LeadsComponent implements OnInit {
     this.filter['search'] = new FormControl;
     this.filter['status'] = new FormControl;
 
-    this.getUsers();
+    this.getStatus();
   }
 
   getLeads() {
@@ -109,7 +113,7 @@ export class LeadsComponent implements OnInit {
 
   getStatus() {
     this.isLoading = true;
-    this.lead_service.getStatus({}).subscribe(data=>{
+    return this.lead_service.getStatus({}).subscribe(data=>{
       if(data){
         let arr = [...data['results']];
         this.lead_status = arr;
@@ -119,8 +123,13 @@ export class LeadsComponent implements OnInit {
   }
 
   onRefresh() {
+    this.isEdit = false;
+    this.isDetail = false;
     this.initLead();
-    this.getLeads();
+    if(!this.lead_status || !this.lead_source)
+      this.getStatus();
+    else
+      this.getLeads();
   }
 
   getSource() {
@@ -157,13 +166,47 @@ export class LeadsComponent implements OnInit {
     this.isDetail = false;
   }
 
+  onEditLead(item) {
+    this.lead['id'] = item.id;
+    this.lead['source_id'].value = item.source_id;
+    this.lead['contact_name'].value = item.contact_name;
+    this.lead['contact_email'].value = item.contact_email ||'';
+    this.lead['contact_phone'].value = item.contact_phone;
+    this.lead['city'].value = item.city;
+    this.lead['status'].value = item.status || 0;
+    this.lead['lead_cost'].value = item.lead_cost || '';
+    if(item.assignee)
+      this.lead['assignee'].value = item.assignee[0].id;
+
+    this.selectedLead = item;
+    this.isEdit = true;
+    this.isDetail = false;
+  }
+
   onAddUser() {
     let user = this.config_service.currentUserValue;
     this.lead['assignee'] = user['id'];
   }
 
   onSave() {
+    if(this.lead['contact_name'].errors || this.lead['contact_phone'].errors || this.lead['city'].errors || this.lead['source_id'].errors)
+      return;
 
+    const data = {};
+    data['id'] = this.lead['id'] || null;
+    data['assignee'] = this.lead['assignee'].value;
+    data['contact_name'] = this.lead['contact_name'].value;
+    data['contact_phone'] = this.lead['contact_phone'].value;
+    data['city'] = this.lead['city'].value;
+    data['source_id'] = this.lead['source_id'].value;
+    data['status'] = this.lead['status'].value;
+    
+      this.lead_service.saveLead(data).subscribe(data=>{
+        if(data){
+          this.getLeads();
+          this.onRefresh();
+        }
+      });
   }
 
   onUpdateLead() {

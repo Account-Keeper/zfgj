@@ -1,3 +1,4 @@
+<!--detail page-->
 <div class="container" *ngIf="isDetail">
     <table class="table">
         <tr>
@@ -31,19 +32,27 @@
     </table>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
         <button mat-raised-button (click)="onCancel(false)">退出</button>
+        <button mat-raised-button (click)="onEditLead(selectedLead)">编辑</button>
     </div>
 </div>
+<!--edit page-->
 <div class="container" *ngIf="isEdit">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="33%">
             <mat-form-field class="full">
                 <input matInput [formControl]="lead['contact_name']" placeholder="联系人" required>
             </mat-form-field>
+            <mat-error *ngIf="lead['contact_name'].hasError('required')">
+                请输入联系人
+              </mat-error>
         </div>
         <div fxFlex="33%">
             <mat-form-field class="full">
                 <input matInput [formControl]="lead['contact_phone']" placeholder="联系电话" required>
             </mat-form-field>
+            <mat-error *ngIf="lead['contact_phone'].hasError('required')">
+                请输入联系电话
+              </mat-error>
         </div>
         <div fxFlex="33%">
             <mat-form-field class="full">
@@ -61,18 +70,43 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            <mat-error *ngIf="lead['source_id'].hasError('required')">
+                请输入来源
+              </mat-error>
         </div>
         <div  fxFlex="33%">
             <mat-form-field class="full">
                 <input matInput [formControl]="lead['city']" placeholder="地区">
             </mat-form-field>
+            
         </div>
         <div  fxFlex="33%">
-            <span *ngIf="lead['assignee']">{{lead['assignee']}}</span>
-            <button mat-raised-button color="accent" (click)="onAddUser()" *ngIf="!lead['assignee']">领取</button>
+            <!--<span *ngIf="lead['assignee'].value">{{(lead['assignee'].value}}</span>-->
+            <mat-form-field>
+                <mat-select [formControl]="lead['assignee']" placeholder="办理人">
+                    <mat-option *ngFor="let r of users" [value]="r.id">
+                        {{r.display_name}}
+                    </mat-option>
+                </mat-select> 
+            </mat-form-field>
         </div>
     </div>
-
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div  fxFlex="33%">
+            <mat-form-field>
+                <mat-select [formControl]="lead['status']" placeholder="状态" required>
+                    <mat-option *ngFor="let r of lead_status" [value]="r.id">
+                        {{r.label}}
+                    </mat-option>
+                </mat-select> 
+            </mat-form-field>
+            <mat-error *ngIf="lead['status'].hasError('required')">
+                请选择状态
+            </mat-error>
+        </div>
+        <div  fxFlex="33%"></div>
+        <div  fxFlex="33%"></div>
+    </div>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
         <button mat-raised-button (click)="onSave()">保存</button>
         <button mat-raised-button (click)="onCancel(false)">取消</button>
