@@ -15,7 +15,6 @@ export class NavbarComponent implements OnInit {
   currentUser: Object;
 
   @Output() toggle = new EventEmitter<boolean>();
-
   constructor(
     private service: ConfigService,
     private router: Router,
@@ -38,6 +37,12 @@ export class NavbarComponent implements OnInit {
         this.currentUser = {...data};
       }
     });
+  }
+
+  getUserDisplayName(user) {
+    if(!user)
+      return '';
+    return `${user.first_name} ${user.last_name}`;
   }
 
   onToggleBar () {

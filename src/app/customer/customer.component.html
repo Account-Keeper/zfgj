@@ -1,0 +1,23 @@
+<!--edit page-->
+<div class="container" *ngIf="isEdit">
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div fxFlex="33%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="company['company_name']" placeholder="公司名称" required>
+            </mat-form-field>
+            <mat-error *ngIf="lead['contact_name'].hasError('required')">
+                请输入公司名称
+              </mat-error>
+        </div>
+        <div fxFlex="33%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="company['contact_phone']" placeholder="顾问姓名" required>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
+<!--view page-->
+<div class="container" *ngIf="!isEdit">
+
+</div>

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse, HttpEventType, HttpParams }
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, map, first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '../environments/environment'
 
 export const ROLES = [
   { role_name: '一般用户', is_writable: false },
@@ -11,7 +12,7 @@ export const ROLES = [
   { role_name: '超级管理员', is_writable: true },
 ];
 
-export const url_api = 'http://111.229.24.199:8001/';
+export const url_api = environment.url_api;
 const API_TOKEN = "";
 
 export class User {

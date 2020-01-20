@@ -26,8 +26,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UserConfigComponent, UserRemoveConfirmDialog } from './user-config/user-config.component';
@@ -39,11 +41,16 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddressRenewComponent } from './address-renew/address-renew.component';
 import { KeepingRenewComponent } from './keeping-renew/keeping-renew.component';
+import { MatPaginatorIntlCro } from './custom_paginator';
+import {MatPaginatorIntl} from '@angular/material';
+import { CustomerComponent } from './customer/customer.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'leads', component: LeadsComponent },
+  { path: 'jobs', component: JobsComponent },
+  { path: 'customers', component: CustomerComponent },
   { path: 'user-config', component: UserConfigComponent },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '' }
@@ -63,7 +70,8 @@ const appRoutes: Routes = [
     PerformanceComponent,
     AccountingComponent,
     AddressRenewComponent,
-    KeepingRenewComponent
+    KeepingRenewComponent,
+    CustomerComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +90,9 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatIconModule,
     MatRadioModule,
+    MatMenuModule,
     MatSelectModule,
+    MatPaginatorModule,
     FlexLayoutModule,
     MatDialogModule,
     MatProgressBarModule,
@@ -99,7 +109,9 @@ const appRoutes: Routes = [
   providers: [
     ConfigService,
     LeadService,
-    { provide: LocationStrategy, useClass: PathLocationStrategy }
+    { provide: LocationStrategy, useClass: PathLocationStrategy  },
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
+    //{ provide: MatPaginatorIntl, useValue: getChinesePaginatorIntl() }
   ],
   bootstrap: [AppComponent]
 })

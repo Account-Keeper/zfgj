@@ -1,11 +1,20 @@
-
-    <mat-toolbar id="appToolbar" class="toolbar-filler">
+<mat-toolbar id="appToolbar" class="toolbar-filler">
+  <mat-toolbar-row>
+    <span>
       <button md-icon-button (click)="onToggleBar()" class="md-icon-button sidenav-toggle-button">
-        <mat-icon aria-label="Menu" class="material-icons" >menu</mat-icon>
+        <mat-icon aria-label="Menu" class="material-icons">menu</mat-icon>
       </button>
+    </span>
+    <span>
       <h1 class="component-title">
         <a class="title-link">SAAS</a>
       </h1>
-      <span class="toolbar-filler"></span>
-      <button id="button-logout" md-button class="sidenav-toggle-button" *ngIf="isAuth" (click)="logout()">注销</button>
-    </mat-toolbar>   
+    </span>
+    <span class="spacer-1"></span>
+    <mat-icon aria-label="user" class="material-icons">account_circle</mat-icon>
+    <button mat-button [matMenuTriggerFor]="menu">{{getUserDisplayName(currentUser)}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">注销</button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>

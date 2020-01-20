@@ -4,8 +4,9 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, map, first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseService } from './config.service';
+import { environment } from '../environments/environment'
 
-export const url_api = 'http://111.229.24.199:8001/';
+export const url_api = environment.url_api;
 const API_TOKEN = "";
 
 

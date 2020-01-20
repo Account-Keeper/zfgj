@@ -13,6 +13,7 @@
 }
 
 .toolbar-filler {
+  color: white;
   background-color: #3A3634;
   flex: 1 1 auto;
   margin: 10px;
@@ -22,4 +23,8 @@
   background-color: #3A3634;
   color: white;
   border: 0px;
+}
+
+.spacer-1 {
+  flex: 1 1 auto;
 }

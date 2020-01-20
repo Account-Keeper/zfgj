@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { simplifyDatetime, formatDate } from '../utility';
 import {from as fromPromise, of} from 'rxjs';
 import {catchError, flatMap} from 'rxjs/operators';
+import {PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-leads',
@@ -23,16 +24,21 @@ export class LeadsComponent implements OnInit {
   lead = {};
   filter = {};
   selectedLead = {};
+  Pagelength = 0;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
   simplifyDatetime = simplifyDatetime;
   displayedColumns: string[] = ['selected','contact_name','city','contact_phone','contact_email',
       'source_name','status_name','assignee','detail','updated_date'];
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
+  pageEvent: PageEvent;
 
   constructor(
     private lead_service: LeadService,
     private config_service: ConfigService,
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
     this.initLead();
@@ -59,6 +65,13 @@ export class LeadsComponent implements OnInit {
     this.filter['status'] = new FormControl;
 
     this.getStatus();
+
+    this.getUsers();
+  }
+
+  onPaging(event) {
+    this.pageEvent = event;
+    this.getLeads();
   }
 
   getLeads() {
@@ -80,10 +93,21 @@ export class LeadsComponent implements OnInit {
     filters['assignee'] = this.filter['assignee'].value;
     filters['search'] = this.filter['search'].value;
     filters['status'] = this.filter['status'].value;
+    filters['page_length'] = this.Pagelength;
+    filters['page_size'] = this.pageSize;
+    filters['page_index'] = 0;
+
+    if(this.pageEvent){
+      filters['page_length'] = this.pageEvent.length;
+      filters['page_size'] = this.pageEvent.pageSize;
+      filters['page_index'] = this.pageEvent.pageIndex;
+    }
 
     this.lead_service.getLeads(filters).subscribe(data=>{
       if(data){
         let arr = [...data['results']];
+        this.Pagelength = data['count'] || 0;
+        
         arr.forEach(item=>{
           let source_name = this.lead_source.find(s=>s.id === item['source_id']);
           let status_name = this.lead_status.find(s=>s.id === item['status']);
@@ -226,13 +250,13 @@ export class LeadsComponent implements OnInit {
       this.getStatus();
   }
 
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  }
+
   claim_time(created, assigned) {
   const created_date = new Date(created);
   const assigned_date = new Date(assigned);
-
-  //created = date_parser.parse(self.data['created'].partition('+')[0])
-  //assigned = date_parser.parse(self.data['assigned'].partition('+')[0])
-  //seconds = (assigned - created).total_seconds()
-  //return format_seconds(seconds)
   }
+
 }

@@ -73,7 +73,7 @@ export class UserConfigComponent implements OnInit {
       if(data){
         let arr = [...data['results']];
         arr.forEach(user=>{
-          user['full_name'] = `${user['last_name']} ${user['first_name']}`;
+          user['full_name'] = `${user['first_name']} ${user['last_name']}`;
           user['role_name'] = this.service.getRoleNameById(user['role_id']);
         });
         this.users = arr;
