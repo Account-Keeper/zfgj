@@ -19,14 +19,20 @@
                             </p>
                             <p>
                                 <mat-form-field class="form-full-width">
-                                    <input matInput placeholder="密码" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+                                    <input matInput type="password" placeholder="密码" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
                                     <mat-error *ngIf="passwordFormControl.hasError('required')">
                                             请输入密码
                                     </mat-error>
                                 </mat-form-field>
                             </p>
 
-                              
+                            <mat-progress-spinner
+                            class="spinner-1"
+                            color="accent"
+                            mode="indeterminate"
+                            diameter="40"
+                            value=30 *ngIf="isLoading">
+                        </mat-progress-spinner>
                                 <button mat-raised-button class="float-right" >登录</button>
                             </form>
                         </div>

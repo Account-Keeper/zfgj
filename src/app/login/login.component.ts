@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
   submitted = false;
+  isLoading = false;
+
   @Output() isAuth = new EventEmitter<boolean>();
 
   usernameFormControl = new FormControl('', [
@@ -57,6 +59,7 @@ export class LoginComponent implements OnInit {
     let password = this.passwordFormControl.value;
     if(!username || !password)
       return;
+    this.isLoading = true;
 
     this.service.login(username,password).subscribe(data=>{
       console.log(data);
@@ -66,9 +69,12 @@ export class LoginComponent implements OnInit {
       }
       else
         this.isAuth.emit(false);
+
+      this.isLoading = false;
     },
     error=>{
       console.log(error);
+      this.isLoading = false;
       this.isAuth.emit(false);
     });
   }
