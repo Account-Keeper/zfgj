@@ -7,6 +7,7 @@ import { CustomerComponent } from '../customer/customer.component';
   styleUrls: ['./jobs.component.css']
 })
 export class JobsComponent implements OnInit {
+  selectedJob = {};
 
   constructor() { }
 

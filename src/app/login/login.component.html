@@ -25,6 +25,9 @@
                                     </mat-error>
                                 </mat-form-field>
                             </p>
+                            <p>
+                                <mat-error *ngIf='!isAuth'>错误的用户名或密码</mat-error>
+                            </p>
 
                             <mat-progress-spinner
                             class="spinner-1"

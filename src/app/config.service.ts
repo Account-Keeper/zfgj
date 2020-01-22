@@ -22,11 +22,12 @@ export class User {
 }
 
 export class BaseService {
-  constructor() {
+  constructor(
+   ) {
 
   }
 
-  public getHeaders(headersConfig?: object): HttpHeaders {
+  getHeaders(headersConfig?: object): HttpHeaders {
     const token = localStorage.getItem('token') || null;
     return new HttpHeaders({
       'Content-Type': 'application/json',
@@ -34,6 +35,7 @@ export class BaseService {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
       'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
       'Authorization': token
     });
   }
@@ -63,6 +65,10 @@ export class ConfigService extends BaseService {
 
   }
 
+  getHeaders() {
+    return super.getHeaders();
+  }
+
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
@@ -74,8 +80,9 @@ export class ConfigService extends BaseService {
   login(username: string, password: string) {
     let body = { username, password };
     const params: URLSearchParams = new URLSearchParams();
-    //params.append("api_token", API_TOKEN);
-
+    params.append("api_token", API_TOKEN);
+    
+    console.log(">>>>--"+JSON.stringify(body)+"   api="+url_api+" "+JSON.stringify(this.getHeaders()));
     return this.http.post<any>(url_api + 'auth/login', body, { headers: this.getHeaders() })
       .pipe(map(data => {
         if (data) {
@@ -84,7 +91,7 @@ export class ConfigService extends BaseService {
           this.currentUserSubject.next(data.result);
         }
         return data;
-      }));
+      }),catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -159,6 +166,28 @@ export class ConfigService extends BaseService {
         }
         return null;
       }));
+  }
+
+  public upload(url, data) {
+    let uploadURL = `${url_api}${url}`;
+
+    return this.http.post<any>(uploadURL, data, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(map((event) => {
+      switch (event.type) {
+
+        case HttpEventType.UploadProgress:
+          const progress = Math.round(100 * event.loaded / event.total);
+          return { status: 'progress', message: progress, body:{}};
+
+        case HttpEventType.Response:
+          return { status: 'success', message:'', body:event.body };
+        default:
+          return `Unhandled event: ${event.type}`;
+      }
+    })
+    );
   }
 
   getRoleNameById(id) {

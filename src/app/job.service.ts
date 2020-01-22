@@ -6,7 +6,42 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BaseService } from './config.service';
 import { environment } from '../environments/environment'
 
-export const url_api = environment.url_api;
+export const JOB_TYPE = [
+  { id: 0, label:'业务类型1' },
+  { id: 1, label:'业务类型2' },
+  { id: 2, label:'业务类型3' },
+  { id: 3, label:'业务类型4' },
+];
+
+export const PAYMENT_METHODS = [
+  { id: 0, label:'公司转账' },
+  { id: 1, label:'支付宝' },
+  { id: 2, label:'微信' },
+  { id: 3, label:'刷卡' },
+  { id: 4, label:'现金' },
+  { id: 5, label:'其他' },
+];//付款方式
+
+export const TAXPAYER_TYPE = [
+  { id: 0, label:'小规模' },
+  { id: 1, label:'一般人' },
+];//纳税人类型
+
+export const TAX_TYPE = [
+  { id: 0, label:'税控盘托管' },
+  { id: 1, label:'客户自持' },
+  { id: 2, label:'其他' },
+];//税控类型
+
+export const BUSINESS_TYPE = [
+  { id: 0, label:'销售' },
+  { id: 1, label:'科技' },
+  { id: 2, label:'地产' },
+  { id: 3, label:'服务' },
+  { id: 4, label:'其他' },
+];//企业类型
+
+export const url_api = 'http://111.229.24.199:8001/';//environment.url_api || '';
 
 @Injectable({
   providedIn: 'root'

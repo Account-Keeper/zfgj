@@ -69,9 +69,10 @@ export class LeadsComponent implements OnInit {
     this.getUsers();
   }
 
-  onPaging(event) {
+  public onPaging(event?:PageEvent) {
     this.pageEvent = event;
     this.getLeads();
+    return event;
   }
 
   getLeads() {

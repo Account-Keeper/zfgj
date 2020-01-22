@@ -3,31 +3,31 @@
     <table class="table">
         <tr>
             <td>联系人</td>
-            <td>{{selectedLead.contact_name}}</td>
+            <td>{{selectedLead['contact_name']}}</td>
         </tr>
         <tr>
             <td>地区</td>
-            <td>{{selectedLead.city}}</td>
+            <td>{{selectedLead['city']}}</td>
         </tr>
         <tr>
             <td>联系方式</td>
-            <td>{{selectedLead.contact_phone}}</td>
+            <td>{{selectedLead['contact_phone']}}</td>
         </tr>
         <tr>
             <td>邮箱</td>
-            <td>{{selectedLead.contact_email}}</td>
+            <td>{{selectedLead['contact_email']}}</td>
         </tr>
         <tr>
             <td>来源</td>
-            <td>{{selectedLead.source_name}}</td>
+            <td>{{selectedLead['source_name']}}</td>
         </tr>
         <tr>
             <td>状态</td>
-            <td>{{selectedLead.status_name}} </td>
+            <td>{{selectedLead['status_name']}} </td>
         </tr>
         <tr>
             <td>办理人</td>
-            <td>{{displayUser(selectedLead.assignee)}}</td>
+            <td>{{displayUser(selectedLead['assignee'])}}</td>
         </tr>
     </table>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">

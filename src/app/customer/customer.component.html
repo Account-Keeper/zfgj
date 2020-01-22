@@ -1,23 +1,234 @@
 <!--edit page-->
-<div class="container" *ngIf="isEdit">
+<div class="container">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
-        <div fxFlex="33%">
+        <div fxFlex="50%">
             <mat-form-field class="full">
-                <input matInput [formControl]="company['company_name']" placeholder="公司名称" required>
+                <input matInput [formControl]="customer['company_name']" placeholder="公司名称" required>
             </mat-form-field>
-            <mat-error *ngIf="lead['contact_name'].hasError('required')">
+            <mat-error *ngIf="customer['company_name'].hasError('required')">
                 请输入公司名称
-              </mat-error>
+            </mat-error>
+        </div>
+        <div fxFlex="25%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="customer['legal_fullname']" placeholder="法人姓名">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25%">
+            <mat-form-field class="full">
+                <mat-select [formControl]="customer['assignee']" placeholder="顾问姓名">
+                    <mat-option *ngFor="let r of users" [value]="r.id">
+                        {{r.first_name}} {{r.last_name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div fxFlex="30%">
+              <mat-form-field class="full">
+                <input matInput [formControl]="customer['contact_fullname']" placeholder="联系人" required>
+            </mat-form-field>
+        </div>
+        <div fxFlex="35%">
+            <mat-form-field class="full">
+                <mat-select [formControl]="jobControl['type']" placeholder="业务类型">
+                    <mat-option *ngFor="let r of jobTypes" [value]="r.id">
+                        {{r.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="35%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="customer['contact_work_phone']" placeholder="办公电话">
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div fxFlex="30%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="customer['contact_cell_phone']" placeholder="手机" required>
+            </mat-form-field>
         </div>
         <div fxFlex="33%">
             <mat-form-field class="full">
-                <input matInput [formControl]="company['contact_phone']" placeholder="顾问姓名" required>
+                <input matInput [formControl]="customer['wechat_id']" placeholder="微信">
             </mat-form-field>
         </div>
+        <div fxFlex="37%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="customer['city']" placeholder="所在城区">
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div fxFlex="30%">
+            <mat-form-field class="full">
+                <input matInput type="number" [formControl]="customer['payment_amount']" placeholder="付款金额" required>
+                <span matPrefix>¥&nbsp;</span>
+            </mat-form-field>
+        </div>
+        <div fxFlex="33%">
+                <mat-radio-group
+                    aria-labelledby="radio-group-label_1"
+                    class="radio-group-1"
+                    [(ngModel)]="customer['is_paid']">
+                    <mat-radio-button class="radio-button-1" *ngFor="let p of paids" [value]="p.v">
+                        {{p.label}}
+                    </mat-radio-button>
+                    </mat-radio-group>
+        </div>
+
+        <div fxFlex="37%">
+            <mat-form-field class="full">
+                <mat-select [formControl]="customer['way_of_payment']" placeholder="付款方式">
+                    <mat-option *ngFor="let r of paymentMethods" [value]="r.id">
+                        {{r.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        </div>
+        <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+            <div fxFlex="30%">
+                <mat-form-field class="full">
+                    <input matInput type="number" [formControl]="customer['cost']" placeholder="成本价格">
+                    <span matPrefix>¥&nbsp;</span>
+                </mat-form-field>
+            </div>
+            <div fxFlex="70%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['registered_address']" placeholder="注册地址">
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+            <div fxFlex="30%">
+                <mat-form-field class="full">
+                    <mat-select [formControl]="customer['lead_source']" placeholder="客户来源">
+                        <mat-option *ngFor="let r of lead_source" [value]="r.id">
+                            {{r.label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="70%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['doc_location']" placeholder="档案位置">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+            <div fxFlex="30%">
+                <mat-form-field class="full">
+                    <mat-select [formControl]="customer['taxpayer_type']" placeholder="纳税人类型">
+                        <mat-option *ngFor="let r of taxpayer_type" [value]="r.id">
+                            {{r.label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33%">
+                <mat-form-field class="full">
+                    <mat-select [formControl]="customer['tax_type']" placeholder="税控类型">
+                        <mat-option *ngFor="let r of tax_type" [value]="r.id">
+                            {{r.label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="37%">
+                <mat-form-field class="full">
+                    <mat-select [formControl]="customer['business_type']" placeholder="所述行业">
+                        <mat-option *ngFor="let r of business_type" [value]="r.id">
+                            {{r.label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+      
+        <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+            <div fxFlex="100%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['remarks']" placeholder="备注">
+                </mat-form-field>
+            </div>
+        </div>
+          <!--File uploads-->
+        <app-file-upload (onFileDropped)="onFileDropped($event)"></app-file-upload>
+        <!--//-->
+
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
+        <button mat-raised-button (click)="onSave()">保存</button>
+        <button mat-raised-button (click)="onCancel(false)">取消</button>
     </div>
 </div>
 
 <!--view page-->
 <div class="container" *ngIf="!isEdit">
-
+    <table class="table">
+        <tr>
+            <td>公司名称</td>
+            <td>{{selectedCustomer['company_name']}}</td>
+            <td>成本价格</td>
+            <td>{{selectedCustomer['cost']}}</td>
+        </tr>
+        <tr>
+            <td>顾问姓名</td>
+            <td>{{selectedCustomer['assignee']}}</td>
+            <td>联系人姓名</td>
+            <td>{{selectedCustomer['first_name']}}&nbsp;{{selectedCustomer['last_name']}}</td>
+        </tr>
+        <tr>
+            <td>微信号</td>
+            <td>{{selectedCustomer['wechat_id']}}</td>
+            <td>电话</td>
+            <td>{{selectedCustomer['cell_phone']}} / {{selectedCustomer['work_phone']}}</td>
+        </tr>
+        <tr>
+            <td>所在城区</td>
+            <td>{{selectedCustomer['city']}}</td>
+            <td>邮箱</td>
+            <td>{{selectedCustomer['customer_email']}}</td>
+        </tr>
+        <tr>
+            <td>付款金额</td>
+            <td>{{selectedCustomer['payment_amount']}} </td>
+            <td>注册地址</td>
+            <td>{{selectedCustomer['office_address']}}</td>
+        </tr>
+        <tr>
+            <td>是否交费</td>
+            <td>{{selectedCustomer['is_paied']}}</td>
+            <td>办公地址</td>
+            <td>{{selectedCustomer['registered_address']}}</td>
+        </tr>
+        <tr>
+            <td>付款方式</td>
+            <td>{{selectedCustomer['way_of_payment']}}</td>
+            <td>法人姓名</td>
+            <td>{{selectedCustomer['legal_fullname']}}</td>
+        </tr>
+        <tr>
+            <td>客户来源</td>
+            <td>{{selectedCustomer['lead_source']}}</td>
+            <td>档案位置</td>
+            <td>{{selectedCustomer['doc_location']}}</td>
+        </tr>
+        <tr>
+            <td>纳税人类型</td>
+            <td>{{selectedCustomer['legal_type']}}</td>
+            <td>税控类型</td>
+            <td>{{selectedCustomer['tax_type']}}</td>
+        </tr>
+        <tr>
+            <td>所述行业</td>
+            <td>{{selectedCustomer['business_type']}}</td>
+            <td>顾问备注</td>
+            <td>{{selectedCustomer['remarks']}}</td>
+        </tr>
+    </table>
 </div>

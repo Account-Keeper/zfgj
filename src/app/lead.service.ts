@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BaseService } from './config.service';
 import { environment } from '../environments/environment'
 
-export const url_api = environment.url_api;
+export const url_api = 'http://111.229.24.199:8001/';//environment.url_api || '';
 const API_TOKEN = "";
 
 
@@ -55,15 +55,7 @@ export class LeadService extends BaseService {
   };
 
   getHeaders() {
-    const token = localStorage.getItem('token') || null;
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
-      'Access-Control-Allow-Credentials': 'true',
-      'Authorization': token
-    });
+    return super.getHeaders();
   }
 
   getLeads(filter) {

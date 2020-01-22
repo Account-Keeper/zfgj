@@ -2,7 +2,7 @@
         <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidebar-1">
                 <div class="list-group panel">
                     <div class="list-group-item list-group-title" *ngIf="isAuth">
-                        <i class="fa fa-user mr-2"></i><a>{{currentUser.username}}</a>
+                        <i class="fa fa-user mr-2"></i><a>{{currentUser['username']}}</a>
                     </div>
                     <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/home">主页</a></div>
                     <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/leads">线索管理</a></div>

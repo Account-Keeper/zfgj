@@ -57,12 +57,11 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     let username = this.usernameFormControl.value;
     let password = this.passwordFormControl.value;
+    this.isLoading = true;
     if(!username || !password)
       return;
-    this.isLoading = true;
 
     this.service.login(username,password).subscribe(data=>{
-      console.log(data);
       if(data.success){
         this.isAuth.emit(true);
         this.r.navigate(['/home']);
