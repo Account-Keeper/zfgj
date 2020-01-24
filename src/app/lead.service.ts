@@ -54,10 +54,6 @@ export class LeadService extends BaseService {
       'Something bad happened; please try again later.');
   };
 
-  getHeaders() {
-    return super.getHeaders();
-  }
-
   getLeads(filter) {
     let params = new HttpParams();
     for (let f in filter) {

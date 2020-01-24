@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener  } from '@angular/core';
+import { Directive, Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener  } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { FormControl } from '@angular/forms';
 import { JobService, JOB_TYPE, PAYMENT_METHODS, 
@@ -13,7 +13,6 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
 })
 export class CustomerComponent implements OnInit {
   users=[];
-  isEdit = false;
   customer = {};
   jobControl = {};
   selectedCustomer = {};
@@ -26,11 +25,8 @@ export class CustomerComponent implements OnInit {
   files: any = [];
   is_paid = 0;
   paids  = [{v: 0,label:'未交费'}, {v:1, label:'已交费'}];
-  @HostBinding('style.background-color') private background = '#f5fcff'
-  @HostBinding('style.opacity') private opacity = '1'
   @Input('job') job: Object;
-
-  
+  @Input('isEdit') isEdit: boolean;
 
   constructor(
     private config_service: ConfigService,
@@ -57,6 +53,7 @@ export class CustomerComponent implements OnInit {
     this.customer['business_type'] = new FormControl();
     this.customer['remarks'] = new FormControl();
     this.customer['is_paid'] = 0;
+    this.customer['files'] = this.files;
 
     this.jobControl = {};
     this.jobControl['type'] = new FormControl();
@@ -87,7 +84,19 @@ export class CustomerComponent implements OnInit {
   }
 
   onFileDropped(files) {
-    let t = 0;
+    this.files = [...files];
+    this.customer['files'] = this.files;
+  }
+
+  onSave() {
+    const customer = {};
+    if(this.customer['company_name'].errors || this.customer['contact_fullname'].errors || this.customer['contact_cell_phone'].errors || this.customer['city'].errors)
+    return;
+
+    
+
+
+
   }
 
 }

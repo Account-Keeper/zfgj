@@ -45,6 +45,8 @@ import { MatPaginatorIntlCro } from './custom_paginator';
 import {MatPaginatorIntl} from '@angular/material';
 import { CustomerComponent } from './customer/customer.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { InternalWorkComponent } from './internal-work/internal-work.component';
+import { ExternalWorkComponent } from './external-work/external-work.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -74,6 +76,8 @@ const appRoutes: Routes = [
     KeepingRenewComponent,
     CustomerComponent,
     FileUploadComponent,
+    InternalWorkComponent,
+    ExternalWorkComponent,
   ],
   imports: [
     BrowserModule,

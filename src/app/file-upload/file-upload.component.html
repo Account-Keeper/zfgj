@@ -1,10 +1,12 @@
 <form>
-<div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
-    <input hidden type="file" #fileInput (change)="uploadDocument($event)">
-</div>
-<div class="files-list" *ngFor="let file of files;let i= index">
-    <p> {{ file }} </p>
-    <button class="delete-file" (click)="deleteAttachment(i)">
-        <mat-icon class="material-icons">delete</mat-icon>
-    </button>
-</div></form>
+    <div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)" align="center">
+        <input hidden type="file" #fileInput (change)="uploadDocument($event)">
+        <label class="mt-2">上传文件</label>
+    </div>
+    <div class="files-list" *ngFor="let file of files;let i= index">
+        <p> {{ file }} </p>
+        <button class="delete-file" (click)="deleteAttachment(i)">
+            <mat-icon class="material-icons">delete</mat-icon>
+        </button>
+    </div>
+</form>

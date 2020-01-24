@@ -1,5 +1,5 @@
 <!--edit page-->
-<div class="container">
+<div class="container" *ngIf="isEdit">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="50%">
             <mat-form-field class="full">
@@ -29,6 +29,9 @@
               <mat-form-field class="full">
                 <input matInput [formControl]="customer['contact_fullname']" placeholder="联系人" required>
             </mat-form-field>
+            <mat-error *ngIf="customer['contact_fullname'].hasError('required')">
+                请输入联系人
+            </mat-error>
         </div>
         <div fxFlex="35%">
             <mat-form-field class="full">
@@ -50,6 +53,9 @@
             <mat-form-field class="full">
                 <input matInput [formControl]="customer['contact_cell_phone']" placeholder="手机" required>
             </mat-form-field>
+            <mat-error *ngIf="customer['contact_cell_phone'].hasError('required')">
+                请输入手机
+            </mat-error>
         </div>
         <div fxFlex="33%">
             <mat-form-field class="full">
@@ -58,14 +64,17 @@
         </div>
         <div fxFlex="37%">
             <mat-form-field class="full">
-                <input matInput [formControl]="customer['city']" placeholder="所在城区">
+                <input matInput [formControl]="customer['city']" placeholder="所在城区" required>
             </mat-form-field>
+            <mat-error *ngIf="customer['contact_cell_phone'].hasError('required')">
+                请输入所在城区
+            </mat-error>
         </div>
     </div>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="30%">
             <mat-form-field class="full">
-                <input matInput type="number" [formControl]="customer['payment_amount']" placeholder="付款金额" required>
+                <input matInput type="number" [formControl]="customer['payment_amount']" placeholder="付款金额">
                 <span matPrefix>¥&nbsp;</span>
             </mat-form-field>
         </div>
@@ -161,14 +170,10 @@
         <app-file-upload (onFileDropped)="onFileDropped($event)"></app-file-upload>
         <!--//-->
 
-    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
-        <button mat-raised-button (click)="onSave()">保存</button>
-        <button mat-raised-button (click)="onCancel(false)">取消</button>
-    </div>
 </div>
 
 <!--view page-->
-<div class="container" *ngIf="!isEdit">
+<div class="" *ngIf="!isEdit">
     <table class="table">
         <tr>
             <td>公司名称</td>

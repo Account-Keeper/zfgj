@@ -29,20 +29,18 @@ export class BaseService {
 
   getHeaders(headersConfig?: object): HttpHeaders {
     const token = localStorage.getItem('token') || null;
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-      'Authorization': token
-    });
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    headers = headers.set('Accept', 'application/json');
+    headers = headers.set('Access-Control-Allow-Origin', '*');
+    headers = headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+    headers = headers.set('Authorization', token);
+    return headers;
   }
 }
 
 @Injectable()
-export class ConfigService extends BaseService {
+export class ConfigService  {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -50,7 +48,7 @@ export class ConfigService extends BaseService {
     private http: HttpClient,
     public router: Router
   ) {
-    super();
+    //super();
     try {
       this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
       this.currentUser = this.currentUserSubject.asObservable();
@@ -65,8 +63,15 @@ export class ConfigService extends BaseService {
 
   }
 
-  getHeaders() {
-    return super.getHeaders();
+  getHeaders(headersConfig?: object): HttpHeaders {
+    var token = localStorage.getItem('token') || null;
+    var headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    headers = headers.set('Accept', 'application/json');
+    headers = headers.set('Access-Control-Allow-Origin', '*');
+    headers = headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+    headers = headers.set('Authorization', token);
+    return headers;
   }
 
   public get currentUserValue(): User {
@@ -78,11 +83,11 @@ export class ConfigService extends BaseService {
   }
 
   login(username: string, password: string) {
-    let body = { username, password };
-    const params: URLSearchParams = new URLSearchParams();
+    var body = { username, password };
+    var params: URLSearchParams = new URLSearchParams();
     params.append("api_token", API_TOKEN);
-    
-    console.log(">>>>--"+JSON.stringify(body)+"   api="+url_api+" "+JSON.stringify(this.getHeaders()));
+    var token = localStorage.getItem('token') || null;
+
     return this.http.post<any>(url_api + 'auth/login', body, { headers: this.getHeaders() })
       .pipe(map(data => {
         if (data) {

@@ -12,15 +12,13 @@ export class FileUploadComponent implements OnInit {
   form: FormGroup;
   error: object;
 
-  @HostBinding('style.background-color') private background = '#f5fcff'
-  @HostBinding('style.opacity') private opacity = '1'
+  private background = '#9ecbec';
+  private opacity = '0.8';
   @Output() onFileDropped = new EventEmitter<any>();
 //Dragover listener
   @HostListener('dragover', ['$event']) onDragOver(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#9ecbec';
-    this.opacity = '0.8'
   }
 	
   //Dragleave listener
@@ -38,10 +36,9 @@ export class FileUploadComponent implements OnInit {
     this.background = '#f5fcff'
     this.opacity = '1'
     let files = evt.dataTransfer.files;
-    if (files.length > 0) {
-      this.onFileDropped.emit(files)
-    }
+
   }
+
   constructor(
     private formBuilder: FormBuilder,
     private service: ConfigService,
@@ -75,6 +72,10 @@ export class FileUploadComponent implements OnInit {
             let filename = res['body']['results']['upload']['name'];
             if(filename)
               this.files.push(filename);
+
+              if (this.files.length > 0) {
+                this.onFileDropped.emit(this.files)
+              }
           }
         },
         (err) => this.error = err
