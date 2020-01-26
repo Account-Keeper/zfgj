@@ -34,13 +34,14 @@ export class BaseService {
     headers = headers.set('Accept', 'application/json');
     headers = headers.set('Access-Control-Allow-Origin', '*');
     headers = headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
-    headers = headers.set('Authorization', token);
+    if(token)
+      headers = headers.set('Authorization', token);
     return headers;
   }
 }
 
 @Injectable()
-export class ConfigService  {
+export class ConfigService extends BaseService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -48,7 +49,7 @@ export class ConfigService  {
     private http: HttpClient,
     public router: Router
   ) {
-    //super();
+    super();
     try {
       this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
       this.currentUser = this.currentUserSubject.asObservable();
@@ -62,17 +63,30 @@ export class ConfigService  {
     }
 
   }
-
+  /*
   getHeaders(headersConfig?: object): HttpHeaders {
     var token = localStorage.getItem('token') || null;
     var headers = new HttpHeaders();
-    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    headers = headers.set('Accept', 'application/json');
-    headers = headers.set('Access-Control-Allow-Origin', '*');
-    headers = headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
-    headers = headers.set('Authorization', token);
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Accept', 'application/json');
+      headers = headers.set('Access-Control-Allow-Origin', '*');
+      headers = headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+      headers = headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type, X-Token-Auth, Authorization');
+      headers = headers.set('Access-Control-Allow-Credentials', 'true');
+      if(token)
+        headers = headers.set('Authorization', token);
     return headers;
-  }
+  }*/
+  /*
+  private getHeaders(headersConfig?: object): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
+      'Access-Control-Allow-Credentials': 'true'
+    });
+  }*/
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;

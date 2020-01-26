@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { LeadService } from '../lead.service';
 import { ConfigService } from '../config.service';
 import { FormControl } from '@angular/forms';
-import { simplifyDatetime, formatDate } from '../utility';
+import { simplifyDatetime, formatDate, formatDatetimeLocal } from '../utility';
 import {from as fromPromise, of} from 'rxjs';
 import {catchError, flatMap} from 'rxjs/operators';
 import {PageEvent} from '@angular/material/paginator';
+import { CONTACT_TYPE } from '../job.service';
 
 @Component({
   selector: 'app-leads',
@@ -17,17 +18,19 @@ export class LeadsComponent implements OnInit {
   isDetail = false;
   isLoading=false;
   user = {};
+  note = {};
   users = [];
   leads = [];
   lead_status = [];
   lead_source = [];
+  notes = [];
   lead = {};
   filter = {};
   selectedLead = {};
   Pagelength = 0;
   pageSize = 10;
+  contact_type = CONTACT_TYPE;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  simplifyDatetime = simplifyDatetime;
   displayedColumns: string[] = ['selected','contact_name','city','contact_phone','contact_email',
       'source_name','status_name','assignee','detail','updated_date'];
   date = new FormControl(new Date());
@@ -64,6 +67,10 @@ export class LeadsComponent implements OnInit {
     this.filter['search'] = new FormControl;
     this.filter['status'] = new FormControl;
 
+    this.note = {};
+    this.note['message'] = new FormControl();
+    this.note['contact_type'] = new FormControl();
+
     this.getStatus();
 
     this.getUsers();
@@ -73,6 +80,10 @@ export class LeadsComponent implements OnInit {
     this.pageEvent = event;
     this.getLeads();
     return event;
+  }
+
+  private _simplifyDatetime(date) {
+    return simplifyDatetime(date);
   }
 
   getLeads() {
@@ -115,7 +126,7 @@ export class LeadsComponent implements OnInit {
           item['status_name'] = status_name.label;
           item['source_name'] = source_name.label;
           item['customer_fullname'] = `${item.first_name} ${item.last_name}`;
-          item['updated_date'] = this.simplifyDatetime(item['updated_date']);
+          item['updated_date'] = this._simplifyDatetime(item['updated_date']);
           item['detail'] = item.id;
         });
         this.leads = arr;
@@ -163,6 +174,18 @@ export class LeadsComponent implements OnInit {
         let arr = [...data['results']];
         this.lead_source = arr;
         this.getLeads();
+      }
+    });
+  }
+
+  getNotes(id) {
+    this.lead_service.getNotes(id).subscribe(data=>{
+      if(data){
+        let arr = data['results'] || [];
+        arr.forEach(item => {
+          item['created_date'] = formatDatetimeLocal(item['created_date']);
+        });
+        this.notes = [...arr];
       }
     });
   }
@@ -238,10 +261,29 @@ export class LeadsComponent implements OnInit {
 
   }
 
+  onAddNode() {
+    if(this.note && this.selectedLead && !this.note['message'].errors) {
+      const note = {};
+      note['lead_id'] = this.selectedLead['id'];
+      note['message'] = this.note['message'].value;
+      note['contact_type'] = this.note['contact_type'].value;
+
+      this.lead_service.addNote(note).subscribe(data=>{
+        if(data){
+          this.note['message'].value = '';
+          this.note['contact_type'].value = 0;
+
+          this.getNotes(this.selectedLead['id']);
+        }
+      });
+    }
+  }
+
   OnDetail(id) {
     const lead = this.leads.find(item=>item.id === id);
     this.selectedLead = lead;
     this.isDetail = true;
+    this.getNotes(id);
   }
 
   onCancel(load) {
@@ -258,6 +300,11 @@ export class LeadsComponent implements OnInit {
   claim_time(created, assigned) {
   const created_date = new Date(created);
   const assigned_date = new Date(assigned);
+  }
+
+  getContactType(id) {
+    let n = this.contact_type.find(item => item.id === id);
+    return n.label;
   }
 
 }

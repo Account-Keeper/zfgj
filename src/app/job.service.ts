@@ -41,6 +41,18 @@ export const BUSINESS_TYPE = [
   { id: 4, label:'其他' },
 ];//企业类型
 
+export const INNER_STAUS = [
+  { id: 0, label:'已开始' },
+  { id: 1, label:'未开始' },
+  { id: 2, label:'已完成' },
+];//网登状态*：（已开始/未开始/已完成）
+
+export const CONTACT_TYPE = [
+  { id: 0, label:'电话' },
+  { id: 1, label:'微信' },
+  { id: 2, label:'电话+微信' },
+];//网登状态*：（已开始/未开始/已完成）
+
 export const url_api = 'http://111.229.24.199:8001/';//environment.url_api || '';
 
 @Injectable({

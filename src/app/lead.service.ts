@@ -96,6 +96,32 @@ export class LeadService extends BaseService {
     }
   }
 
+  getNotes(id) {
+    const params = new HttpParams()
+      .set("api_token", API_TOKEN);
+
+    return this.http.get<any>(`${url_api}leads/notes/${id}`, { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
+        return data;
+      }));
+  }
+
+  addNote(note) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("api_token", API_TOKEN);
+
+      return this.http.post<any>(url_api + 'leads/note', note, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return data;
+        }));
+  }
+
   getStatus(filter) {
     const params = new HttpParams()
       .set("api_token", API_TOKEN);
@@ -123,6 +149,8 @@ export class LeadService extends BaseService {
         return data;
       }));
   }
+
+
 
 }
 

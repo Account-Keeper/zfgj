@@ -42,7 +42,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddressRenewComponent } from './address-renew/address-renew.component';
 import { KeepingRenewComponent } from './keeping-renew/keeping-renew.component';
 import { MatPaginatorIntlCro } from './custom_paginator';
-import {MatPaginatorIntl} from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material';
+import { MatListModule } from '@angular/material/list';
 import { CustomerComponent } from './customer/customer.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { InternalWorkComponent } from './internal-work/internal-work.component';
@@ -106,6 +107,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatListModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

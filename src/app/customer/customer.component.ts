@@ -92,11 +92,6 @@ export class CustomerComponent implements OnInit {
     const customer = {};
     if(this.customer['company_name'].errors || this.customer['contact_fullname'].errors || this.customer['contact_cell_phone'].errors || this.customer['city'].errors)
     return;
-
-    
-
-
-
   }
 
 }
