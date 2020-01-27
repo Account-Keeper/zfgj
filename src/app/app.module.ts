@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -107,6 +108,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatChipsModule,
     MatListModule,
     RouterModule.forRoot(
       appRoutes,

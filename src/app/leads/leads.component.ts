@@ -279,11 +279,26 @@ export class LeadsComponent implements OnInit {
     }
   }
 
+  onCreatJob(lead_id) {
+    this.lead_service.addJob(lead_id).subscribe(data=>{
+      if(data){
+        this.OnDetail(lead_id);
+      }
+    });
+  }
+
   OnDetail(id) {
     const lead = this.leads.find(item=>item.id === id);
-    this.selectedLead = lead;
-    this.isDetail = true;
-    this.getNotes(id);
+    if(lead) {
+      this.lead_service.getLead(lead.id).subscribe(data=>{
+        if(data){
+          this.selectedLead = data['results'][0];
+          this.isDetail = true;
+          this.getNotes(id);
+        }
+      });
+    }
+
   }
 
   onCancel(load) {

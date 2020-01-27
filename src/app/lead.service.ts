@@ -71,6 +71,18 @@ export class LeadService extends BaseService {
       }));
   }
 
+  getLead(id) {
+    let params = new HttpParams();
+    let h = this.getHeaders();
+    return this.http.get<any>(`${url_api}leads/${id}`, { headers: this.getHeaders(), params: params })
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
+        return data;
+      }));
+  }
+
   saveLead(lead: object) {
     const params: URLSearchParams = new URLSearchParams();
     params.append("api_token", API_TOKEN);
@@ -114,6 +126,19 @@ export class LeadService extends BaseService {
     params.append("api_token", API_TOKEN);
 
       return this.http.post<any>(url_api + 'leads/note', note, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return data;
+        }));
+  }
+
+  addJob(lead_id) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("api_token", API_TOKEN);
+
+      return this.http.post<any>(url_api + 'leads/job', {lead_id}, { headers: this.getHeaders() })
         .pipe(map(data => {
           if (data) {
             return data;

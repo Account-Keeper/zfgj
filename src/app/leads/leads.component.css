@@ -11,3 +11,8 @@ table {
     color: white;
 }
 
+.chip-1 {
+    border-radius: 10px;
+    font-size: 9px;
+}
+
