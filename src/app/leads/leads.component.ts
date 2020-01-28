@@ -262,7 +262,7 @@ export class LeadsComponent implements OnInit {
   }
 
   onAddNode() {
-    if(this.note && this.selectedLead && !this.note['message'].errors) {
+    if(this.note && this.selectedLead && !this.note['message'].errors &&!this.note['contact_type'].errors) {
       const note = {};
       note['lead_id'] = this.selectedLead['id'];
       note['message'] = this.note['message'].value;
@@ -319,7 +319,9 @@ export class LeadsComponent implements OnInit {
 
   getContactType(id) {
     let n = this.contact_type.find(item => item.id === id);
-    return n.label;
+    if(n)
+      return n.label;
+    return '';
   }
 
 }

@@ -43,13 +43,15 @@
 
         <div fxFlex="30%">
             <div class="mb-2">
-
                 <mat-form-field class="full">
-                    <mat-select [formControl]="note['contact_type']" placeholder="联系方式">
+                    <mat-select [formControl]="note['contact_type']" placeholder="联系方式" required>
                         <mat-option *ngFor="let r of contact_type" [value]="r.id">
                             {{r.label}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="note['contact_type'].hasError('required')">
+                        请输入联系方式
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field class="full">
                 <input matInput #message maxlength="512" [formControl]="note['message']" placeholder="Message" required>
