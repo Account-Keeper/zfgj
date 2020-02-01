@@ -3,20 +3,21 @@
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="50%">
             <mat-form-field class="full">
-                <input matInput [formControl]="internal['fullname']" placeholder="内勤姓名" required>
-            </mat-form-field>
-            <mat-error *ngIf="internal['fullname'].hasError('required')">
-                请输入内勤姓名
-            </mat-error>
-        </div>
-        <div fxFlex="25%">
-            <mat-form-field class="full">
-                <input type="datetime-local"  matInput [formControl]="internal['created_date']" placeholder="网登开始时间">
+                <mat-select [formControl]="internal['assignee']" placeholder="内勤指派" required>
+                    <mat-option *ngFor="let r of users" [value]="r.id">
+                        {{r.first_name}} {{r.last_name}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div fxFlex="25%">
             <mat-form-field class="full">
-                <mat-select [formControl]="internal['inner_status']" placeholder="网登状态">
+                <input type="datetime-local"  matInput [formControl]="internal['net_register_date']" placeholder="网登开始时间">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25%">
+            <mat-form-field class="full">
+                <mat-select [formControl]="internal['net_register_status']" placeholder="网登状态">
                     <mat-option *ngFor="let r of innerStatus" [value]="r.id">
                         {{r.label}}
                     </mat-option>
@@ -27,7 +28,7 @@
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="50%">
               <mat-form-field class="full">
-                <input type="datetime-local"  matInput [formControl]="internal['inner_appointment_datetime']" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" placeholder="约号日期及时间" required>
+                <input type="datetime-local"  matInput [formControl]="internal['appointment_date']" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" placeholder="约号日期及时间" required>
             </mat-form-field>
         </div>
         <div fxFlex="50%">

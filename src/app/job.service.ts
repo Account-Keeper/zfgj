@@ -47,6 +47,12 @@ export const INNER_STAUS = [
   { id: 2, label:'已完成' },
 ];//网登状态*：（已开始/未开始/已完成）
 
+export const EXNER_STAUS = [
+  { id: 0, label:'等待办理' },
+  { id: 1, label:'已完成' },
+  { id: 2, label:'办理失败' },
+];//外勤状态*：（等待办理/已完成/办理失败）
+
 export const CONTACT_TYPE = [
   { id: 0, label:'电话' },
   { id: 1, label:'微信' },
@@ -55,28 +61,20 @@ export const CONTACT_TYPE = [
 
 export const url_api = 'http://111.229.24.199:8001/';//environment.url_api || '';
 
+const API_TOKEN = "";
+
 @Injectable({
   providedIn: 'root'
 })
-export class JobService {
+export class JobService extends BaseService {
   jobTypes = [];
 
   constructor(
     private http: HttpClient,
     public router: Router
-  ) { }
-
-  public getHeaders(headersConfig?: object): HttpHeaders {
-    const token = localStorage.getItem('token') || null;
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With,content-type, X-Token-Auth, Authorization',
-      'Access-Control-Allow-Credentials': 'true',
-      'Authorization': token
-    });
-  }
+  ) {
+    super();
+   }
 
   getJobType(filter) {
     const params = new HttpParams()
@@ -106,5 +104,30 @@ export class JobService {
         }
         return data;
       }));
+  }
+
+  saveJob(data: object) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("api_token", API_TOKEN);
+
+    if (data['id'])//update
+    {
+      return this.http.put<any>(url_api + 'jobs/' + data['id'], data, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return null;
+        }));
+    }
+    else {//add new
+      return this.http.post<any>(url_api + 'jobs', data, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return data;
+        }));
+    }
   }
 }

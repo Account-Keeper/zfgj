@@ -24,14 +24,13 @@ export class InternalWorkComponent implements OnInit {
     this.internal = {};
     this.internal['fullname'] = new FormControl();
     this.internal['created_date'] = new FormControl();
-    this.internal['inner_status'] = new FormControl();
-    this.internal['inner_appointment_datetime'] = new FormControl();
-    this.internal['external_assignee'] = new FormControl();
+    this.internal['net_register_status'] = new FormControl();
+    this.internal['net_register_date'] = new FormControl();
+    this.internal['appointment_date'] = new FormControl();
+    this.internal['assignee'] = new FormControl();
     this.internal['remarks'] = new FormControl();
-
-    this.internal['inner_status'].value = 0;
-    this.internal['external_assignee'].value = -1;
-    this.internal['inner_appointment_datetime'].value = formatDatetimeLocal(new Date());
+    this.internal['external_assignee'] = new FormControl();
+    this.internal['files'] = [];
   }
 
   ngOnInit() {

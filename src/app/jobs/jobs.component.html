@@ -8,6 +8,7 @@
 
 <app-customer [job]="selectedJob" [isEdit]="isEdit"></app-customer>
 <app-internal-work [job]="selectedJob" [isEdit]="isEdit"></app-internal-work>
+<app-external-work [job]="selectedJob" [isEdit]="isEdit"></app-external-work>
 <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
     <button mat-raised-button (click)="onSave()">保存</button>
     <button mat-raised-button (click)="onCancel()">取消</button>
