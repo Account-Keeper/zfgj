@@ -1,25 +1,33 @@
-<mat-sidenav-container class="sidebar-container">
-        <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidebar-1">
-                <div class="list-group panel">
-                    <div class="list-group-item list-group-title" *ngIf="isAuth">
-                        <i class="fa fa-user mr-2"></i><a>{{currentUser['username']}}</a>
-                    </div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/home">主页</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/leads">线索管理</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/jobs">订单管理</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/customers">客户管理</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/performance">绩效管理</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/address">地址续费</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/accounting">记账续费</a></div>
-                    <div class="list-group-item" mat-list-item  routerLinkActive="active-list-item"><a routerLink="/user-config">登陆管理</a></div>
-                    <div class="list-group-item" *ngIf="!isAuth"><a (click)="login()">登录</a></div>
-                    <div class="list-group-item" *ngIf="isAuth"><a (click)="logout()">注销</a></div>
-                </div>
-        </mat-sidenav>
-        <div>
+<mat-sidenav-container class="sidebar-container" *ngIf="isAuth">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidebar-1">
+        <div class="list-group panel">
+            <div class="list-group-item list-group-title" *ngIf="isAuth">
+                <i class="fa fa-user mr-2"></i><a>{{currentUser['username']}}</a>
+            </div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a routerLink="/home">主页</a>
+            </div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/leads">线索管理</a></div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/jobs">订单管理</a></div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/customers">客户管理</a></div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/performance">绩效管理</a></div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/address">地址续费</a></div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/accounting">记账续费</a></div>
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/user-config">登陆管理</a></div>
+            <div class="list-group-item" *ngIf="!isAuth"><a (click)="login()">登录</a></div>
+            <div class="list-group-item" *ngIf="isAuth"><a (click)="logout()">注销</a></div>
+        </div>
+    </mat-sidenav>
+    <div>
         <app-navbar (toggle)="sidenav.toggle()"></app-navbar>
-        </div>
-        <div [ngClass]="{'mat-sidenav-content':!isAuth}" >
+    </div>
+    <div [ngClass]="{'mat-sidenav-content':!isAuth}">
         <router-outlet></router-outlet>
-        </div>
-      </mat-sidenav-container>
+    </div>
+</mat-sidenav-container>

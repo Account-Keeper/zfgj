@@ -1,4 +1,5 @@
 <!--edit page-->
+<div *ngIf="!isHidden">
 <div class="container frame-1" *ngIf="isEdit">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="25%">
@@ -91,4 +92,5 @@
             <td>{{selectedItem['remarks']}}</td>
         </tr>
     </table>
+</div>
 </div>

@@ -76,6 +76,18 @@ export class JobService extends BaseService {
     super();
    }
 
+   getJobs(filter) {
+    const params = new HttpParams()
+
+    return this.http.get<any>(url_api + 'jobs', { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          return [...data['results']];
+        }
+        return data;
+      }));
+  }
+
   getJobType(filter) {
     const params = new HttpParams()
 

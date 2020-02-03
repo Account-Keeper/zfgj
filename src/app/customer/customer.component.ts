@@ -1,4 +1,4 @@
-import { Directive, Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener  } from '@angular/core';
+import { Directive, Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener,ViewChild  } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { FormControl } from '@angular/forms';
 import { JobService, JOB_TYPE, PAYMENT_METHODS, 
@@ -11,6 +11,8 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
+
+@Directive({selector: 'customer'})
 export class CustomerComponent implements OnInit {
   users=[];
   customer = {};
@@ -27,6 +29,7 @@ export class CustomerComponent implements OnInit {
   paids  = [{v: 0,label:'未交费'}, {v:1, label:'已交费'}];
   @Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
+  @Input('isHidden') isHidden: boolean;
 
   constructor(
     private config_service: ConfigService,

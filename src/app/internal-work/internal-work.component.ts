@@ -17,6 +17,7 @@ export class InternalWorkComponent implements OnInit {
   innerStatus = INNER_STAUS;
   @Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
+  @Input('isHidden') isHidden: boolean;
 
   constructor(
     private config_service: ConfigService,

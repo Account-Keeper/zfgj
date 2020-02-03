@@ -17,6 +17,7 @@ export class ExternalWorkComponent implements OnInit {
   users = [];
   @Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
+  @Input('isHidden') isHidden: boolean;
 
   constructor() { 
     this.external = {};

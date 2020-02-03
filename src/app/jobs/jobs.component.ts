@@ -18,8 +18,11 @@ export class JobsComponent implements OnInit {
   customer = {};
   job_control = {};
   files = [];
-  isEdit = true;
-  
+  jobs = [];
+  isEdit = false;
+  isHidden = true;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  displayedColumns: string[] = ['selected','company_name','contact_fullname'];
 
   constructor(
     private job_service: JobService
@@ -28,7 +31,6 @@ export class JobsComponent implements OnInit {
   @ViewChild(CustomerComponent, {static: false})
   set appBacon(directive: CustomerComponent) {
     this.customer_control = directive.customer;
-    this.job_control = directive.jobControl;
   };
 
   @ViewChild(InternalWorkComponent, {static: false})
@@ -42,7 +44,25 @@ export class JobsComponent implements OnInit {
   };
 
   ngOnInit() {
-    
+    this.getJobs();
+  }
+
+  getJobs() {
+    this.job_service.getJobs({}).subscribe(data=>{
+      if(data){
+        this.jobs = [...data];
+      }
+    });
+  }
+
+  displayCompanyField(company, field) {
+    let name = '';
+    for(let key of Object.keys(company)) {
+      if(key === field) {
+        return company[key];
+      }
+    }
+    return name;
   }
 
   onSave() {
