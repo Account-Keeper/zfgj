@@ -1,40 +1,17 @@
 <div class="container" >
-    <table class="table" *ngIf="!isHidden">
+    <table class="table">
         <tr>
             <td>创建时间 :</td>
             <td>{{ selectedJob['created_date'] || '' }}</td>
         </tr>
     </table>
 
-    <app-customer [job]="selectedJob" [isEdit]="isEdit" [isHidden]="isHidden"></app-customer>
-    <app-internal-work [job]="selectedJob" [isEdit]="isEdit"  [isHidden]="isHidden"></app-internal-work>
-    <app-external-work [job]="selectedJob" [isEdit]="isEdit"  [isHidden]="isHidden"></app-external-work>
+    <app-customer [job]="selectedJob['customer']" [isEdit]="isEdit" [isHidden]="isHidden"></app-customer>
+    <app-internal-work [job]="selectedJob['internal_task']" [isEdit]="isEdit"  [isHidden]="isHidden"></app-internal-work>
+    <app-external-work [job]="selectedJob['external_task']" [isEdit]="isEdit"  [isHidden]="isHidden"></app-external-work>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0"  *ngIf="!isHidden">
         <button mat-raised-button (click)="onSave()">保存</button>
         <button mat-raised-button (click)="onCancel()">取消</button>
     </div>
 </div>
 
-<!--job list-->
-<div class="container" *ngIf="!isEdit">
-    <table mat-table [dataSource]="jobs" class="mat-elevation-z8 table">
-        <ng-container matColumnDef="selected">
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let element">
-                <mat-checkbox></mat-checkbox>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="company_name">
-            <th mat-header-cell *matHeaderCellDef> 公司名称 </th>
-            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'company_name')}} </td>
-        </ng-container>
-        <ng-container matColumnDef="contact_fullname">
-            <th mat-header-cell *matHeaderCellDef> 联系人 </th>
-            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'contact_fullname')}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-</div>
-<!--//job list-->

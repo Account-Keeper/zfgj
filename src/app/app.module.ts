@@ -28,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -49,12 +50,14 @@ import { CustomerComponent } from './customer/customer.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { InternalWorkComponent } from './internal-work/internal-work.component';
 import { ExternalWorkComponent } from './external-work/external-work.component';
+import { JobViewComponent } from './job-view/job-view.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'leads', component: LeadsComponent },
-  { path: 'jobs', component: JobsComponent },
+  { path: 'jobs/edit/:id', component: JobsComponent },
+  { path: 'jobs/list', component: JobViewComponent },
   { path: 'customers', component: CustomerComponent },
   { path: 'user-config', component: UserConfigComponent },
   { path: '', component: HomeComponent },
@@ -80,6 +83,7 @@ const appRoutes: Routes = [
     FileUploadComponent,
     InternalWorkComponent,
     ExternalWorkComponent,
+    JobViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +114,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatChipsModule,
     MatListModule,
+    MatTooltipModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

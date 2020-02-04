@@ -2,6 +2,11 @@ table {
     width: 100%;
 }
 
+table mat-header-cell {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .cell_datetime {
     width: 150px;
 }

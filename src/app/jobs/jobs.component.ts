@@ -3,6 +3,7 @@ import { CustomerComponent } from '../customer/customer.component';
 import { InternalWorkComponent } from '../internal-work/internal-work.component';
 import { ExternalWorkComponent } from '../external-work/external-work.component';
 import { JobService } from '../job.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-jobs',
@@ -21,12 +22,21 @@ export class JobsComponent implements OnInit {
   jobs = [];
   isEdit = false;
   isHidden = true;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-  displayedColumns: string[] = ['selected','company_name','contact_fullname'];
+  selected_job_id = -1;
 
   constructor(
+    private router: ActivatedRoute,
     private job_service: JobService
-  ) { }
+  ) { 
+    router.queryParams.subscribe(
+      params => {
+        this.selected_job_id = params['id'];
+        if(this.selected_job_id > 0) {
+          this.getJob(this.selected_job_id);
+        }
+      }
+    );
+  }
 
   @ViewChild(CustomerComponent, {static: false})
   set appBacon(directive: CustomerComponent) {
@@ -44,26 +54,18 @@ export class JobsComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.getJobs();
+    
   }
 
-  getJobs() {
+  getJob(id) {
     this.job_service.getJobs({}).subscribe(data=>{
       if(data){
-        this.jobs = [...data];
+        this.selectedJob = [...data];
       }
     });
   }
 
-  displayCompanyField(company, field) {
-    let name = '';
-    for(let key of Object.keys(company)) {
-      if(key === field) {
-        return company[key];
-      }
-    }
-    return name;
-  }
+  
 
   onSave() {
     const job = {};
