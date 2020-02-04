@@ -44,6 +44,7 @@ export class BaseService {
 export class ConfigService extends BaseService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  private _users;
 
   constructor(
     private http: HttpClient,
@@ -53,6 +54,7 @@ export class ConfigService extends BaseService {
     try {
       this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
       this.currentUser = this.currentUserSubject.asObservable();
+      this.getUsers({});
     }
     catch (e) {
       if (e instanceof SyntaxError) {
@@ -94,6 +96,10 @@ export class ConfigService extends BaseService {
 
   get change(): Observable<object> {
     return this.currentUserSubject.asObservable();
+  }
+
+  get users() {
+    return this._users;
   }
 
   login(username: string, password: string) {
@@ -143,6 +149,7 @@ export class ConfigService extends BaseService {
     return this.http.get<any>(url_api + 'user/all', { headers: this.getHeaders(), params: params })
       .pipe(map(data => {
         if (data) {
+          this._users = data['results'];
           return data;
         }
         return data;

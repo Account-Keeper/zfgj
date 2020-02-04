@@ -27,7 +27,7 @@ export class CustomerComponent implements OnInit {
   files: any = [];
   is_paid = 0;
   paids  = [{v: 0,label:'未交费'}, {v:1, label:'已交费'}];
-  @Input('job') job: Object;
+  //@Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
   @Input('isHidden') isHidden: boolean;
 
@@ -60,12 +60,20 @@ export class CustomerComponent implements OnInit {
 
     this.jobControl = {};
     this.jobControl['type'] = new FormControl();
+    
    }
 
   ngOnInit() {
     this.getUsers();
   }
 
+  @Input()
+  set job(val: any) {
+    if(val && val['customer'])
+      this.selectedCustomer = val['customer'][0];
+
+    let t  = 0;
+  }
 
   getUsers() {
     if(this.users.length==0)

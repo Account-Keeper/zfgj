@@ -6,9 +6,9 @@
         </tr>
     </table>
 
-    <app-customer [job]="selectedJob['customer']" [isEdit]="isEdit" [isHidden]="isHidden"></app-customer>
-    <app-internal-work [job]="selectedJob['internal_task']" [isEdit]="isEdit"  [isHidden]="isHidden"></app-internal-work>
-    <app-external-work [job]="selectedJob['external_task']" [isEdit]="isEdit"  [isHidden]="isHidden"></app-external-work>
+    <app-customer [job]="selectedJob" [isEdit]="isEdit" [isHidden]="isHidden"></app-customer>
+    <app-internal-work [job]="selectedJob" [isEdit]="isEdit"  [isHidden]="isHidden"></app-internal-work>
+    <app-external-work [job]="selectedJob" [isEdit]="isEdit"  [isHidden]="isHidden"></app-external-work>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0"  *ngIf="!isHidden">
         <button mat-raised-button (click)="onSave()">保存</button>
         <button mat-raised-button (click)="onCancel()">取消</button>

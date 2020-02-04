@@ -15,7 +15,6 @@ export class ExternalWorkComponent implements OnInit {
   external = {};
   selectedItem: {};
   users = [];
-  @Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
   @Input('isHidden') isHidden: boolean;
 
@@ -28,6 +27,12 @@ export class ExternalWorkComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  @Input()
+  set job(val: any) {
+    if(val)
+      this.selectedItem = val['external_taks'];
   }
 
   onFileDropped(files) {

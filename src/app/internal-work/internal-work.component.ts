@@ -15,7 +15,6 @@ export class InternalWorkComponent implements OnInit {
   users = [];
   internal: Object;
   innerStatus = INNER_STAUS;
-  @Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
   @Input('isHidden') isHidden: boolean;
 
@@ -38,13 +37,30 @@ export class InternalWorkComponent implements OnInit {
     this.getUsers();
   }
 
+  @Input()
+  set job(val: any) {
+    if(val && val['internal_taks'])
+      this.selectedItem = val['internal_taks'][0];
+    let t = 0;
+  }
+
   getUsers() {
-    if(this.users.length==0)
-      this.config_service.getUsers({}).subscribe(data=>{
-        if(data){
-          this.users = [{id:-1, first_name:"未指派", last_name:'',username:null}, ...data['results']];
-        }
-      });
+    this.users = this.config_service.users;
+  }
+
+  getNetStatus(id) {
+    let res = this.innerStatus.find(item =>  item.id === id);
+    if(!res)
+      return '';
+
+    return res['label'];
+  }
+
+  findUserName(user_id) {
+    let u = this.config_service.users.find(u => u.id === user_id);
+    if(!u)
+      return '';
+    return `${u['first_name']} ${u['last_name']}`;
   }
 
   onFileDropped(files) {

@@ -22,17 +22,17 @@ export class JobsComponent implements OnInit {
   jobs = [];
   isEdit = false;
   isHidden = true;
-  selected_job_id = -1;
+  selected_job_id: any;
 
   constructor(
     private router: ActivatedRoute,
     private job_service: JobService
   ) { 
-    router.queryParams.subscribe(
+    router.paramMap.subscribe(
       params => {
-        this.selected_job_id = params['id'];
-        if(this.selected_job_id > 0) {
-          this.getJob(this.selected_job_id);
+        this.selected_job_id = params.get('id');
+        if(this.selected_job_id) {
+          this.getJob(parseInt(this.selected_job_id));
         }
       }
     );
@@ -58,14 +58,12 @@ export class JobsComponent implements OnInit {
   }
 
   getJob(id) {
-    this.job_service.getJobs({}).subscribe(data=>{
+    this.job_service.getJob(id).subscribe(data=>{
       if(data){
-        this.selectedJob = [...data];
+        this.selectedJob = data[0];
       }
     });
   }
-
-  
 
   onSave() {
     const job = {};
