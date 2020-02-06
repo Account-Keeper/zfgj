@@ -12,18 +12,16 @@ import { FileUploadComponent,  } from '../file-upload/file-upload.component';
 })
 export class InternalWorkComponent implements OnInit {
   selectedItem: {};
-  users = [];
+  _users = [];
   internal: Object;
   innerStatus = INNER_STAUS;
+  formatDate = formatDatetimeLocal;
   @Input('isEdit') isEdit: boolean;
-  @Input('isHidden') isHidden: boolean;
 
   constructor(
     private config_service: ConfigService,
   ) { 
     this.internal = {};
-    this.internal['fullname'] = new FormControl();
-    this.internal['created_date'] = new FormControl();
     this.internal['net_register_status'] = new FormControl();
     this.internal['net_register_date'] = new FormControl();
     this.internal['appointment_date'] = new FormControl();
@@ -34,18 +32,27 @@ export class InternalWorkComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUsers();
   }
 
   @Input()
   set job(val: any) {
-    if(val && val['internal_taks'])
-      this.selectedItem = val['internal_taks'][0];
-    let t = 0;
+    if(val && val['internal_task']) {
+      this.selectedItem = val['internal_task'][0];
+
+      this.internal['net_register_status'].value = this.selectedItem['net_register_status'];
+      this.internal['net_register_date'].value = this.formatDate(this.selectedItem['net_register_date']);
+      this.internal['appointment_date'].value = this.selectedItem['appointment_date'];
+      this.internal['assignee'].value = this.selectedItem['assignee'];
+      this.internal['remarks'].value = this.selectedItem['remarks'];
+      this.internal['external_assignee'].value = this.selectedItem['external_assignee'];
+      this.internal['files'] = this.selectedItem['files'];
+    }
   }
 
-  getUsers() {
-    this.users = this.config_service.users;
+  @Input()
+  set users(val: any) {
+    if(val)
+      this._users = val;
   }
 
   getNetStatus(id) {
@@ -57,7 +64,10 @@ export class InternalWorkComponent implements OnInit {
   }
 
   findUserName(user_id) {
-    let u = this.config_service.users.find(u => u.id === user_id);
+    if(!this._users)
+      return '';
+
+    let u = this._users.find(u => u.id === user_id);
     if(!u)
       return '';
     return `${u['first_name']} ${u['last_name']}`;

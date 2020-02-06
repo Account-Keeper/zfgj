@@ -1,11 +1,11 @@
 <!--edit page-->
 <div >
-<div class="container frame-1" *ngIf="isEdit">
+<div class="container" *ngIf="isEdit">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="50%">
             <mat-form-field class="full">
                 <mat-select [formControl]="internal['assignee']" placeholder="内勤指派" required>
-                    <mat-option *ngFor="let r of users" [value]="r.id">
+                    <mat-option *ngFor="let r of _users" [value]="r.id">
                         {{r.first_name}} {{r.last_name}}
                     </mat-option>
                 </mat-select>
@@ -35,7 +35,7 @@
         <div fxFlex="50%">
             <mat-form-field class="full">
                 <mat-select [formControl]="internal['external_assignee']" placeholder="外勤指派">
-                    <mat-option *ngFor="let r of users" [value]="r.id">
+                    <mat-option *ngFor="let r of _users" [value]="r.id">
                         {{r.first_name}} {{r.last_name}}
                     </mat-option>
                 </mat-select>
@@ -60,17 +60,20 @@
     <table class="table">
         <tr>
             <td>内勤姓名</td>
-            <td>{{findUserName(selectedItem['assignee'])}}</td>
+            <td><b>{{findUserName(selectedItem['assignee'])}}</b></td>
             <td>网登时间</td>
-            <td>{{selectedItem['net_register_date']}}</td>
+            <td><b>{{formatDate(selectedItem['net_register_date'])}}</b></td>
         </tr>
         <tr>
             <td>外勤姓名</td>
-            <td>{{findUserName(selectedItem['external_assignee'])}}</td>
+            <td><b>{{findUserName(selectedItem['external_assignee'])}}</b></td>
             <td>网登状态</td>
-            <td>{{getNetStatus(selectedItem['net_register_status'])}}</td>
+            <td><b>{{getNetStatus(selectedItem['net_register_status'])}}</b></td>
         </tr>
-        
+        <tr>
+            <td>备注</td>
+            <td><b>{{selectedItem['remarks']}}</b></td>
+        </tr>
     </table>
 </div>
 </div>

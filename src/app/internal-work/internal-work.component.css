@@ -4,3 +4,11 @@
     padding: 30px;
     margin: 20px;
   }
+
+  .bg-1 {
+    background-color: #597280;
+  }
+
+  .table td {
+    width: 200px;
+  }

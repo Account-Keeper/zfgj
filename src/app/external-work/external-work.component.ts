@@ -10,13 +10,13 @@ import { FileUploadComponent,  } from '../file-upload/file-upload.component';
   templateUrl: './external-work.component.html',
   styleUrls: ['./external-work.component.css']
 })
+
 export class ExternalWorkComponent implements OnInit {
   externalStatus = EXNER_STAUS;
   external = {};
   selectedItem: {};
-  users = [];
+  _users = [];
   @Input('isEdit') isEdit: boolean;
-  @Input('isHidden') isHidden: boolean;
 
   constructor() { 
     this.external = {};
@@ -31,12 +31,30 @@ export class ExternalWorkComponent implements OnInit {
 
   @Input()
   set job(val: any) {
+    if(val && val['external_task']) {
+      this.selectedItem = val['external_task'][0];
+      this.external['status'].value = this.selectedItem['status'];
+      this.external['remarks'].value = this.selectedItem['remarks'];
+      this.external['files'] = this.selectedItem['files'];
+    }
+  }
+
+  @Input()
+  set users(val: any) {
     if(val)
-      this.selectedItem = val['external_taks'];
+      this._users = val;
   }
 
   onFileDropped(files) {
     this.external['files'] = [...files];
+  }
+
+  getStatus(id) {
+    let res = this.externalStatus.find(item =>  item.id === id);
+    if(!res)
+      return '';
+
+    return res['label'];
   }
 
 }

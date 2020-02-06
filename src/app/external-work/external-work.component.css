@@ -4,3 +4,7 @@
     padding: 30px;
     margin: 20px;
   }
+
+  .table td {
+    width: 200px;
+  }

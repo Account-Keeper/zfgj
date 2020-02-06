@@ -1,6 +1,6 @@
 <!--edit page-->
 <div>
-<div class="container frame-1" *ngIf="isEdit">
+<div class="container" *ngIf="isEdit">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="50%">
             <mat-form-field class="full">
@@ -18,7 +18,7 @@
         <div fxFlex="25%">
             <mat-form-field class="full">
                 <mat-select [formControl]="customer['assignee']" placeholder="顾问姓名">
-                    <mat-option *ngFor="let r of users" [value]="r.id">
+                    <mat-option *ngFor="let r of _users" [value]="r.id">
                         {{r.first_name}} {{r.last_name}}
                     </mat-option>
                 </mat-select>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
-        <div fxFlex="30%">
+        <div fxFlex="25%">
             <mat-form-field class="full">
                 <input matInput [formControl]="customer['contact_cell_phone']" placeholder="手机" required>
             </mat-form-field>
@@ -58,12 +58,17 @@
                 请输入手机
             </mat-error>
         </div>
-        <div fxFlex="33%">
+        <div fxFlex="25%">
             <mat-form-field class="full">
                 <input matInput [formControl]="customer['wechat_id']" placeholder="微信">
             </mat-form-field>
         </div>
-        <div fxFlex="37%">
+        <div fxFlex="25%">
+            <mat-form-field class="full">
+                <input matInput [formControl]="customer['customer_email']" placeholder="邮箱">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25%">
             <mat-form-field class="full">
                 <input matInput [formControl]="customer['city']" placeholder="所在城区" required>
             </mat-form-field>
@@ -174,67 +179,67 @@
 </div>
 
 <!--view page-->
-<div class="" *ngIf="!isEdit">
+<div class="" *ngIf="!isEdit && selectedCustomer">
     <table class="table">
         <tr>
             <td>公司名称</td>
-            <td>{{selectedCustomer['company_name']}}</td>
+            <td><b>{{selectedCustomer['company_name']}}</b></td>
             <td>成本价格</td>
-            <td>{{selectedCustomer['cost']}}</td>
+            <td><b>{{selectedCustomer['cost']}}</b></td>
         </tr>
         <tr>
             <td>顾问姓名</td>
-            <td>{{selectedCustomer['assignee']}}</td>
+            <td><b>{{findUserName(selectedCustomer['assignee'])}}</b></td>
             <td>联系人姓名</td>
-            <td>{{selectedCustomer['first_name']}}&nbsp;{{selectedCustomer['last_name']}}</td>
+            <td><b>{{selectedCustomer['contact_fullname']}}</b></td>
         </tr>
         <tr>
             <td>微信号</td>
-            <td>{{selectedCustomer['wechat_id']}}</td>
+            <td><b>{{selectedCustomer['wechat_id']}}</b></td>
             <td>电话</td>
-            <td>{{selectedCustomer['cell_phone']}} / {{selectedCustomer['work_phone']}}</td>
+            <td><b>{{selectedCustomer['cell_phone']}} / {{selectedCustomer['work_phone']}}</b></td>
         </tr>
         <tr>
             <td>所在城区</td>
-            <td>{{selectedCustomer['city']}}</td>
+            <td><b>{{selectedCustomer['city']}}</b></td>
             <td>邮箱</td>
-            <td>{{selectedCustomer['customer_email']}}</td>
+            <td><b>{{selectedCustomer['customer_email']}}</b></td>
         </tr>
         <tr>
             <td>付款金额</td>
-            <td>{{selectedCustomer['payment_amount']}} </td>
+            <td><b>{{selectedCustomer['payment_amount']}}</b> </td>
             <td>注册地址</td>
             <td>{{selectedCustomer['office_address']}}</td>
         </tr>
         <tr>
             <td>是否交费</td>
-            <td>{{selectedCustomer['is_paied']}}</td>
+            <td><b>{{getPaid(selectedCustomer['is_paid'])}}</b></td>
             <td>办公地址</td>
-            <td>{{selectedCustomer['registered_address']}}</td>
+            <td><b>{{selectedCustomer['registered_address']}}</b></td>
         </tr>
         <tr>
             <td>付款方式</td>
-            <td>{{selectedCustomer['way_of_payment']}}</td>
+            <td><b>{{selectedCustomer['way_of_payment']}}</b></td>
             <td>法人姓名</td>
-            <td>{{selectedCustomer['legal_fullname']}}</td>
+            <td><b>{{selectedCustomer['legal_fullname']}}</b></td>
         </tr>
         <tr>
             <td>客户来源</td>
-            <td>{{selectedCustomer['lead_source']}}</td>
+            <td><b>{{selectedCustomer['lead_source']}}</b></td>
             <td>档案位置</td>
-            <td>{{selectedCustomer['doc_location']}}</td>
+            <td><b>{{selectedCustomer['doc_location']}}</b></td>
         </tr>
         <tr>
             <td>纳税人类型</td>
-            <td>{{selectedCustomer['legal_type']}}</td>
+            <td><b>{{getTaxPayerType(selectedCustomer['taxpayer_type'])}}</b></td>
             <td>税控类型</td>
-            <td>{{selectedCustomer['tax_type']}}</td>
+            <td><b>{{getTaxType(selectedCustomer['tax_type'])}}</b></td>
         </tr>
         <tr>
             <td>所述行业</td>
-            <td>{{selectedCustomer['business_type']}}</td>
+            <td><b>{{getBusinessType(selectedCustomer['business_type'])}}</b></td>
             <td>顾问备注</td>
-            <td>{{selectedCustomer['remarks']}}</td>
+            <td><b>{{selectedCustomer['remarks']}}</b></td>
         </tr>
     </table>
 </div>

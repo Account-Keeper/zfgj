@@ -26,9 +26,6 @@ export class AppComponent implements OnInit{
     if(this.service.currentUserValue){
       this.isAuth = true;
     }
-    else{
-      this.router.navigate(['/login']);
-    }
   }
 
   onLoginOut() {

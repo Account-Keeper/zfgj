@@ -1,6 +1,6 @@
 <!--edit page-->
 <div>
-<div class="container frame-1" *ngIf="isEdit">
+<div class="container" *ngIf="isEdit ">
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="25%">
             <mat-form-field class="full">
@@ -29,9 +29,16 @@
 </div>
 
 <!--view page-->
-<div class="" *ngIf="!isEdit">
+<div class="" *ngIf="!isEdit && selectedItem">
     <table class="table">
-       
+        <tr>
+            <td>状态</td>
+            <td><b>{{getStatus(selectedItem['status'])}}</b></td>
+            <td>备注</td>
+            <td><b>{{selectedItem['remarks']}}</b></td>
+        </tr>
+      
+        
     </table>
 </div>
 </div>

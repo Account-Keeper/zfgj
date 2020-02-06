@@ -57,10 +57,11 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'leads', component: LeadsComponent },
   { path: 'jobs/edit/:id', component: JobsComponent },
+  { path: 'jobs/add', component: JobsComponent },
   { path: 'jobs/list', component: JobViewComponent },
   { path: 'customers', component: CustomerComponent },
   { path: 'user-config', component: UserConfigComponent },
-  { path: '', component: HomeComponent },
+  { path: '', component: AppComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -119,6 +120,11 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
+  ],
+  exports:[
+    CustomerComponent,
+    InternalWorkComponent,
+    ExternalWorkComponent
   ],
   entryComponents: [UserConfigComponent, UserRemoveConfirmDialog],
   providers: [

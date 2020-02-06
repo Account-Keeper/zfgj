@@ -119,6 +119,16 @@ export class ConfigService extends BaseService {
       }),catchError(this.handleError));
   }
 
+  verifyToken() {
+    return this.http.get<any>(url_api + 'auth/token', { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
+        return data;
+      }),catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
@@ -134,6 +144,7 @@ export class ConfigService extends BaseService {
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.currentUserSubject.next(null);
   }
 

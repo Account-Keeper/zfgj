@@ -1,17 +1,32 @@
-<div class="container" >
+<div class="container">
+    <h4>订单详情</h4>
+    <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="jobs/list">订单</a></li>
+        <li>订单详情</li>
+    </ul>
     <table class="table">
         <tr>
-            <td>创建时间 :</td>
-            <td>{{ selectedJob['created_date'] || '' }}</td>
+            <td *ngIf="selectedJob['created_date']">创建时间 : {{ formatDate(selectedJob['created_date']) || '' }}</td>
+            <td>
+                <mat-icon aria-label="Edit" class="material-icons" (click)="onEdit()">edit</mat-icon>
+            </td>
         </tr>
     </table>
 
-    <app-customer [job]="selectedJob" [isEdit]="isEdit" [isHidden]="isHidden"></app-customer>
-    <app-internal-work [job]="selectedJob" [isEdit]="isEdit"  [isHidden]="isHidden"></app-internal-work>
-    <app-external-work [job]="selectedJob" [isEdit]="isEdit"  [isHidden]="isHidden"></app-external-work>
-    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0"  *ngIf="!isHidden">
+    <mat-card class="example-card">
+        <app-customer [job]="selectedJob" [users]="users" [isEdit]="isEdit"></app-customer>
+    </mat-card><br>
+    <mat-card class="example-card">
+        <app-internal-work [job]="selectedJob" [users]="users"  [isEdit]="isEdit"></app-internal-work>
+    </mat-card><br>
+    <mat-card class="example-card">
+        <app-external-work [job]="selectedJob" [users]="users"  [isEdit]="isEdit"></app-external-work>
+    </mat-card><br>
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0"
+        *ngIf="isEdit">
         <button mat-raised-button (click)="onSave()">保存</button>
         <button mat-raised-button (click)="onCancel()">取消</button>
     </div>
+    <br>
 </div>
-

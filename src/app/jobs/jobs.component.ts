@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CustomerComponent } from '../customer/customer.component';
 import { InternalWorkComponent } from '../internal-work/internal-work.component';
 import { ExternalWorkComponent } from '../external-work/external-work.component';
+import { ConfigService } from '../config.service';
 import { JobService } from '../job.service';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { simplifyDatetime, formatDate, formatDatetimeLocal } from '../utility';
 
 @Component({
   selector: 'app-jobs',
@@ -23,16 +25,19 @@ export class JobsComponent implements OnInit {
   isEdit = false;
   isHidden = true;
   selected_job_id: any;
+  formatDate= formatDate;
+  users = [];
 
   constructor(
     private router: ActivatedRoute,
-    private job_service: JobService
+    private job_service: JobService,
+    private config_service: ConfigService
   ) { 
     router.paramMap.subscribe(
       params => {
         this.selected_job_id = params.get('id');
         if(this.selected_job_id) {
-          this.getJob(parseInt(this.selected_job_id));
+          this.getUsers();
         }
       }
     );
@@ -41,6 +46,7 @@ export class JobsComponent implements OnInit {
   @ViewChild(CustomerComponent, {static: false})
   set appBacon(directive: CustomerComponent) {
     this.customer_control = directive.customer;
+    this.job_control = directive.jobControl;
   };
 
   @ViewChild(InternalWorkComponent, {static: false})
@@ -65,8 +71,24 @@ export class JobsComponent implements OnInit {
     });
   }
 
+  getUsers() {
+    this.config_service.getUsers({}).subscribe(data=>{
+      if(data){
+        let arr = [...data['results']];
+        arr.forEach(item=>{
+          item['display_name'] = item['first_name'] + item['last_name'];
+        });
+        this.users = [...arr];
+        this.getJob(parseInt(this.selected_job_id));
+      }
+    });
+  }
+
   onSave() {
     const job = {};
+    if(this.selected_job_id)
+      job['id'] = this.selected_job_id;
+
     job['type'] = this.job_control['type'].value;
     if(this.internal_control['assignee'].errors)
       return;
@@ -84,6 +106,7 @@ export class JobsComponent implements OnInit {
     customer['cell_phone'] = this.customer_control['contact_cell_phone'].value;
     customer['work_phone'] = this.customer_control['contact_work_phone'].value;
     customer['wechat_id'] = this.customer_control['wechat_id'].value;
+    customer['customer_email'] = this.customer_control['customer_email'].value;
     customer['city'] = this.customer_control['city'].value;
     customer['payment_amount'] = this.customer_control['payment_amount'].value;
     customer['way_of_payment'] = this.customer_control['way_of_payment'].value;
@@ -101,7 +124,6 @@ export class JobsComponent implements OnInit {
     job['customer'] = customer;
 
     const internal_task = {};
-    internal_task['created_date'] = this.internal_control['created_date'].value;
     internal_task['net_register_status'] = this.internal_control['net_register_status'].value;
     internal_task['net_register_date'] = this.internal_control['net_register_date'].value;
     internal_task['appointment_date'] = this.internal_control['appointment_date'].value;
@@ -119,15 +141,20 @@ export class JobsComponent implements OnInit {
 
     this.job_service.saveJob(job).subscribe(data=>{
       if(data){
-        console.log(">>");
+        this.isEdit = false;
+        this.getJob(this.selected_job_id);
       }
     });
 
 
   }
 
-  onCancel() {
+  onEdit() {
+    this.isEdit = true;
+  }
 
+  onCancel() {
+    this.isEdit = false;
   }
 
 }

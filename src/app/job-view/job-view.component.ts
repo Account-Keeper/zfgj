@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JobService, BUSINESS_TYPE, PAYMENT_METHODS,EXNER_STAUS } from '../job.service';
 import { ConfigService } from '../config.service';
 import { formatDate } from '../utility'
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-job-view',
@@ -19,11 +20,16 @@ export class JobViewComponent implements OnInit {
 
   constructor(
     private job_service: JobService,
+    private router: Router,
     private config_service: ConfigService
   ) { }
 
   ngOnInit() {
     this.getUsers();
+  }
+
+  onAdd() {
+    this.router.navigate(['/jobs/add']);
   }
 
   getUsers() {

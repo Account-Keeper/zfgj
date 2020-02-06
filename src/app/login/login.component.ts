@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     this.service.login(username,password).subscribe(data=>{
       if(data.success){
         this.isAuth.emit(true);
-        this.r.navigate(['/home']);
+        this.r.navigate(['/']);
       }
       else
         this.isAuth.emit(false);
