@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JobService, BUSINESS_TYPE, PAYMENT_METHODS,EXNER_STAUS } from '../job.service';
+import { JobService, BUSINESS_TYPE, PAYMENT_METHODS,EXNER_STAUS, JOB_TYPE } from '../job.service';
 import { ConfigService } from '../config.service';
 import { formatDate } from '../utility'
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -12,10 +12,11 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 export class JobViewComponent implements OnInit {
   jobs = [];
   users = [];
+  jobTypes = JOB_TYPE;
+  is_loading = false;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  displayedColumns: string[] = ['selected','company_name','assignee','business_type',
-  'city','payment','is_paid','cost','contact_fullname','contact','email','wechat',
-  'legal_fullname','internal_assignee','external_assignee','external_status','details'];
+  displayedColumns: string[] = ['selected','created_date','company_name','job_type',
+  'assignee','contact_fullname','is_paid'];
   formatDate = formatDate;
 
   constructor(
@@ -33,6 +34,7 @@ export class JobViewComponent implements OnInit {
   }
 
   getUsers() {
+    this.is_loading = true;
     this.config_service.getUsers({}).subscribe(data=>{
       if(data){
         let arr = [...data['results']];
@@ -49,12 +51,24 @@ export class JobViewComponent implements OnInit {
     this.job_service.getJobs({}).subscribe(data=>{
       if(data){
         this.jobs = [...data];
+        this.is_loading = false;
       }
     });
   }
 
-  findUserName(user_id) {
-    let u = this.users.find(u => u.id === user_id);
+  getJobType(type) {
+    let res = this.jobTypes.find(item =>  item.id === parseInt(type));
+    if(!res)
+      return '';
+
+    return res['label'];
+  }
+
+  findUserName(customer:object) {
+    if(!customer)
+      return '';
+
+    let u = this.users.find(u => u.id === customer['assignee']);
     if(!u)
       return '';
     return u['display_name'];

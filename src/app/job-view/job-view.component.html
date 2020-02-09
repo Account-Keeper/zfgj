@@ -5,38 +5,48 @@
         <li><a href="/">主页</a></li>
         <li>订单</li>
       </ul>
+      <div class="row">
+          <div class="col-3">
       <button class="btn-add" mat-mini-fab aria-label="添加" (click)="onAdd()">
+
         <mat-icon aria-label="Add new" class="material-icons">add</mat-icon>
         </button>
-    <table mat-table [dataSource]="jobs" class="mat-elevation-z8 table">
+    </div>
+    <div class="col-9">
+        <mat-paginator [length]="length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="pageEvent = $event">
+        </mat-paginator>
+        </div>
+    <table mat-table [dataSource]="jobs" class="mat-elevation-z8 table" *ngIf="!is_loading">
         <ng-container matColumnDef="selected">
             <th mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let element">
                 <mat-checkbox></mat-checkbox>
             </td>
         </ng-container>
+        <ng-container matColumnDef="created_date">
+            <th mat-header-cell *matHeaderCellDef> 创建时间 </th>
+            <td mat-cell *matCellDef="let element"> 
+            <a routerLink="/jobs/edit/{{element.id}}">{{formatDate(element.created_date)}}</a>    
+            </td>
+        </ng-container>
         <ng-container matColumnDef="company_name">
             <th mat-header-cell *matHeaderCellDef> 公司名称 </th>
             <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'company_name')}} </td>
         </ng-container>
+        <ng-container matColumnDef="job_type">
+            <th mat-header-cell *matHeaderCellDef> 业务类型 </th>
+            <td mat-cell *matCellDef="let element"> {{ getJobType(element['type']) }} </td>
+        </ng-container>
         <ng-container matColumnDef="assignee">
             <th mat-header-cell *matHeaderCellDef> 顾问姓名 </th>
-            <td mat-cell *matCellDef="let element"> {{findUserName(element.customer[0]['assignee'])}} </td>
+            <td mat-cell *matCellDef="let element"> {{findUserName(element.customer[0])}} </td>
         </ng-container>
-        <ng-container matColumnDef="business_type">
-            <th mat-header-cell *matHeaderCellDef> 业务类型 </th>
-            <td mat-cell *matCellDef="let element"> {{findBusinessType(element.customer[0]['business_type'])}} </td>
-        </ng-container>
-        <ng-container matColumnDef="city">
-            <th mat-header-cell *matHeaderCellDef> 所在城区 </th>
-            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'city')}} </td>
-        </ng-container>
-        <ng-container matColumnDef="payment">
-            <th mat-header-cell *matHeaderCellDef> 付款 </th>
-            <td mat-cell *matCellDef="let element"> 
-                <div>付款方式: {{displayWayOfPayment(element.customer[0])}} </div>
-                <div>付款金额: {{displayCompanyField(element.customer[0], 'payment_amount')}} </div>
-            </td>
+        <ng-container matColumnDef="contact_fullname">
+            <th mat-header-cell *matHeaderCellDef> 联系人 </th>
+            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'contact_fullname')}} </td>
         </ng-container>
         <ng-container matColumnDef="is_paid">
             <th mat-header-cell *matHeaderCellDef> 是否交费 </th>
@@ -45,55 +55,7 @@
                 <span *ngIf="displayCompanyField(element.customer[0],'is_paid')==0"> 否 </span>
             </td>
         </ng-container>
-        <ng-container matColumnDef="cost">
-            <th mat-header-cell *matHeaderCellDef> 成本价格 </th>
-            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'cost')}} </td>
-        </ng-container>
-        <ng-container matColumnDef="contact_fullname">
-            <th mat-header-cell *matHeaderCellDef> 联系人 </th>
-            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'contact_fullname')}} </td>
-        </ng-container>
-        <ng-container matColumnDef="contact">
-            <th mat-header-cell *matHeaderCellDef> 电话 </th>
-            <td mat-cell *matCellDef="let element"> 
-                <div *ngIf="displayCompanyField(element.customer[0], 'cell_phone')">手机：{{displayCompanyField(element.customer[0], 'cell_phone')}} </div>
-                <div *ngIf="displayCompanyField(element.customer[0], 'work_phone')">座机：{{displayCompanyField(element.customer[0], 'work_phone')}} </div>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="wechat">
-            <th mat-header-cell *matHeaderCellDef> 微信 </th>
-            <td mat-cell *matCellDef="let element"> 
-                <div>{{displayCompanyField(element.customer[0], 'wechat_id')}} </div>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> 邮箱 </th>
-            <td mat-cell *matCellDef="let element"> 
-                <div>{{displayCompanyField(element.customer[0], 'email')}} </div>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="legal_fullname">
-            <th mat-header-cell *matHeaderCellDef> 法人姓名 </th>
-            <td mat-cell *matCellDef="let element"> {{displayCompanyField(element.customer[0], 'legal_fullname')}} </td>
-        </ng-container>
-        <ng-container matColumnDef="internal_assignee">
-            <th mat-header-cell *matHeaderCellDef> 内勤姓名 </th>
-            <td mat-cell *matCellDef="let element"> {{findUserName(displayCompanyField(element.internal_task[0], 'assignee'))}} </td>
-        </ng-container>
-        <ng-container matColumnDef="external_assignee">
-            <th mat-header-cell *matHeaderCellDef> 外勤姓名 </th>
-            <td mat-cell *matCellDef="let element"> {{findUserName(displayCompanyField(element.internal_task[0], 'external_assignee'))}} </td>
-        </ng-container>
-        <ng-container matColumnDef="external_status">
-            <th mat-header-cell *matHeaderCellDef> 外勤状态 </th>
-            <td mat-cell *matCellDef="let element"> {{externalTaskStatus(displayCompanyField(element.external_task[0], 'status'))}} </td>
-        </ng-container>
-        <ng-container matColumnDef="details">
-            <th mat-header-cell *matHeaderCellDef> 详情 </th>
-            <td mat-cell *matCellDef="let element"> 
-            <a routerLink="/jobs/edit/{{element.id}}">{{formatDate(element.updated_date)}}</a>    
-            </td>
-        </ng-container>
+       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

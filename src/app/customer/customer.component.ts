@@ -17,6 +17,7 @@ export class CustomerComponent implements OnInit {
   customer = {};
   jobControl = {};
   selectedCustomer = {};
+  selectedJob = {};
   jobTypes = JOB_TYPE;
   paymentMethods = PAYMENT_METHODS;
   taxpayer_type = TAXPAYER_TYPE;
@@ -70,8 +71,13 @@ export class CustomerComponent implements OnInit {
   set job(val: any) {
     if(val && val['customer']) {
       this.selectedCustomer = val['customer'][0];
-      this.customer['company_name'].value = this.selectedCustomer['company_name'];
-      this.customer['contact_fullname'].value = this.selectedCustomer['contact_fullname'];
+      this.selectedJob = val;
+
+      if(!this.selectedCustomer)
+        return;
+        
+      this.customer['company_name'].value = this.selectedCustomer['company_name'] || '';
+      this.customer['contact_fullname'].value = this.selectedCustomer['contact_fullname'] || '';
       this.customer['assignee'].value = this.selectedCustomer['assignee'];
       this.customer['contact_cell_phone'].value = this.selectedCustomer['cell_phone'];
       this.customer['contact_work_phone'].value = this.selectedCustomer['work_phone'];
@@ -143,6 +149,14 @@ export class CustomerComponent implements OnInit {
 
   getBusinessType(type) {
     let res = this.business_type.find(item =>  item.id === parseInt(type));
+    if(!res)
+      return '';
+
+    return res['label'];
+  }
+
+  getJobType(type) {
+    let res = this.jobTypes.find(item =>  item.id === parseInt(type));
     if(!res)
       return '';
 

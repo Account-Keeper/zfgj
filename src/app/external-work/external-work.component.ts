@@ -33,6 +33,9 @@ export class ExternalWorkComponent implements OnInit {
   set job(val: any) {
     if(val && val['external_task']) {
       this.selectedItem = val['external_task'][0];
+      if(!this.selectedItem)
+      return;
+      
       this.external['status'].value = this.selectedItem['status'];
       this.external['remarks'].value = this.selectedItem['remarks'];
       this.external['files'] = this.selectedItem['files'];

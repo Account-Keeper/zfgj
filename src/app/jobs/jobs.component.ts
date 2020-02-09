@@ -3,8 +3,8 @@ import { CustomerComponent } from '../customer/customer.component';
 import { InternalWorkComponent } from '../internal-work/internal-work.component';
 import { ExternalWorkComponent } from '../external-work/external-work.component';
 import { ConfigService } from '../config.service';
-import { JobService } from '../job.service';
-import { ActivatedRoute } from '@angular/router';
+import { JobService, JOB_TYPE } from '../job.service';
+import { ActivatedRoute, Router,Event,NavigationStart,NavigationEnd,NavigationError } from '@angular/router';
 import { simplifyDatetime, formatDate, formatDatetimeLocal } from '../utility';
 
 @Component({
@@ -24,20 +24,46 @@ export class JobsComponent implements OnInit {
   jobs = [];
   isEdit = false;
   isHidden = true;
+  jobTypes = JOB_TYPE;
   selected_job_id: any;
   formatDate= formatDate;
   users = [];
 
   constructor(
-    private router: ActivatedRoute,
+    private router: Router,
+    private routerRoute: ActivatedRoute,
     private job_service: JobService,
     private config_service: ConfigService
   ) { 
-    router.paramMap.subscribe(
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+      return false;
+   }
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+          // Show loading indicator
+      }
+
+      if (event instanceof NavigationEnd) {
+          // Hide loading indicator
+      }
+
+      if (event instanceof NavigationError) {
+          // Hide loading indicator
+
+          // Present error to user
+          console.log(event.error);
+      }
+  });
+
+
+    routerRoute.paramMap.subscribe(
       params => {
         this.selected_job_id = params.get('id');
-        if(this.selected_job_id) {
-          this.getUsers();
+        this.getUsers();
+
+        if(!this.selected_job_id) {
+          this.isEdit = true;
+          this.selectedJob = {};
         }
       }
     );
@@ -71,6 +97,7 @@ export class JobsComponent implements OnInit {
     });
   }
 
+
   getUsers() {
     this.config_service.getUsers({}).subscribe(data=>{
       if(data){
@@ -79,7 +106,8 @@ export class JobsComponent implements OnInit {
           item['display_name'] = item['first_name'] + item['last_name'];
         });
         this.users = [...arr];
-        this.getJob(parseInt(this.selected_job_id));
+        if(this.selected_job_id)
+          this.getJob(parseInt(this.selected_job_id));
       }
     });
   }
@@ -142,7 +170,8 @@ export class JobsComponent implements OnInit {
     this.job_service.saveJob(job).subscribe(data=>{
       if(data){
         this.isEdit = false;
-        this.getJob(this.selected_job_id);
+        let id = data['results'][0]['id'];
+        this.router.navigate([`/jobs/list`]);
       }
     });
 

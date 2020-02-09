@@ -38,6 +38,8 @@ export class InternalWorkComponent implements OnInit {
   set job(val: any) {
     if(val && val['internal_task']) {
       this.selectedItem = val['internal_task'][0];
+      if(!this.selectedItem)
+        return;
 
       this.internal['net_register_status'].value = this.selectedItem['net_register_status'];
       this.internal['net_register_date'].value = this.formatDate(this.selectedItem['net_register_date']);

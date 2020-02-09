@@ -183,7 +183,11 @@
     <table class="table">
         <tr>
             <td>公司名称</td>
-            <td><b>{{selectedCustomer['company_name']}}</b></td>
+            <td colspan="2"><b>{{selectedCustomer['company_name']}}</b></td>
+        </tr>
+        <tr>
+            <td>业务类型</td>
+            <td><b>{{getJobType(selectedJob['type'])}}</b></td>
             <td>成本价格</td>
             <td><b>{{selectedCustomer['cost']}}</b></td>
         </tr>
