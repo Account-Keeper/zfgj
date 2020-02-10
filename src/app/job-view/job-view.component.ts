@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService, BUSINESS_TYPE, PAYMENT_METHODS,EXNER_STAUS, JOB_TYPE } from '../job.service';
 import { ConfigService } from '../config.service';
-import { formatDate } from '../utility'
+import { formatDate,formatDate_Date } from '../utility'
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-job-view',
@@ -11,22 +12,47 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 })
 export class JobViewComponent implements OnInit {
   jobs = [];
+  pagedJobs = [];
   users = [];
+  filter = {};
   jobTypes = JOB_TYPE;
   is_loading = false;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
   displayedColumns: string[] = ['selected','created_date','company_name','job_type',
   'assignee','contact_fullname','is_paid'];
   formatDate = formatDate;
+  _formatDate_Date = formatDate_Date;
+  length = 100;
+  pageSize = 25;
+  page = 0;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   constructor(
     private job_service: JobService,
+    private routerRoute: ActivatedRoute,
     private router: Router,
     private config_service: ConfigService
-  ) { }
+  ) {
+    routerRoute.queryParams.subscribe(
+      params => {
+        this.page = params['page']?parseInt(params['page']) : 0;
+        this.pageSize = params['page_size']?parseInt(params['page_size']) : 25;
+      }
+    );
+    this.initFilter();
+    this.getUsers();
+   }
 
   ngOnInit() {
-    this.getUsers();
+    
+  }
+
+  initFilter() {
+    this.filter = {};
+    this.filter['created_date'] = new FormControl();
+    this.filter['company_name'] = new FormControl();
+    this.filter['job_type'] = new FormControl();
+    this.filter['assignee'] = new FormControl();
+    this.filter['is_paid'] = new FormControl();
   }
 
   onAdd() {
@@ -51,6 +77,8 @@ export class JobViewComponent implements OnInit {
     this.job_service.getJobs({}).subscribe(data=>{
       if(data){
         this.jobs = [...data];
+        this.pagedJobs = this.jobs.slice(this.page, this.page+this.pageSize);
+        this.length = this.jobs.length;
         this.is_loading = false;
       }
     });
@@ -111,12 +139,36 @@ export class JobViewComponent implements OnInit {
     return name;
   }
 
+  onPaging(event) {
+    this.pagedJobs = this.jobs.slice(event.pageIndex, this.page+event.pageSize);
+    this.router.navigate(['/jobs/list'], { queryParams: { 'page': event.pageIndex, 'page_size': event.pageSize } });
+  }
 
   externalTaskStatus(id) {
     let res = EXNER_STAUS.find(t=>t.id === id);
     if(!res)
       return '';
     return res['label']; 
+  }
+
+  onClearSearch() {
+    this.initFilter();
+    this.router.navigate(['/jobs/list'], { queryParams: { 'page': this.page, 'page_size': this.pageSize } });
+  }
+
+  onSearch(){
+    let list = [];
+    if(this.filter['created_date'].value) {
+      list = this.jobs.filter(item => {
+        let date = this._formatDate_Date(this.filter['created_date'].value);
+        //let created_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+        let f = this.formatDate(item['created_date']);
+        return date == f;
+      });
+    }
+ 
+
+    this.pagedJobs = [...list];
   }
 
 }

@@ -9,7 +9,7 @@
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
                     routerLink="/leads">线索管理</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
-                    routerLink="/jobs/list">订单管理</a></div>
+                    [routerLink]="['/jobs/list']" [queryParams]="{page:0,page_size:25}">订单管理</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
                     routerLink="/customers">客户管理</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
