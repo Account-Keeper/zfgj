@@ -1,10 +1,11 @@
 import { Directive, Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener,ViewChild  } from '@angular/core';
-import { ConfigService } from '../config.service';
+import { ConfigService,FILE_URL } from '../config.service';
 import { FormControl } from '@angular/forms';
 import { JobService, JOB_TYPE, PAYMENT_METHODS, 
   TAXPAYER_TYPE, TAX_TYPE, BUSINESS_TYPE } from '../job.service';
 import { LeadService } from '../lead.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
+import { formatDate,formatDate_Date } from '../utility'
 
 @Component({
   selector: 'app-customer',
@@ -26,7 +27,9 @@ export class CustomerComponent implements OnInit {
   lead_source = [];
   files: any = [];
   is_paid = 0;
+  file_url = FILE_URL;
   paids  = [{v: 0,label:'未交费'}, {v:1, label:'已交费'}];
+  _formatDate = formatDate;
   //@Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
 
@@ -76,6 +79,9 @@ export class CustomerComponent implements OnInit {
       if(!this.selectedCustomer)
         return;
         
+      if(this.selectedCustomer['id'])
+        this.customer['id'] = this.selectedCustomer['id'];
+
       this.customer['company_name'].value = this.selectedCustomer['company_name'] || '';
       this.customer['contact_fullname'].value = this.selectedCustomer['contact_fullname'] || '';
       this.customer['assignee'].value = this.selectedCustomer['assignee'];
@@ -96,7 +102,7 @@ export class CustomerComponent implements OnInit {
       this.customer['business_type'].value = this.selectedCustomer['business_type'];
       this.customer['remarks'].value = this.selectedCustomer['remarks'];
       this.customer['is_paid'] = this.selectedCustomer['is_paid'];
-      this.customer['files'] = this.selectedCustomer['files'];
+      this.customer['files'] = this.selectedCustomer['files']?this.selectedCustomer['files'].map(item=>item.file_path):[];
     }
   }
 
@@ -173,8 +179,8 @@ export class CustomerComponent implements OnInit {
   }
 
   onFileDropped(files) {
-    this.files = [...files];
-    this.customer['files'] = this.files;
+    //this.files = [...files];
+    this.customer['files'] = [...files];
   }
 
   onSave() {

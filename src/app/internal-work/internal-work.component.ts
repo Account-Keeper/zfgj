@@ -41,13 +41,16 @@ export class InternalWorkComponent implements OnInit {
       if(!this.selectedItem)
         return;
 
+      if(this.selectedItem['id'])
+        this.internal['id'] = this.selectedItem['id'];
+
       this.internal['net_register_status'].value = this.selectedItem['net_register_status'];
       this.internal['net_register_date'].value = this.formatDate(this.selectedItem['net_register_date']);
       this.internal['appointment_date'].value = this.selectedItem['appointment_date'];
       this.internal['assignee'].value = this.selectedItem['assignee'];
       this.internal['remarks'].value = this.selectedItem['remarks'];
       this.internal['external_assignee'].value = this.selectedItem['external_assignee'];
-      this.internal['files'] = this.selectedItem['files'];
+      this.internal['files'] = this.selectedItem['files']?this.selectedItem['files'].map(item=>item.file_path):[];
     }
   }
 

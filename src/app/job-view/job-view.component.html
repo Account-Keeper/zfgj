@@ -41,9 +41,9 @@
         </div>
         <div>
             <mat-form-field>
-                <mat-select [formControl]="filter['assignee']" placeholder="是否交费">
-                    <mat-option [value]=0>否</mat-option>
-                    <mat-option [value]=1>是</mat-option>
+                <mat-select [formControl]="filter['is_paid']" placeholder="是否交费">
+                    <mat-option [value]='0'>否</mat-option>
+                    <mat-option [value]='1'>是</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -96,7 +96,7 @@
                 </td>
             </ng-container>
             <ng-container matColumnDef="is_paid">
-                <th mat-header-cell *matHeaderCellDef> 是否交费 </th>
+                <th mat-header-cell *matHeaderCellDef width="10%"> 是否交费 </th>
                 <td mat-cell *matCellDef="let element">
                     <span *ngIf="displayCompanyField(element.customer[0],'is_paid')==1"
                         matTooltip="缴费时间: {{displayPaymentDate(element.customer[0])}}"> 是 </span>

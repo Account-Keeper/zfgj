@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TestabilityRegistry } from '@angular/core';
 import { JobService, BUSINESS_TYPE, PAYMENT_METHODS,EXNER_STAUS, JOB_TYPE } from '../job.service';
 import { ConfigService } from '../config.service';
 import { formatDate,formatDate_Date } from '../utility'
@@ -85,7 +85,7 @@ export class JobViewComponent implements OnInit {
   }
 
   getJobType(type) {
-    let res = this.jobTypes.find(item =>  item.id === parseInt(type));
+    let res = this.jobTypes.find(item =>  item['id'] === parseInt(type));
     if(!res)
       return '';
 
@@ -158,14 +158,39 @@ export class JobViewComponent implements OnInit {
 
   onSearch(){
     let list = [];
-    if(this.filter['created_date'].value) {
+
       list = this.jobs.filter(item => {
-        let date = this._formatDate_Date(this.filter['created_date'].value);
-        //let created_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-        let f = this.formatDate(item['created_date']);
-        return date == f;
+        let customer = item['customer']?item['customer'][0] : null;
+
+        if(this.filter['created_date'].value) {
+          let date = this._formatDate_Date(this.filter['created_date'].value);
+          let f = this.formatDate(item['created_date']);
+          if(date !== f)
+            return false;
+        }
+
+        if(this.filter['company_name'].value && customer) {
+          if( customer['company_name'] !== this.filter['company_name'].value)
+            return false;
+        }
+
+        if(this.filter['job_type'].value !== null) {
+          if(item['type'] != this.filter['job_type'].value) 
+            return false;
+        }
+
+        if(this.filter['assignee'].value && customer) {
+          if(this.filter['assignee'].value!=null && parseInt(customer['assignee']) !== parseInt(this.filter['assignee'].value))
+            return false;
+        }
+
+        if(this.filter['is_paid'].value!==null && customer) {
+          if(this.filter['is_paid'].value!==null && parseInt(customer['is_paid']) !== parseInt(this.filter['is_paid'].value))
+            return false;
+        }
+        return true;
       });
-    }
+
  
 
     this.pagedJobs = [...list];

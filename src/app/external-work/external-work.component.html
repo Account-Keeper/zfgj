@@ -23,7 +23,7 @@
             </div>
         </div>
           <!--File uploads-->
-        <app-file-upload (onFileDropped)="onFileDropped($event)"></app-file-upload>
+        <app-file-upload (onFileDropped)="onFileDropped($event)" [uploads]="selectedItem['files']"></app-file-upload>
         <!--//-->
 
 </div>

@@ -5,6 +5,8 @@ import { catchError, retry, map, first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../environments/environment'
 
+export const FILE_URL = "http://111.229.24.199:8001/upload/";
+
 export const ROLES = [
   { role_name: '一般用户', is_writable: false },
   { role_name: '管理员', is_writable: true },

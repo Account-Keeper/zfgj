@@ -35,10 +35,14 @@ export class ExternalWorkComponent implements OnInit {
       this.selectedItem = val['external_task'][0];
       if(!this.selectedItem)
       return;
-      
+
+
+      if(this.selectedItem['id'])
+        this.external['id'] = this.selectedItem['id'];
+
       this.external['status'].value = this.selectedItem['status'];
       this.external['remarks'].value = this.selectedItem['remarks'];
-      this.external['files'] = this.selectedItem['files'];
+      this.external['files'] = this.selectedItem['files']?this.selectedItem['files'].map(item=>item.file_path):[];
     }
   }
 

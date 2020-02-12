@@ -15,6 +15,7 @@ export class FileUploadComponent implements OnInit {
   private background = '#9ecbec';
   private opacity = '0.8';
   @Output() onFileDropped = new EventEmitter<any>();
+
 //Dragover listener
   @HostListener('dragover', ['$event']) onDragOver(evt) {
     evt.preventDefault();
@@ -50,6 +51,12 @@ export class FileUploadComponent implements OnInit {
     });
   }
 
+  @Input('uploads')
+  set uploads(val: any) {
+    if(val ) {
+      this.files = val.map(item=>item['file_path']);
+    }
+  }
   uploadFile(event) {
     for (let index = 0; index < event.length; index++) {
       const element = event[index];

@@ -173,7 +173,7 @@
             </div>
         </div>
           <!--File uploads-->
-        <app-file-upload (onFileDropped)="onFileDropped($event)"></app-file-upload>
+        <app-file-upload (onFileDropped)="onFileDropped($event)" [uploads]="selectedCustomer['files']"></app-file-upload>
         <!--//-->
 
 </div>
@@ -244,6 +244,18 @@
             <td><b>{{getBusinessType(selectedCustomer['business_type'])}}</b></td>
             <td>顾问备注</td>
             <td><b>{{selectedCustomer['remarks']}}</b></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <mat-list>
+                    <mat-list-item *ngFor="let file of selectedCustomer['files']">
+                      <p matLine>
+                        <span> <a href="{{file_url+file.file_path}}">{{file.file_path}}</a> </span>
+                        <span class="demo-2"> -- {{_formatDate(file.created_date)}} </span>
+                      </p>
+                    </mat-list-item>
+                  </mat-list>
+            </td>
         </tr>
     </table>
 </div>

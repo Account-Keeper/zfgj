@@ -128,6 +128,9 @@ export class JobsComponent implements OnInit {
       return;
 
     let customer = {};
+    if(this.customer_control['id'])
+      customer['id'] = this.customer_control['id'];
+
     customer['company_name'] = this.customer_control['company_name'].value;
     customer['contact_fullname'] = this.customer_control['contact_fullname'].value;
     customer['assignee'] = this.customer_control['assignee'].value;
@@ -152,6 +155,9 @@ export class JobsComponent implements OnInit {
     job['customer'] = customer;
 
     const internal_task = {};
+    if(this.internal_control['id'])
+      internal_task['id'] = this.internal_control['id'];
+
     internal_task['net_register_status'] = this.internal_control['net_register_status'].value;
     internal_task['net_register_date'] = this.internal_control['net_register_date'].value;
     internal_task['appointment_date'] = this.internal_control['appointment_date'].value;
@@ -162,6 +168,9 @@ export class JobsComponent implements OnInit {
     job['internal_task'] = internal_task;
 
     const external = {};
+    if(this.external_control['id'])
+      external['id'] = this.external_control['id'];
+
     external['status'] =this.external_control['status'].value;
     external['remarks'] =this.external_control['remarks'].value;
     external['files'] =this.external_control['files'] = [];
