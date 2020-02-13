@@ -173,7 +173,7 @@ export class JobsComponent implements OnInit {
 
     external['status'] =this.external_control['status'].value;
     external['remarks'] =this.external_control['remarks'].value;
-    external['files'] =this.external_control['files'] = [];
+    external['files'] =this.external_control['files'];
     job['external_task'] = external;
 
     this.job_service.saveJob(job).subscribe(data=>{

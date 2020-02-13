@@ -104,6 +104,9 @@ export class CustomerComponent implements OnInit {
       this.customer['is_paid'] = this.selectedCustomer['is_paid'];
       this.customer['files'] = this.selectedCustomer['files']?this.selectedCustomer['files'].map(item=>item.file_path):[];
     }
+    else{//new item
+      this.selectedCustomer = {files:[]};
+    }
   }
 
   @Input('users')

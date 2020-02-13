@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { INNER_STAUS } from '../job.service';
 import { ConfigService } from '../config.service';
-import { simplifyDatetime,formatDatetimeLocal } from '../utility';
+import { simplifyDatetime,formatDatetimeLocal, formatDate } from '../utility';
 import { FileUploadComponent,  } from '../file-upload/file-upload.component';
 
 @Component({
@@ -16,6 +16,7 @@ export class InternalWorkComponent implements OnInit {
   internal: Object;
   innerStatus = INNER_STAUS;
   formatDate = formatDatetimeLocal;
+  _formatDate = formatDate;
   @Input('isEdit') isEdit: boolean;
 
   constructor(
@@ -46,11 +47,14 @@ export class InternalWorkComponent implements OnInit {
 
       this.internal['net_register_status'].value = this.selectedItem['net_register_status'];
       this.internal['net_register_date'].value = this.formatDate(this.selectedItem['net_register_date']);
-      this.internal['appointment_date'].value = this.selectedItem['appointment_date'];
+      this.internal['appointment_date'].value = this.formatDate(this.selectedItem['appointment_date']);
       this.internal['assignee'].value = this.selectedItem['assignee'];
       this.internal['remarks'].value = this.selectedItem['remarks'];
       this.internal['external_assignee'].value = this.selectedItem['external_assignee'];
       this.internal['files'] = this.selectedItem['files']?this.selectedItem['files'].map(item=>item.file_path):[];
+    }
+    else{//new item
+      this.selectedItem = {files:[]};
     }
   }
 

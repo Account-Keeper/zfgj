@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { EXNER_STAUS } from '../job.service';
 import { FormControl } from '@angular/forms';
 import { ConfigService } from '../config.service';
-import { simplifyDatetime,formatDatetimeLocal } from '../utility';
+import { simplifyDatetime,formatDate } from '../utility';
 import { FileUploadComponent,  } from '../file-upload/file-upload.component';
 
 @Component({
@@ -16,6 +16,7 @@ export class ExternalWorkComponent implements OnInit {
   external = {};
   selectedItem: {};
   _users = [];
+  _formatDate = formatDate;
   @Input('isEdit') isEdit: boolean;
 
   constructor() { 
@@ -43,6 +44,9 @@ export class ExternalWorkComponent implements OnInit {
       this.external['status'].value = this.selectedItem['status'];
       this.external['remarks'].value = this.selectedItem['remarks'];
       this.external['files'] = this.selectedItem['files']?this.selectedItem['files'].map(item=>item.file_path):[];
+    }
+    else{//new item
+      this.selectedItem = {files:[]};
     }
   }
 

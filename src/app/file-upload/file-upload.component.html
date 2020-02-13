@@ -1,11 +1,13 @@
 <form>
     <div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)" align="center">
         <input hidden type="file" #fileInput (change)="uploadDocument($event)">
-        <label class="mt-2">上传文件</label>
+    </div>
+    <div *ngIf="is_loading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="files-list" *ngFor="let file of files;let i= index">
-        <p> {{ file }} </p>
-        <button class="delete-file" (click)="deleteAttachment(i)">
+        <p> {{ file.file_path }} </p>
+        <button class="delete-file" (click)="deleteAttachment(file)">
             <mat-icon class="material-icons">delete</mat-icon>
         </button>
     </div>

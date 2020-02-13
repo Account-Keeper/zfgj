@@ -173,7 +173,7 @@
             </div>
         </div>
           <!--File uploads-->
-        <app-file-upload (onFileDropped)="onFileDropped($event)" [uploads]="selectedCustomer['files']"></app-file-upload>
+        <app-file-upload (onFileDropped)="onFileDropped($event)" [uploads]="selectedCustomer['files']" [type]="'customer_id'"></app-file-upload>
         <!--//-->
 
 </div>

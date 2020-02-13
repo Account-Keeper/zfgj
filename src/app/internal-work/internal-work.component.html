@@ -50,7 +50,7 @@
             </div>
         </div>
           <!--File uploads-->
-        <app-file-upload (onFileDropped)="onFileDropped($event)" [uploads]="selectedItem['files']"></app-file-upload>
+        <app-file-upload (onFileDropped)="onFileDropped($event)" [uploads]="selectedItem['files']"  [type]="'internal_task_id'"></app-file-upload>
         <!--//-->
 
 </div>
@@ -73,6 +73,18 @@
         <tr>
             <td>备注</td>
             <td><b>{{selectedItem['remarks']}}</b></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <mat-list>
+                    <mat-list-item *ngFor="let file of selectedItem['files']">
+                      <p matLine>
+                        <span> <a href="{{file_url+file.file_path}}">{{file.file_path}}</a> </span>
+                        <span class="demo-2"> -- {{_formatDate(file.created_date)}} </span>
+                      </p>
+                    </mat-list-item>
+                  </mat-list>
+            </td>
         </tr>
     </table>
 </div>

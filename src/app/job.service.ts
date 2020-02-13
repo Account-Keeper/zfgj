@@ -130,6 +130,36 @@ export class JobService extends BaseService {
       }));
   }
 
+  getFiles(filter) {
+    let params = new HttpParams();
+    for (let f in filter) {
+      if (filter[f]) {
+        params = params.set(f, filter[f]);
+      }
+    }
+
+    return this.http.get<any>(url_api + 'jobs/attachments', { headers: this.getHeaders(), params: params })
+      .pipe(map(data => {
+        if (data) {
+          this.jobTypes = [...data['results']];
+          return data;
+        }
+        return data;
+      }));
+  }
+
+  removeFile(id) {
+    const params = new HttpParams()
+
+    return this.http.delete<any>(url_api + 'jobs/file/'+id, { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
+        return data;
+      }));
+  }
+
   saveJob(data: object) {
     const params: URLSearchParams = new URLSearchParams();
     params.append("api_token", API_TOKEN);
