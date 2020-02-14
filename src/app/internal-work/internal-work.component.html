@@ -13,7 +13,7 @@
         </div>
         <div fxFlex="25%">
             <mat-form-field class="full">
-                <input type="datetime-local"  matInput [formControl]="internal['net_register_date']" placeholder="网登开始时间">
+                <input type="datetime-local"  matInput [formControl]="internal['net_register_date']" placeholder="网登开始时间 {{_formatDateTime(selectedItem['net_register_date'])}}">
             </mat-form-field>
         </div>
         <div fxFlex="25%">
@@ -29,7 +29,7 @@
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="50%">
               <mat-form-field class="full">
-                <input type="datetime-local"  matInput [formControl]="internal['appointment_date']" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" placeholder="约号日期及时间" required>
+                <input type="datetime-local"  matInput [formControl]="internal['appointment_date']"  placeholder="约号日期及时间 {{_formatDateTime(selectedItem['appointment_date'])}}" required>
             </mat-form-field>
         </div>
         <div fxFlex="50%">
@@ -62,7 +62,7 @@
             <td>内勤姓名</td>
             <td><b>{{findUserName(selectedItem['assignee'])}}</b></td>
             <td>网登时间</td>
-            <td><b>{{formatDate(selectedItem['net_register_date'])}}</b></td>
+            <td><b>{{_formatDateTime(selectedItem['net_register_date'])}}</b></td>
         </tr>
         <tr>
             <td>外勤姓名</td>
@@ -71,6 +71,8 @@
             <td><b>{{getNetStatus(selectedItem['net_register_status'])}}</b></td>
         </tr>
         <tr>
+            <td>约号日期及时间</td>
+            <td>{{_formatDateTime(selectedItem['appointment_date'])}}</td>
             <td>备注</td>
             <td><b>{{selectedItem['remarks']}}</b></td>
         </tr>

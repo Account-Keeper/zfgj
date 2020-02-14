@@ -18,6 +18,7 @@ export class ExternalWorkComponent implements OnInit {
   _users = [];
   _formatDate = formatDate;
   @Input('isEdit') isEdit: boolean;
+  file_url='';
 
   constructor() { 
     this.external = {};

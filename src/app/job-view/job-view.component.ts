@@ -15,6 +15,7 @@ export class JobViewComponent implements OnInit {
   pagedJobs = [];
   users = [];
   filter = {};
+  sortingControl = new FormControl();
   jobTypes = JOB_TYPE;
   is_loading = false;
   displayedColumns: string[] = ['selected','created_date','company_name','job_type',
@@ -25,6 +26,7 @@ export class JobViewComponent implements OnInit {
   pageSize = 25;
   page = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  sortingOptions: any;
 
   constructor(
     private job_service: JobService,
@@ -38,6 +40,11 @@ export class JobViewComponent implements OnInit {
         this.pageSize = params['page_size']?parseInt(params['page_size']) : 25;
       }
     );
+    this.sortingOptions = [
+      {id:0,field:'created_date',label:'创建时间 ↓',order:'desc'},
+      {id:1,field:'created_date',label:'创建时间 ↑',order:'asc'},
+    ];
+    this.sortingControl.setValue(0);
     this.initFilter();
     this.getUsers();
    }
@@ -74,7 +81,13 @@ export class JobViewComponent implements OnInit {
   }
 
   getJobs() {
-    this.job_service.getJobs({}).subscribe(data=>{
+    let sort_by = {};
+    let res = this.sortingOptions.find(item=>item.id === this.sortingControl.value);
+    if(res) {
+      sort_by = {sort_by: res.field, order: res.order};
+    }
+    
+    this.job_service.getJobs({...sort_by}).subscribe(data=>{
       if(data){
         this.jobs = [...data];
         this.pagedJobs = this.jobs.slice(this.page, this.page+this.pageSize);
@@ -82,6 +95,10 @@ export class JobViewComponent implements OnInit {
         this.is_loading = false;
       }
     });
+  }
+
+  onSorting() {
+    this.getJobs();
   }
 
   getJobType(type) {

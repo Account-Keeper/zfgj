@@ -13,9 +13,10 @@ import { FileUploadComponent,  } from '../file-upload/file-upload.component';
 export class InternalWorkComponent implements OnInit {
   selectedItem: {};
   _users = [];
+  file_url='';
   internal: Object;
   innerStatus = INNER_STAUS;
-  formatDate = formatDatetimeLocal;
+  _formatDateTime = formatDatetimeLocal;
   _formatDate = formatDate;
   @Input('isEdit') isEdit: boolean;
 
@@ -46,8 +47,8 @@ export class InternalWorkComponent implements OnInit {
         this.internal['id'] = this.selectedItem['id'];
 
       this.internal['net_register_status'].value = this.selectedItem['net_register_status'];
-      this.internal['net_register_date'].value = this.formatDate(this.selectedItem['net_register_date']);
-      this.internal['appointment_date'].value = this.formatDate(this.selectedItem['appointment_date']);
+      this.internal['net_register_date'].value = this._formatDateTime(this.selectedItem['net_register_date']);
+      this.internal['appointment_date'].value = this._formatDateTime(this.selectedItem['appointment_date']);
       this.internal['assignee'].value = this.selectedItem['assignee'];
       this.internal['remarks'].value = this.selectedItem['remarks'];
       this.internal['external_assignee'].value = this.selectedItem['external_assignee'];

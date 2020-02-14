@@ -2,3 +2,7 @@
     background-color: #275B89;
     color: white;
 }
+
+mat-paginator {
+    background-color: #FAFAFA;
+}

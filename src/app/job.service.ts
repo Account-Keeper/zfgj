@@ -77,9 +77,13 @@ export class JobService extends BaseService {
    }
 
    getJobs(filter) {
-    const params = new HttpParams()
-
-    return this.http.get<any>(url_api + 'jobs', { headers: this.getHeaders() })
+    let params = new HttpParams()
+    for (let f in filter) {
+      if (filter[f]) {
+        params = params.set(f, filter[f]);
+      }
+    }
+    return this.http.get<any>(url_api + 'jobs', { headers: this.getHeaders(), params: params })
       .pipe(map(data => {
         if (data) {
           return [...data['results']];
@@ -91,7 +95,7 @@ export class JobService extends BaseService {
   getJob(id) {
     const params = new HttpParams()
 
-    return this.http.get<any>(url_api + 'jobs/'+id, { headers: this.getHeaders() })
+    return this.http.get<any>(url_api + 'jobs/'+id, { headers: this.getHeaders(), params })
       .pipe(map(data => {
         if (data) {
           return [...data['results']];

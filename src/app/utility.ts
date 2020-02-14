@@ -48,11 +48,16 @@ export function formatDatetimeLocal(date) {
     return [year, month, day].join('-') + ' ' +hour + ':' + min;
 }
 
+function createDateAsUTC(date) {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+}
+
 export function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
+        
 
     if (month.length < 2)
         month = '0' + month;
@@ -60,6 +65,22 @@ export function formatDate(date) {
         day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+export function formatDateTime(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear(),
+        hour = '' + d.getHours(),
+        min = '' + d.getMinutes();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-')+ ' ' +hour + ':' + min;
 }
 
 export function formatDate_Date(date) {
