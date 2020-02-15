@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { JobService, JOB_TYPE, PAYMENT_METHODS, 
   TAXPAYER_TYPE, TAX_TYPE, BUSINESS_TYPE } from '../job.service';
 import { LeadService } from '../lead.service';
+import { FileService } from '../file.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { formatDate,formatDate_Date } from '../utility'
 
@@ -12,6 +13,7 @@ import { formatDate,formatDate_Date } from '../utility'
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
+
 
 export class CustomerComponent implements OnInit {
   _users=[];
@@ -37,6 +39,7 @@ export class CustomerComponent implements OnInit {
     private config_service: ConfigService,
     private lead_service: LeadService,
     private job_service: JobService,
+    private file_service: FileService,
   ) {
     this.customer = {};
     this.customer['company_name'] = new FormControl();
@@ -182,7 +185,6 @@ export class CustomerComponent implements OnInit {
   }
 
   onFileDropped(files) {
-    //this.files = [...files];
     this.customer['files'] = [...files];
   }
 
@@ -190,6 +192,21 @@ export class CustomerComponent implements OnInit {
     const customer = {};
     if(this.customer['company_name'].errors || this.customer['contact_fullname'].errors || this.customer['contact_cell_phone'].errors || this.customer['city'].errors)
     return;
+  }
+
+  onDownloadFile(file_id) {
+    if(!file_id)
+      return;
+      
+      this.file_service.downloadFile(file_id).subscribe(response => {
+        //let blob:any = new Blob([response.blob()], { type: 'text/json; charset=utf-8' });
+        //const url= window.URL.createObjectURL(blob);
+        //window.open(url);
+        window.location.href = response.url;
+        //fileSaver.saveAs(blob, 'employees.json');
+      }), error => console.log('Error downloading the file'),
+                   () => console.info('File downloaded successfully');
+    
   }
 
 }

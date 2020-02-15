@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { INNER_STAUS } from '../job.service';
 import { ConfigService } from '../config.service';
+import { FileService } from '../file.service';
 import { simplifyDatetime,formatDatetimeLocal, formatDate } from '../utility';
 import { FileUploadComponent,  } from '../file-upload/file-upload.component';
 
@@ -22,6 +23,7 @@ export class InternalWorkComponent implements OnInit {
 
   constructor(
     private config_service: ConfigService,
+    private file_service: FileService
   ) { 
     this.internal = {};
     this.internal['net_register_status'] = new FormControl();
@@ -85,6 +87,21 @@ export class InternalWorkComponent implements OnInit {
 
   onFileDropped(files) {
     this.internal['files'] = [...files];
+  }
+
+  onDownloadFile(file_id) {
+    if(!file_id)
+      return;
+      
+      this.file_service.downloadFile(file_id).subscribe(response => {
+        //let blob:any = new Blob([response.blob()], { type: 'text/json; charset=utf-8' });
+        //const url= window.URL.createObjectURL(blob);
+        //window.open(url);
+        window.location.href = response.url;
+        //fileSaver.saveAs(blob, 'employees.json');
+      }), error => console.log('Error downloading the file'),
+                   () => console.info('File downloaded successfully');
+    
   }
 
 }

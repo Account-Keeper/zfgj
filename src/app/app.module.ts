@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http'
+import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ConfigService } from './config.service';
 import { LeadService } from './lead.service';
+import { FileService } from './file.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 //Material modules
@@ -119,6 +121,7 @@ export class AppDateAdapter extends NativeDateAdapter {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HttpModule, 
     AppRoutingModule,
     BrowserAnimationsModule,
     MatInputModule,
@@ -158,6 +161,7 @@ export class AppDateAdapter extends NativeDateAdapter {
   providers: [
     ConfigService,
     LeadService,
+    FileService,
     { provide: LocationStrategy, useClass: PathLocationStrategy  },
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
     {provide: DateAdapter, useClass: AppDateAdapter},

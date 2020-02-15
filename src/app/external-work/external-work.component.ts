@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { EXNER_STAUS } from '../job.service';
 import { FormControl } from '@angular/forms';
 import { ConfigService } from '../config.service';
+import { FileService } from '../file.service';
 import { simplifyDatetime,formatDate } from '../utility';
 import { FileUploadComponent,  } from '../file-upload/file-upload.component';
 
@@ -20,7 +21,9 @@ export class ExternalWorkComponent implements OnInit {
   @Input('isEdit') isEdit: boolean;
   file_url='';
 
-  constructor() { 
+  constructor(
+    private file_service: FileService
+  ) { 
     this.external = {};
     this.external['status'] = new FormControl();
     this.external['remarks'] = new FormControl();
@@ -67,6 +70,21 @@ export class ExternalWorkComponent implements OnInit {
       return '';
 
     return res['label'];
+  }
+
+  onDownloadFile(file_id) {
+    if(!file_id)
+      return;
+      
+      this.file_service.downloadFile(file_id).subscribe(response => {
+        //let blob:any = new Blob([response.blob()], { type: 'text/json; charset=utf-8' });
+        //const url= window.URL.createObjectURL(blob);
+        //window.open(url);
+        window.location.href = response.url;
+        //fileSaver.saveAs(blob, 'employees.json');
+      }), error => console.log('Error downloading the file'),
+                   () => console.info('File downloaded successfully');
+    
   }
 
 }

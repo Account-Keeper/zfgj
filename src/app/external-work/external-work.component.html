@@ -42,7 +42,7 @@
                 <mat-list>
                     <mat-list-item *ngFor="let file of selectedItem['files']">
                       <p matLine>
-                        <span> <a href="{{file_url+file.file_path}}">{{file.file_path}}</a> </span>
+                        <span class="link-1" (click)="onDownloadFile(file.id)"> {{file.file_path}} </span>
                         <span class="demo-2"> -- {{_formatDate(file.created_date)}} </span>
                       </p>
                     </mat-list-item>
