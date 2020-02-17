@@ -245,6 +245,7 @@ export class LeadsComponent implements OnInit {
     data['assignee'] = this.lead['assignee'].value;
     data['contact_name'] = this.lead['contact_name'].value;
     data['contact_phone'] = this.lead['contact_phone'].value;
+    data['contact_email'] = this.lead['contact_email'].value;
     data['city'] = this.lead['city'].value;
     data['source_id'] = this.lead['source_id'].value;
     data['status'] = this.lead['status'].value;
@@ -292,13 +293,27 @@ export class LeadsComponent implements OnInit {
     if(lead) {
       this.lead_service.getLead(lead.id).subscribe(data=>{
         if(data){
-          this.selectedLead = data['results'][0];
+          let lead = data['results'][0];
+            lead['source_name'] = this.getSourceName(lead.source_id);
+            lead['status_name'] = this.getStatusName(lead.status);
+            this.selectedLead = {...lead};
+
           this.isDetail = true;
           this.getNotes(id);
         }
       });
     }
 
+  }
+
+  getSourceName(id) {
+    let res = this.lead_source.find(item=>item.id === id);
+    return res.label;
+  }
+
+  getStatusName(id) {
+    let res = this.lead_status.find(item=>item.id === id);
+    return res.label;
   }
 
   onCancel(load) {
@@ -322,6 +337,14 @@ export class LeadsComponent implements OnInit {
     if(n)
       return n.label;
     return '';
+  }
+
+  leadToJob(id) {
+    this.lead_service.leadToJob(id).subscribe(data => {
+      if(data) {
+        this.OnDetail(id);
+      }
+    });
   }
 
 }

@@ -35,8 +35,10 @@
             <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
                 <button mat-raised-button (click)="onCancel(false)">退出</button>
                 <button mat-raised-button (click)="onEditLead(selectedLead)">编辑</button>
-                <button mat-raised-button (click)="onCreatJob(selectedLead['id'])" *ngIf="!selectedLead['jobs'] || selectedLead['jobs']?.length==0" >生成订单</button>
-                <span  *ngIf="selectedLead['jobs']?.length>0">已生成订单</span>
+                <button mat-raised-button *ngIf="!selectedLead['jobs'] || selectedLead['jobs']?.length==0" (click)="leadToJob(selectedLead['id'])">生成订单</button>
+                <span  *ngIf="selectedLead['jobs']?.length>0">
+                    <a href="/jobs/edit/{{job.id}}" *ngFor="let job of selectedLead['jobs']">查看订单</a>
+                </span>
             </div>
         </div>
 

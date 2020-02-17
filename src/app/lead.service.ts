@@ -175,6 +175,19 @@ export class LeadService extends BaseService {
       }));
   }
 
+  leadToJob(lead_id) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("api_token", API_TOKEN);
+
+      return this.http.get<any>(url_api + 'leads/transfer/'+lead_id, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return data;
+        }));
+  }
+
 
 
 }

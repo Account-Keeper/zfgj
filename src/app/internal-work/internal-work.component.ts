@@ -40,7 +40,7 @@ export class InternalWorkComponent implements OnInit {
 
   @Input()
   set job(val: any) {
-    if(val && val['internal_task']) {
+    if(val['internal_task'] && val['internal_task'].length>0) {
       this.selectedItem = val['internal_task'][0];
       if(!this.selectedItem)
         return;

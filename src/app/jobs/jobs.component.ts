@@ -118,7 +118,8 @@ export class JobsComponent implements OnInit {
       job['id'] = this.selected_job_id;
 
     job['type'] = this.job_control['type'].value;
-    if(this.internal_control['assignee'].errors)
+    if(this.internal_control['assignee'].errors
+    || this.internal_control['net_register_date'].errors)
       return;
 
     if(this.customer_control['company_name'].errors 
@@ -159,8 +160,8 @@ export class JobsComponent implements OnInit {
       internal_task['id'] = this.internal_control['id'];
 
     internal_task['net_register_status'] = this.internal_control['net_register_status'].value;
-    internal_task['net_register_date'] = this.internal_control['net_register_date'].value;
-    internal_task['appointment_date'] = this.internal_control['appointment_date'].value;
+    internal_task['net_register_date'] = this.internal_control['net_register_date'].value==''?null:this.internal_control['net_register_date'].value;
+    internal_task['appointment_date'] = this.internal_control['appointment_date'].value==''?null:this.internal_control['appointment_date'].value;
     internal_task['assignee'] = this.internal_control['assignee'].value;
     internal_task['remarks'] = this.internal_control['remarks'].value;
     internal_task['external_assignee'] = this.internal_control['external_assignee'].value;

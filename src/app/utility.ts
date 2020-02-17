@@ -1,6 +1,9 @@
 
 
 export function simplifyDatetime(date) {
+    if(!date)
+        return date;
+
     let t = date.split(/[- :]/);
     // Apply each element to the Date function
     let d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]),
@@ -25,6 +28,9 @@ export function simplifyDatetime(date) {
 }
 
 export function formatDatetimeLocal(date) {
+    if(!date)
+        return '';
+
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -53,6 +59,9 @@ function createDateAsUTC(date) {
 }
 
 export function formatDate(date) {
+    if(!date)
+        return '';
+
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -68,6 +77,9 @@ export function formatDate(date) {
 }
 
 export function formatDateTime(date) {
+    if(!date)
+        return date;
+        
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),

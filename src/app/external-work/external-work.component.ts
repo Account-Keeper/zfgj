@@ -36,7 +36,7 @@ export class ExternalWorkComponent implements OnInit {
 
   @Input()
   set job(val: any) {
-    if(val && val['external_task']) {
+    if(val['external_task'] && val['external_task'].length>0) {
       this.selectedItem = val['external_task'][0];
       if(!this.selectedItem)
       return;
