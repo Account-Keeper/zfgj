@@ -18,7 +18,7 @@ export class JobViewComponent implements OnInit {
   sortingControl = new FormControl();
   jobTypes = JOB_TYPE;
   is_loading = false;
-  displayedColumns: string[] = ['selected','created_date','company_name','job_type',
+  displayedColumns: string[] = ['selected','id','created_date','company_name','job_type',
   'assignee','contact_fullname','is_paid'];
   formatDate = formatDate;
   _formatDate_Date = formatDate_Date;
