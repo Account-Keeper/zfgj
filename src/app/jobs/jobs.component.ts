@@ -151,6 +151,11 @@ export class JobsComponent implements OnInit {
     customer['tax_type'] = this.customer_control['tax_type'].value;
     customer['business_type'] = this.customer_control['business_type'].value;
     customer['remarks'] = this.customer_control['remarks'].value;
+    customer['tax_code'] = this.customer_control['tax_code'].value;
+    customer['yzt_pwd'] = this.customer_control['yzt_pwd'].value;
+    customer['personal_tax_pwd'] = this.customer_control['personal_tax_pwd'].value;
+    customer['sales_fullname'] = this.customer_control['sales_fullname'].value;
+    customer['accounting_fullname'] = this.customer_control['accounting_fullname'].value;
     customer['is_paid'] = this.customer_control['is_paid'];
     customer['files'] = this.customer_control['files'];
     job['customer'] = customer;

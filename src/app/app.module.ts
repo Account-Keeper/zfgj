@@ -54,6 +54,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { InternalWorkComponent } from './internal-work/internal-work.component';
 import { ExternalWorkComponent } from './external-work/external-work.component';
 import { JobViewComponent } from './job-view/job-view.component';
+import { CustomerViewComponent } from './customer-view/customer-view.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -63,6 +64,8 @@ const appRoutes: Routes = [
   { path: 'jobs/add', component: JobsComponent },
   { path: 'jobs/list', component: JobViewComponent },
   { path: 'customers', component: CustomerComponent },
+  { path: 'customers/list', component: CustomerViewComponent },
+  { path: 'customers/view/:id', component: CustomerViewComponent },
   { path: 'user-config', component: UserConfigComponent },
   { path: '', component: AppComponent },
   { path: '**', redirectTo: '' }
@@ -115,6 +118,7 @@ export class AppDateAdapter extends NativeDateAdapter {
     InternalWorkComponent,
     ExternalWorkComponent,
     JobViewComponent,
+    CustomerViewComponent,
   ],
   imports: [
     BrowserModule,

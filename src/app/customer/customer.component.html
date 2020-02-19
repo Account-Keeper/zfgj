@@ -164,6 +164,37 @@
                 </mat-form-field>
             </div>
         </div>
+
+        <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+            <div fxFlex="33%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['tax_code']" placeholder="纳税号">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['yzt_pwd']" placeholder="一证通密码">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['personal_tax_pwd']" placeholder="个税密码">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
+            <div fxFlex="50%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['sales_fullname']" placeholder="销售姓名">
+                </mat-form-field>
+            </div>
+            <div fxFlex="50%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['accounting_fullname']" placeholder="会计姓名">
+                </mat-form-field>
+            </div>
+        </div>
       
         <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
             <div fxFlex="100%">
@@ -183,7 +214,7 @@
     <table class="table">
         <tr>
             <td>公司名称</td>
-            <td colspan="2"><b>{{selectedCustomer['company_name']}}</b></td>
+            <td colspan="3"><b>{{selectedCustomer['company_name']}}</b></td>
         </tr>
         <tr>
             <td>业务类型</td>
@@ -238,6 +269,26 @@
             <td><b>{{getTaxPayerType(selectedCustomer['taxpayer_type'])}}</b></td>
             <td>税控类型</td>
             <td><b>{{getTaxType(selectedCustomer['tax_type'])}}</b></td>
+        </tr>
+        <tr>
+            <td>纳税号</td>
+            <td><b>{{selectedCustomer['tax_code']}}</b></td>
+            <td colspan="2">
+                <div class="row">
+                    <div class="col-6">
+                        一证通密码:<b>{{selectedCustomer['yzt_pwd'] || "  空  "}}</b>
+                    </div>
+                    <div class="col-6">
+                        个税密码:<b>{{selectedCustomer['personal_tax_pwd'] || "  空  "}}</b>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>销售姓名</td>
+            <td><b>{{selectedCustomer['sales_fullname']}}</b></td>
+            <td>会计姓名</td>
+            <td><b>{{selectedCustomer['accounting_fullname']}}</b></td>
         </tr>
         <tr>
             <td>所述行业</td>

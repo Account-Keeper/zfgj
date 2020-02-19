@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./accounting.component.css']
 })
 export class AccountingComponent implements OnInit {
+  is_loading = false;
+  displayedColumns: string[] = [];
 
   constructor() { }
 

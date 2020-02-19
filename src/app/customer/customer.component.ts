@@ -8,6 +8,7 @@ import { FileService } from '../file.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { formatDate,formatDate_Date } from '../utility'
 
+
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -61,6 +62,11 @@ export class CustomerComponent implements OnInit {
     this.customer['tax_type'] = new FormControl();
     this.customer['business_type'] = new FormControl();
     this.customer['remarks'] = new FormControl();
+    this.customer['tax_code'] = new FormControl();
+    this.customer['yzt_pwd'] = new FormControl();
+    this.customer['personal_tax_pwd'] = new FormControl();
+    this.customer['sales_fullname'] = new FormControl();
+    this.customer['accounting_fullname'] = new FormControl();
     this.customer['is_paid'] = 0;
     this.customer['files'] = this.files;
 
@@ -104,6 +110,11 @@ export class CustomerComponent implements OnInit {
       this.customer['tax_type'].value = this.selectedCustomer['tax_type'];
       this.customer['business_type'].value = this.selectedCustomer['business_type'];
       this.customer['remarks'].value = this.selectedCustomer['remarks'];
+      this.customer['tax_code'].value = this.selectedCustomer['tax_code'];
+      this.customer['yzt_pwd'].value = this.selectedCustomer['yzt_pwd'];
+      this.customer['personal_tax_pwd'].value = this.selectedCustomer['personal_tax_pwd'];
+      this.customer['sales_fullname'].value = this.selectedCustomer['sales_fullname'];
+      this.customer['accounting_fullname'].value = this.selectedCustomer['accounting_fullname'];
       this.customer['is_paid'] = this.selectedCustomer['is_paid'];
       this.customer['files'] = this.selectedCustomer['files']?this.selectedCustomer['files'].map(item=>item.file_path):[];
     }
