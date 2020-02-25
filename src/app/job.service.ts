@@ -188,4 +188,48 @@ export class JobService extends BaseService {
         }));
     }
   }
+
+
+  saveCustomer(data: object) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("api_token", API_TOKEN);
+
+    if (data['id'])//update
+    {
+      return this.http.put<any>(url_api + 'customers/' + data['id'], data, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return null;
+        }));
+    }
+    else {//add new
+      return this.http.post<any>(url_api + 'customers', data, { headers: this.getHeaders() })
+        .pipe(map(data => {
+          if (data) {
+            return data;
+          }
+          return data;
+        }));
+    }
+  }
+
+  getKeeping(filter) {
+    let params = new HttpParams();
+    for (let f in filter) {
+      if (filter[f]) {
+        params = params.set(f, filter[f]);
+      }
+    }
+
+    return this.http.get<any>(url_api + 'account/keeping_renew', { headers: this.getHeaders(), params: params } )
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
+        return data;
+      }));
+  }
+
 }

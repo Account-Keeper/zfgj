@@ -1,5 +1,4 @@
 <div class="container">
-    <h4>订单详情</h4>
     <ul class="breadcrumb">
         <li><a href="/">主页</a></li>
         <li><a href="jobs/list">订单</a></li>
@@ -9,8 +8,17 @@
         <tr>
             <td *ngIf="selectedJob['created_date']">创建时间 : {{ formatDate(selectedJob['created_date']) || '' }}</td>
             <td>
-                <mat-icon aria-label="Edit" class="material-icons" (click)="onEdit()">edit</mat-icon>
+                <div *ngIf="!isEdit">付款金额 : {{selectedJob['payment_amount']}}</div>
+                <div *ngIf="isEdit">
+                    <mat-form-field class="full">
+                    <input type="number" matInput [formControl]="job_control['payment_amount']" placeholder="付款金额">
+                </mat-form-field>
+            </div>
             </td>
+            <td >
+                
+            </td>
+            <td><mat-icon aria-label="Edit" class="material-icons" (click)="onEdit()">edit</mat-icon></td>
         </tr>
     </table>
 

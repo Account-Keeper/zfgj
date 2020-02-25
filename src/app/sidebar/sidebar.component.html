@@ -12,12 +12,12 @@
                     [routerLink]="['/jobs/list']" [queryParams]="{page:0,page_size:25}">订单管理</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
                     routerLink="/customers/list">客户管理</a></div>
-            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
-                    routerLink="/performance">绩效管理</a></div>
+            <!--<div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+                    routerLink="/performance">绩效管理</a></div>-->
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
                     routerLink="/address">地址续费</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
-                    routerLink="/accounting">记账续费</a></div>
+                    routerLink="/keeping-renew/list">记账续费</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
                     routerLink="/user-config">登陆管理</a></div>
             <div class="list-group-item" *ngIf="!isAuth"><a (click)="login()">登录</a></div>

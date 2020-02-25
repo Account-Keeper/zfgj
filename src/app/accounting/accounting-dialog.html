@@ -1,0 +1,77 @@
+<div class="dialog-big">
+<h2 mat-dialog-title>记账续费</h2>
+<mat-dialog-content class="mat-typography ">
+  <div class="row mb-2">
+    <div class="col-sm-3 col-md-6">
+      <h5>客户详情</h5>
+    <table class="table">
+        <tr>
+          <td>公司名称</td>
+          <td><b>{{data.customer?data.customer['company_name'] || '' : ''}}</b></td>
+          <td>客户姓名</td>
+          <td><b>{{data.customer?data.customer['contact_fullname'] || '' : ''}}</b></td>
+        </tr>
+
+        <tr>
+          <td>客户电话</td>
+          <td><b>{{data.customer?data.customer['cell_phone'] || '' : ''}}</b></td>
+          <td>微信号</td>
+          <td><b>{{data.customer?data.customer['wechat_id'] : ''}}</b></td>
+        </tr>
+
+        <tr>
+          <td>客户邮箱</td>
+          <td><b>{{data.customer?data.customer['customer_email'] || '' : ''}}</b></td>
+          <td>法人姓名</td>
+          <td><b>{{data.customer?data.customer['legal_fullname'] || '' : ''}}</b></td>
+        </tr>
+
+        <tr>
+          <td>会计</td>
+          <td><b>{{data.customer?data.customer['accounting_fullname'] || '' : ''}}</b></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <div class="row">
+        <div>
+          <button mat-raised-button (click)="onAddAccounting()" *ngIf="!is_adding">添加账期</button>
+        </div>
+        <div class="col-6" *ngIf="is_adding">
+          <mat-form-field class="example-full-width">
+            <mat-label>起始账期</mat-label>
+            <input matInput [matDatepicker]="picker" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-6" *ngIf="is_adding">
+          <mat-form-field class="example-full-width">
+            <mat-label>赠送账期</mat-label>
+            <input type="number" matInput placeholder="">
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button (click)="onSaveNewAccounting()" *ngIf="is_adding">添加</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-6">
+      <h5>历史账期</h5>
+      <table class="table table-bg-1">
+        <tr *ngFor="let p of data['payments']">
+          <td>账期：</td>
+          <td><b>{{p.renew_from}} {{p.renew_to}}</b></td>
+          <td>收费：</td>
+          <td><b>{{p['payment_amount'] || ''}}</b></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>关闭</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>确认</button>
+</mat-dialog-actions>
+</div>

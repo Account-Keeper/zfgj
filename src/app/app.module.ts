@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
@@ -41,7 +42,7 @@ import { UserConfigComponent, UserRemoveConfirmDialog } from './user-config/user
 import { JobsComponent } from './jobs/jobs.component';
 import { LeadsComponent } from './leads/leads.component';
 import { PerformanceComponent } from './performance/performance.component';
-import { AccountingComponent } from './accounting/accounting.component';
+import { AccountingComponent, AccountingDialogComponent } from './accounting/accounting.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddressRenewComponent } from './address-renew/address-renew.component';
@@ -67,6 +68,7 @@ const appRoutes: Routes = [
   { path: 'customers/list', component: CustomerViewComponent },
   { path: 'customers/view/:id', component: CustomerViewComponent },
   { path: 'user-config', component: UserConfigComponent },
+  { path: 'keeping-renew/list', component: AccountingComponent },
   { path: '', component: AppComponent },
   { path: '**', redirectTo: '' }
 ];
@@ -111,6 +113,7 @@ export class AppDateAdapter extends NativeDateAdapter {
     LeadsComponent,
     PerformanceComponent,
     AccountingComponent,
+    AccountingDialogComponent,
     AddressRenewComponent,
     KeepingRenewComponent,
     CustomerComponent,
@@ -151,6 +154,7 @@ export class AppDateAdapter extends NativeDateAdapter {
     MatChipsModule,
     MatListModule,
     MatTooltipModule,
+    MatExpansionModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
@@ -161,7 +165,7 @@ export class AppDateAdapter extends NativeDateAdapter {
     InternalWorkComponent,
     ExternalWorkComponent
   ],
-  entryComponents: [UserConfigComponent, UserRemoveConfirmDialog],
+  entryComponents: [UserConfigComponent, UserRemoveConfirmDialog, AccountingDialogComponent],
   providers: [
     ConfigService,
     LeadService,

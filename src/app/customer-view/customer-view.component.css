@@ -6,3 +6,7 @@
 mat-paginator {
     background-color: #FAFAFA;
 }
+
+mat-panel-description {
+    text-align: left;
+}

@@ -106,15 +106,20 @@
         </div>
         </div>
         <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
-            <div fxFlex="30%">
+            <div fxFlex="10%">
                 <mat-form-field class="full">
                     <input matInput type="number" [formControl]="customer['cost']" placeholder="成本价格">
                     <span matPrefix>¥&nbsp;</span>
                 </mat-form-field>
             </div>
-            <div fxFlex="70%">
+            <div fxFlex="45%">
                 <mat-form-field class="full">
                     <input matInput [formControl]="customer['registered_address']" placeholder="注册地址">
+                </mat-form-field>
+            </div>
+            <div fxFlex="45%">
+                <mat-form-field class="full">
+                    <input matInput [formControl]="customer['office_address']" placeholder="办公地址">
                 </mat-form-field>
             </div>
         </div>
@@ -244,13 +249,13 @@
             <td>付款金额</td>
             <td><b>{{selectedCustomer['payment_amount']}}</b> </td>
             <td>注册地址</td>
-            <td>{{selectedCustomer['office_address']}}</td>
+            <td><b>{{selectedCustomer['registered_address']}}</b></td>
         </tr>
         <tr>
             <td>是否交费</td>
             <td><b>{{getPaid(selectedCustomer['is_paid'])}}</b></td>
             <td>办公地址</td>
-            <td><b>{{selectedCustomer['registered_address']}}</b></td>
+            <td><b>{{selectedCustomer['office_address']}}</b></td>
         </tr>
         <tr>
             <td>付款方式</td>

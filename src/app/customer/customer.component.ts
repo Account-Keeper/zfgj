@@ -1,4 +1,6 @@
-import { Directive, Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener,ViewChild  } from '@angular/core';
+import { Directive, Component, OnInit, Output, 
+  Input, EventEmitter, HostBinding, HostListener,
+  ViewChild, SimpleChange,SimpleChanges  } from '@angular/core';
 import { ConfigService,FILE_URL } from '../config.service';
 import { FormControl } from '@angular/forms';
 import { JobService, JOB_TYPE, PAYMENT_METHODS, 
@@ -35,50 +37,6 @@ export class CustomerComponent implements OnInit {
   _formatDate = formatDate;
   //@Input('job') job: Object;
   @Input('isEdit') isEdit: boolean;
-
-  constructor(
-    private config_service: ConfigService,
-    private lead_service: LeadService,
-    private job_service: JobService,
-    private file_service: FileService,
-  ) {
-    this.customer = {};
-    this.customer['company_name'] = new FormControl();
-    this.customer['contact_fullname'] = new FormControl();
-    this.customer['assignee'] = new FormControl();
-    this.customer['contact_cell_phone'] = new FormControl();
-    this.customer['contact_work_phone'] = new FormControl();
-    this.customer['customer_email'] = new FormControl();
-    this.customer['wechat_id'] = new FormControl();
-    this.customer['city'] = new FormControl();
-    this.customer['payment_amount'] = new FormControl();
-    this.customer['way_of_payment'] = new FormControl();
-    this.customer['cost'] = new FormControl();
-    this.customer['registered_address'] = new FormControl();
-    this.customer['legal_fullname'] = new FormControl();
-    this.customer['lead_source'] = new FormControl();
-    this.customer['doc_location'] = new FormControl();
-    this.customer['taxpayer_type'] = new FormControl();
-    this.customer['tax_type'] = new FormControl();
-    this.customer['business_type'] = new FormControl();
-    this.customer['remarks'] = new FormControl();
-    this.customer['tax_code'] = new FormControl();
-    this.customer['yzt_pwd'] = new FormControl();
-    this.customer['personal_tax_pwd'] = new FormControl();
-    this.customer['sales_fullname'] = new FormControl();
-    this.customer['accounting_fullname'] = new FormControl();
-    this.customer['is_paid'] = 0;
-    this.customer['files'] = this.files;
-
-    this.jobControl = {};
-    this.jobControl['type'] = new FormControl();
-    
-   }
-
-  ngOnInit() {
-    this.getUsers();
-  }
-
   @Input('job')
   set job(val: any) {
     if(val && val['customer']) {
@@ -103,6 +61,7 @@ export class CustomerComponent implements OnInit {
       this.customer['way_of_payment'].value = this.selectedCustomer['way_of_payment'];
       this.customer['cost'].value = this.selectedCustomer['cost'];
       this.customer['registered_address'].value = this.selectedCustomer['registered_address'];
+      this.customer['office_address'].value = this.selectedCustomer['office_address'];
       this.customer['legal_fullname'].value = this.selectedCustomer['legal_fullname'];
       this.customer['lead_source'].value = this.selectedCustomer['lead_source'];
       this.customer['doc_location'].value = this.selectedCustomer['doc_location'];
@@ -129,6 +88,60 @@ export class CustomerComponent implements OnInit {
       this._users = val;
   }
 
+  constructor(
+    private config_service: ConfigService,
+    private lead_service: LeadService,
+    private job_service: JobService,
+    private file_service: FileService,
+  ) {
+    this.customer = {};
+    this.customer['company_name'] = new FormControl();
+    this.customer['contact_fullname'] = new FormControl();
+    this.customer['assignee'] = new FormControl();
+    this.customer['contact_cell_phone'] = new FormControl();
+    this.customer['contact_work_phone'] = new FormControl();
+    this.customer['customer_email'] = new FormControl();
+    this.customer['wechat_id'] = new FormControl();
+    this.customer['city'] = new FormControl();
+    this.customer['payment_amount'] = new FormControl();
+    this.customer['way_of_payment'] = new FormControl();
+    this.customer['cost'] = new FormControl();
+    this.customer['registered_address'] = new FormControl();
+    this.customer['office_address'] = new FormControl();
+    this.customer['legal_fullname'] = new FormControl();
+    this.customer['lead_source'] = new FormControl();
+    this.customer['doc_location'] = new FormControl();
+    this.customer['taxpayer_type'] = new FormControl();
+    this.customer['tax_type'] = new FormControl();
+    this.customer['business_type'] = new FormControl();
+    this.customer['remarks'] = new FormControl();
+    this.customer['tax_code'] = new FormControl();
+    this.customer['yzt_pwd'] = new FormControl();
+    this.customer['personal_tax_pwd'] = new FormControl();
+    this.customer['sales_fullname'] = new FormControl();
+    this.customer['accounting_fullname'] = new FormControl();
+    this.customer['is_paid'] = 0;
+    this.customer['files'] = this.files;
+
+    this.jobControl = {};
+    this.jobControl['type'] = new FormControl();
+    this.jobControl['payment_amount'] = new FormControl();
+    
+   }
+
+  ngOnInit() {
+    this.getUsers();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const currentJob: SimpleChange = changes.job;
+    if(currentJob && currentJob.currentValue){
+      let t = 0;
+      //this.scannedUPC = changes.item.currentValue.upc;
+    }
+  }
+
+  
   getUsers() {
     if(this._users.length==0)
       this.config_service.getUsers({}).subscribe(data=>{

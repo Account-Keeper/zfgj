@@ -4,8 +4,9 @@ import { InternalWorkComponent } from '../internal-work/internal-work.component'
 import { ExternalWorkComponent } from '../external-work/external-work.component';
 import { ConfigService } from '../config.service';
 import { JobService, JOB_TYPE } from '../job.service';
-import { ActivatedRoute, Router,Event,NavigationStart,NavigationEnd,NavigationError } from '@angular/router';
+import { ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { simplifyDatetime, formatDate, formatDatetimeLocal } from '../utility';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-jobs',
@@ -26,7 +27,7 @@ export class JobsComponent implements OnInit {
   isHidden = true;
   jobTypes = JOB_TYPE;
   selected_job_id: any;
-  formatDate= formatDate;
+  formatDate = formatDate;
   users = [];
 
   constructor(
@@ -34,26 +35,26 @@ export class JobsComponent implements OnInit {
     private routerRoute: ActivatedRoute,
     private job_service: JobService,
     private config_service: ConfigService
-  ) { 
-    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
-   }
+    }
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-          // Show loading indicator
+        // Show loading indicator
       }
 
       if (event instanceof NavigationEnd) {
-          // Hide loading indicator
+        // Hide loading indicator
       }
 
       if (event instanceof NavigationError) {
-          // Hide loading indicator
+        // Hide loading indicator
 
-          // Present error to user
-          console.log(event.error);
+        // Present error to user
+        console.log(event.error);
       }
-  });
+    });
 
 
     routerRoute.paramMap.subscribe(
@@ -61,52 +62,52 @@ export class JobsComponent implements OnInit {
         this.selected_job_id = params.get('id');
         this.getUsers();
 
-        if(!this.selected_job_id) {
+        if (!this.selected_job_id) {
           this.isEdit = true;
           this.selectedJob = {};
         }
       }
     );
+
   }
 
-  @ViewChild(CustomerComponent, {static: false})
+  @ViewChild(CustomerComponent, { static: false })
   set appBacon(directive: CustomerComponent) {
     this.customer_control = directive.customer;
     this.job_control = directive.jobControl;
   };
 
-  @ViewChild(InternalWorkComponent, {static: false})
+  @ViewChild(InternalWorkComponent, { static: false })
   set appBacon2(directive: InternalWorkComponent) {
     this.internal_control = directive.internal;
   };
 
-  @ViewChild(ExternalWorkComponent, {static: false})
+  @ViewChild(ExternalWorkComponent, { static: false })
   set appBacon3(directive: ExternalWorkComponent) {
     this.external_control = directive.external;
   };
 
   ngOnInit() {
-    
+
   }
 
   getJob(id) {
-    this.job_service.getJob(id).subscribe(data=>{
-      if(data){
+    this.job_service.getJob(id).subscribe(data => {
+      if (data) {
         this.selectedJob = data[0];
       }
     });
   }
 
-
   getUsers() {
-    this.config_service.getUsers({}).subscribe(data=>{
-      if(data){
+    this.config_service.getUsers({}).subscribe(data => {
+      if (data) {
         let arr = [...data['results']];
-        arr.forEach(item=>{
+        arr.forEach(item => {
           item['display_name'] = item['first_name'] + item['last_name'];
         });
         this.users = [...arr];
-        if(this.selected_job_id)
+        if (this.selected_job_id)
           this.getJob(parseInt(this.selected_job_id));
       }
     });
@@ -114,22 +115,23 @@ export class JobsComponent implements OnInit {
 
   onSave() {
     const job = {};
-    if(this.selected_job_id)
+    if (this.selected_job_id)
       job['id'] = this.selected_job_id;
 
     job['type'] = this.job_control['type'].value;
-    if(this.internal_control['assignee'].errors
-    || this.internal_control['net_register_date'].errors)
+    job['payment_amount'] = this.job_control['payment_amount'].value;
+    if (this.internal_control['assignee'].errors
+      || this.internal_control['net_register_date'].errors)
       return;
 
-    if(this.customer_control['company_name'].errors 
-    || this.customer_control['contact_fullname'].errors 
-    || this.customer_control['contact_cell_phone'].errors
-    || this.customer_control['city'].errors) 
+    if (this.customer_control['company_name'].errors
+      || this.customer_control['contact_fullname'].errors
+      || this.customer_control['contact_cell_phone'].errors
+      || this.customer_control['city'].errors)
       return;
 
     let customer = {};
-    if(this.customer_control['id'])
+    if (this.customer_control['id'])
       customer['id'] = this.customer_control['id'];
 
     customer['company_name'] = this.customer_control['company_name'].value;
@@ -140,8 +142,6 @@ export class JobsComponent implements OnInit {
     customer['wechat_id'] = this.customer_control['wechat_id'].value;
     customer['customer_email'] = this.customer_control['customer_email'].value;
     customer['city'] = this.customer_control['city'].value;
-    customer['payment_amount'] = this.customer_control['payment_amount'].value;
-    customer['way_of_payment'] = this.customer_control['way_of_payment'].value;
     customer['cost'] = this.customer_control['cost'].value;
     customer['registered_address'] = this.customer_control['registered_address'].value;
     customer['legal_fullname'] = this.customer_control['legal_fullname'].value;
@@ -161,12 +161,12 @@ export class JobsComponent implements OnInit {
     job['customer'] = customer;
 
     const internal_task = {};
-    if(this.internal_control['id'])
+    if (this.internal_control['id'])
       internal_task['id'] = this.internal_control['id'];
 
     internal_task['net_register_status'] = this.internal_control['net_register_status'].value;
-    internal_task['net_register_date'] = this.internal_control['net_register_date'].value==''?null:this.internal_control['net_register_date'].value;
-    internal_task['appointment_date'] = this.internal_control['appointment_date'].value==''?null:this.internal_control['appointment_date'].value;
+    internal_task['net_register_date'] = this.internal_control['net_register_date'].value == '' ? null : this.internal_control['net_register_date'].value;
+    internal_task['appointment_date'] = this.internal_control['appointment_date'].value == '' ? null : this.internal_control['appointment_date'].value;
     internal_task['assignee'] = this.internal_control['assignee'].value;
     internal_task['remarks'] = this.internal_control['remarks'].value;
     internal_task['external_assignee'] = this.internal_control['external_assignee'].value;
@@ -174,16 +174,16 @@ export class JobsComponent implements OnInit {
     job['internal_task'] = internal_task;
 
     const external = {};
-    if(this.external_control['id'])
+    if (this.external_control['id'])
       external['id'] = this.external_control['id'];
 
-    external['status'] =this.external_control['status'].value;
-    external['remarks'] =this.external_control['remarks'].value;
-    external['files'] =this.external_control['files'];
+    external['status'] = this.external_control['status'].value;
+    external['remarks'] = this.external_control['remarks'].value;
+    external['files'] = this.external_control['files'];
     job['external_task'] = external;
 
-    this.job_service.saveJob(job).subscribe(data=>{
-      if(data){
+    this.job_service.saveJob(job).subscribe(data => {
+      if (data) {
         this.isEdit = false;
         let id = data['results'][0]['id'];
         this.router.navigate([`/jobs/list`]);
