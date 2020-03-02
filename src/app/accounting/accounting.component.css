@@ -18,3 +18,12 @@ mat-paginator {
     color: white;
     border: 1px solid white;
 }
+
+.select-1 {
+    
+}
+
+.select-1 tr:hover{
+    cursor: pointer;
+    background-color: gray;
+}

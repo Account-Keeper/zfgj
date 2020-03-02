@@ -109,6 +109,12 @@ export function formatDate_Date(date) {
     return [year, month, day].join('-');
 }
 
+export function currencyFormat(money) {
+    return new Intl.NumberFormat('zh-CN', {
+        style: 'currency', currency: 'CNY'
+      }).format(money);
+}
+
 
 export function format_seconds(seconds) {
     /*

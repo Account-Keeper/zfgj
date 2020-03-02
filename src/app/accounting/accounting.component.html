@@ -1,6 +1,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-3">
+            <button class="btn-add" mat-mini-fab aria-label="添加" (click)="onAdd()">
+                <mat-icon aria-label="Add new" class="material-icons">add</mat-icon>
+            </button>
             </div>
             <div class="col-9">
                 <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
@@ -13,13 +16,13 @@
                 <ng-container matColumnDef="id">
                <th mat-header-cell *matHeaderCellDef> 序号 </th>
                <td mat-cell *matCellDef="let element">
-                   <a routerLink="/customers/view/{{element.id}}">{{element.id}}</a>
+                   {{element.id}}
                </td>
                 </ng-container>
                 <ng-container matColumnDef="company_name">
                     <th mat-header-cell *matHeaderCellDef> 公司名称 </th>
                     <td mat-cell *matCellDef="let element">
-                        <a (click)="openDialog(element)">{{element.customer.company_name}}</a>
+                        <button class="btn btn-link btn-sm" (click)="openDialog(element.id)">{{element.customer.company_name}}</button>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="type">
@@ -34,7 +37,7 @@
                 </ng-container>
                 <ng-container matColumnDef="renew_to">
                     <th mat-header-cell *matHeaderCellDef> 结束账期 </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.created_date }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ _formatDate(element.created_date) }} </td>
                 </ng-container>
     
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,46 +1,76 @@
 <div class="dialog-big">
 <h2 mat-dialog-title>记账续费</h2>
 <mat-dialog-content class="mat-typography ">
-  <div class="row mb-2">
+  <div class="row mb-2" *ngIf="!customer">
+    <div class="col-sm-12 col-md-12">
+      <div class="row">
+        <div class="col-6">
+      <mat-form-field class="full">
+        <input matInput [formControl]="searchTxt" placeholder="用户搜索...">
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button (click)="onSearch()">搜索</button>
+    </div>
+      </div>
+      <table class="table select-1">
+        <thead>
+          <tr>
+            <th>公司名称</th>
+            <th>联系人</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of searchResults">
+            <td>{{c.company_name}}</td>
+            <td>{{c.contact_fullname}}</td>
+            <td>{{c.cell_phone}}</td>
+          </tr>
+        </tbody>
+        </table>
+    </div>
+  </div>
+  <!-- Step 2-->
+  <div class="row mb-2" *ngIf="customer">
     <div class="col-sm-3 col-md-6">
       <h5>客户详情</h5>
     <table class="table">
         <tr>
           <td>公司名称</td>
-          <td><b>{{data.customer?data.customer['company_name'] || '' : ''}}</b></td>
+          <td><b>{{customer?.company_name}}</b></td>
           <td>客户姓名</td>
-          <td><b>{{data.customer?data.customer['contact_fullname'] || '' : ''}}</b></td>
+          <td><b>{{customer?.contact_fullname}}</b></td>
         </tr>
 
         <tr>
           <td>客户电话</td>
-          <td><b>{{data.customer?data.customer['cell_phone'] || '' : ''}}</b></td>
+          <td><b>{{customer?.cell_phone}}</b></td>
           <td>微信号</td>
-          <td><b>{{data.customer?data.customer['wechat_id'] : ''}}</b></td>
+          <td><b>{{customer?.wechat_id}}</b></td>
         </tr>
 
         <tr>
           <td>客户邮箱</td>
-          <td><b>{{data.customer?data.customer['customer_email'] || '' : ''}}</b></td>
+          <td><b>{{customer?.customer_email}}</b></td>
           <td>法人姓名</td>
-          <td><b>{{data.customer?data.customer['legal_fullname'] || '' : ''}}</b></td>
+          <td><b>{{customer?.legal_fullname}}</b></td>
         </tr>
 
         <tr>
           <td>会计</td>
-          <td><b>{{data.customer?data.customer['accounting_fullname'] || '' : ''}}</b></td>
+          <td><b>{{customer?.accounting_fullname}}</b></td>
           <td></td>
           <td></td>
         </tr>
       </table>
       <div class="row">
         <div>
-          <button mat-raised-button (click)="onAddAccounting()" *ngIf="!is_adding">添加账期</button>
+          <button mat-raised-button (click)="onOpenAddPayments()" *ngIf="!is_adding">添加账期</button>
         </div>
         <div class="col-6" *ngIf="is_adding">
           <mat-form-field class="example-full-width">
             <mat-label>起始账期</mat-label>
-            <input matInput [matDatepicker]="picker" disabled>
+            <input matInput [matDatepicker]="picker" [formControl]="payment.renew_from" disabled>
             <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -48,30 +78,37 @@
         <div class="col-6" *ngIf="is_adding">
           <mat-form-field class="example-full-width">
             <mat-label>赠送账期</mat-label>
-            <input type="number" matInput placeholder="">
+            <input type="number" matInput placeholder="" [formControl]="payment.bonus">
           </mat-form-field>
         </div>
-        <div>
-          <button mat-raised-button (click)="onSaveNewAccounting()" *ngIf="is_adding">添加</button>
+      </div>
+      <div class="row" *ngIf="is_adding">
+        <div class="col-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>付款金额</mat-label>
+            <input type="number" matInput [formControl]="payment.payment_amount">
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <button mat-raised-button (click)="onAddPayments()" >添加</button>
         </div>
       </div>
     </div>
     <div class="col-sm-3 col-md-6">
       <h5>历史账期</h5>
       <table class="table table-bg-1">
-        <tr *ngFor="let p of data['payments']">
+        <tr *ngFor="let p of account['payments']">
           <td>账期：</td>
-          <td><b>{{p.renew_from}} {{p.renew_to}}</b></td>
+          <td><b>{{p.renew_from}} 到 {{p.renew_to}}</b></td>
           <td>收费：</td>
-          <td><b>{{p['payment_amount'] || ''}}</b></td>
+          <td><b>{{_currencyFormat(p['payment_amount']) || ''}}</b></td>
         </tr>
       </table>
     </div>
   </div>
-  
+<!--//Step 2-->
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>关闭</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>确认</button>
 </mat-dialog-actions>
 </div>
