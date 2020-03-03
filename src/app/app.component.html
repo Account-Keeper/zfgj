@@ -302,8 +302,8 @@
 </header>
 
 <div class="content" role="main">
-  <app-sidebar ></app-sidebar>
-
+  <app-sidebar *ngIf="isAuth"></app-sidebar>
+  <app-login *ngIf="!isAuth" style="width: 50%;"></app-login>
   <!-- Footer -->
   <footer>
   </footer>

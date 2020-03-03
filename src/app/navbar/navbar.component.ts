@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getUserDisplayName(user) {
-    if(!user)
+    if(!user || !user.first_name)
       return '';
     return `${user.first_name} ${user.last_name}`;
   }
@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit {
     this.currentUser = {};
     this.service.logout();
     this.isAuth = false;
-    this.router.navigate(['/login']);
+    window.location.reload();
   }
 
 }

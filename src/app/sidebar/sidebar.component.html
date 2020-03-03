@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidebar-container">
+<mat-sidenav-container class="sidebar-container" *ngIf="isAuth">
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidebar-1">
         <div class="list-group panel">
             <div class="list-group-item list-group-title" >
@@ -31,3 +31,4 @@
         <router-outlet></router-outlet>
     </div>
 </mat-sidenav-container>
+

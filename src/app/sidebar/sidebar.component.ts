@@ -62,14 +62,14 @@ export class SidebarComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   logout() {
     this.currentUser = {};
     this.service.logout();
     this.isAuth = false;
-    this.router.navigate(['/login']);
+    window.location.reload();
   }
 
 }

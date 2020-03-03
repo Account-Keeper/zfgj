@@ -59,7 +59,6 @@ import { CustomerViewComponent } from './customer-view/customer-view.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'leads', component: LeadsComponent },
   { path: 'jobs/edit/:id', component: JobsComponent },
   { path: 'jobs/add', component: JobsComponent },
