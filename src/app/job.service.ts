@@ -269,4 +269,17 @@ export class JobService extends BaseService {
       }));
   }
 
+  addKeepingCustomer(data: object = {}) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("api_token", API_TOKEN);
+
+    return this.http.post<any>(url_api + 'account/keeping_customer/', data, { headers: this.getHeaders() })
+      .pipe(map(data => {
+        if (data) {
+          return data;
+        }
+        return null;
+      }));
+  }
+
 }

@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let c of searchResults">
+          <tr *ngFor="let c of searchResults" (click)="onAddCustomer(c.id)">
             <td>{{c.company_name}}</td>
             <td>{{c.contact_fullname}}</td>
             <td>{{c.cell_phone}}</td>
@@ -109,6 +109,6 @@
 <!--//Step 2-->
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>关闭</button>
+  <button mat-button mat-dialog-close (click)="onCloseDialog()">关闭</button>
 </mat-dialog-actions>
 </div>
