@@ -37,28 +37,28 @@
     <table class="table">
         <tr>
           <td>公司名称</td>
-          <td><b>{{customer?.company_name}}</b></td>
+          <td><b>{{customer?customer['company_name']:''}}</b></td>
           <td>客户姓名</td>
-          <td><b>{{customer?.contact_fullname}}</b></td>
+          <td><b>{{customer?customer['contact_fullname']:''}}</b></td>
         </tr>
 
         <tr>
           <td>客户电话</td>
-          <td><b>{{customer?.cell_phone}}</b></td>
+          <td><b>{{customer?customer['cell_phone']:''}}</b></td>
           <td>微信号</td>
-          <td><b>{{customer?.wechat_id}}</b></td>
+          <td><b>{{customer?customer['wechat_id']:''}}</b></td>
         </tr>
 
         <tr>
           <td>客户邮箱</td>
-          <td><b>{{customer?.customer_email}}</b></td>
+          <td><b>{{customer?customer['customer_email']:''}}</b></td>
           <td>法人姓名</td>
-          <td><b>{{customer?.legal_fullname}}</b></td>
+          <td><b>{{customer?customer['legal_fullname']:''}}</b></td>
         </tr>
 
         <tr>
           <td>会计</td>
-          <td><b>{{customer?.accounting_fullname}}</b></td>
+          <td><b>{{customer?customer['accounting_fullname']:''}}</b></td>
           <td></td>
           <td></td>
         </tr>
@@ -70,7 +70,7 @@
         <div class="col-6" *ngIf="is_adding">
           <mat-form-field class="example-full-width">
             <mat-label>起始账期</mat-label>
-            <input matInput [matDatepicker]="picker" [formControl]="payment.renew_from" disabled>
+            <input matInput [matDatepicker]="picker" [formControl]="payment['renew_from']" disabled>
             <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -78,7 +78,7 @@
         <div class="col-6" *ngIf="is_adding">
           <mat-form-field class="example-full-width">
             <mat-label>赠送账期</mat-label>
-            <input type="number" matInput placeholder="" [formControl]="payment.bonus">
+            <input type="number" matInput placeholder="" [formControl]="payment['bonus']">
           </mat-form-field>
         </div>
       </div>
@@ -86,7 +86,7 @@
         <div class="col-6">
           <mat-form-field class="example-full-width">
             <mat-label>付款金额</mat-label>
-            <input type="number" matInput [formControl]="payment.payment_amount">
+            <input type="number" matInput [formControl]="payment['payment_amount']">
           </mat-form-field>
         </div>
         <div class="col-6">

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ConfigService, ROLES }  from '../config.service';
-import { simplifyDatetime } from '../utility';
+import { simplifyDatetime,formatDateTime } from '../utility';
 import { FormControl } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
@@ -30,6 +30,7 @@ export class UserConfigComponent implements OnInit {
   repassword = new FormControl('');
   user = {};
   isLoading = false;
+  _formatDateTime = formatDateTime;
 
   constructor(
     private service: ConfigService,
