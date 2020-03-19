@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     if(this.service.currentUserValue){
       this.isAuth = true;
+      this.currentUser = this.service.currentUserValue;
     }
     else{
       this.isAuth = false;
@@ -40,9 +41,9 @@ export class NavbarComponent implements OnInit {
   }
 
   getUserDisplayName(user) {
-    if(!user || !user.first_name)
+    if(!user )
       return '';
-    return `${user.first_name} ${user.last_name}`;
+    return `${user.username}`;
   }
 
   onToggleBar () {

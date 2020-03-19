@@ -77,6 +77,22 @@
             </mat-form-field>
         </div>
     </div>
+    <label>更改密码</label>
+    <div class="alert alert-danger" *ngIf="is_wrong_password">
+        两次密码输入错误.
+      </div>
+    <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+        <div fxFlex="50%">
+            <mat-form-field class="full">
+                <input matInput type="password" [formControl]="user['password']" placeholder="新密码">
+            </mat-form-field>
+        </div>
+        <div fxFlex="50%">
+            <mat-form-field class="full">
+                <input matInput type="password" [formControl]="user['repassword']" placeholder="重复新密码">
+            </mat-form-field>
+        </div>
+    </div>
 
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="10px" fxLayoutGap.xs="0">
         <button mat-button (click)="onSave()">保存</button>

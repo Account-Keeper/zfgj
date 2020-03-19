@@ -191,7 +191,7 @@ export class LeadsComponent implements OnInit {
   }
 
   displayUser(assignee) {
-    if(!assignee && !Array.isArray(assignee))
+    if(!assignee || !Array.isArray(assignee) || assignee.length==0)
       return '';
 
     return `${assignee[0].first_name} ${assignee[0].last_name}`;

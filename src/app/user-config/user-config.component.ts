@@ -30,6 +30,7 @@ export class UserConfigComponent implements OnInit {
   repassword = new FormControl('');
   user = {};
   isLoading = false;
+  is_wrong_password = false;
   _formatDateTime = formatDateTime;
 
   constructor(
@@ -66,6 +67,8 @@ export class UserConfigComponent implements OnInit {
     this.user['is_active'] = new FormControl();
     this.user['wechat_id'] = new FormControl();
     this.user['role_id'] = new FormControl();
+    this.user['password'] = new FormControl();
+    this.user['repassword'] = new FormControl();
   }
 
   getUsers() {
@@ -102,6 +105,8 @@ export class UserConfigComponent implements OnInit {
     this.user['is_active'].setValue(item.is_active);
     this.user['wechat_id'].setValue(item.wechat_id);
     this.user['role_id'].setValue(item.role_id);
+    this.user['password'] = new FormControl();
+    this.user['repassword'] = new FormControl();
   }
 
   onSave() {
@@ -109,8 +114,19 @@ export class UserConfigComponent implements OnInit {
       let data = {};
       if(this.user['id'])
         data['id'] = this.user['id'].value;
-      if(this.password)
+      if(this.password.value)
         data['password'] = this.password.value;
+
+      let new_pwd = this.user['password'].value;
+      let re_pwd = this.user['repassword'].value;
+      this.is_wrong_password = false;
+
+      if(new_pwd !== re_pwd) {
+        this.is_wrong_password = true;
+        return;
+      }
+      if(new_pwd)
+        data['password'] = new_pwd.trim();
 
       data['username'] = this.user['username'].value;
       data['first_name'] = this.user['first_name'].value;

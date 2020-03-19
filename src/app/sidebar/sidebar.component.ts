@@ -25,10 +25,10 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.verifyToken().subscribe(data => {
+    /*this.service.verifyToken().subscribe(data => {
       this.isAuth = data['result']?true: false;
       if(!this.isAuth || !this.service.currentUserValue){
-        this.router.navigate(['/login']);
+        this.router.navigate(['login']);
       }
       else{
         this.isAuth = true;
@@ -39,10 +39,9 @@ export class SidebarComponent implements OnInit {
             this.currentUser = {...data};
           }
         });
-        
       }
-    });
-    /*
+    });*/
+    
     if(this.service.currentUserValue){
       this.isAuth = true;
       this.currentUser = this.service.currentUserValue;
@@ -58,7 +57,7 @@ export class SidebarComponent implements OnInit {
         this.currentUser = {...data};
       }
     });
-    */
+    
   }
 
   login() {
