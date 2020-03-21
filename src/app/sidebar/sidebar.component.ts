@@ -64,6 +64,10 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  isEditAuth() {
+    return this.service.isEditAuth();
+  }
+
   logout() {
     this.currentUser = {};
     this.service.logout();

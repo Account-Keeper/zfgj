@@ -20,7 +20,7 @@ const API_TOKEN = "";
 export class User {
   username: string;
   password: string;
-  role_id: 0;
+  role_id: number;
 }
 
 export class BaseService {
@@ -148,6 +148,13 @@ export class ConfigService extends BaseService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.currentUserSubject.next(null);
+  }
+
+  isEditAuth() {
+    if(!this.currentUserValue)
+      return false;
+
+    return this.currentUserValue.role_id===1;
   }
 
   getUsers(filter) {

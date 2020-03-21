@@ -18,7 +18,7 @@
                     routerLink="/address">地址续费</a></div>
             <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
                     routerLink="/keeping-renew/list">记账续费</a></div>
-            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item"><a
+            <div class="list-group-item" mat-list-item routerLinkActive="active-list-item" *ngIf="isEditAuth()"><a
                     routerLink="/user-config">登陆管理</a></div>
             <div class="list-group-item" *ngIf="!isAuth"><a (click)="login()">登录</a></div>
             <div class="list-group-item" *ngIf="isAuth"><a (click)="logout()">注销</a></div>
