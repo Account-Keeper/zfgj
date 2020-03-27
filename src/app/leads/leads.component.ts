@@ -237,7 +237,11 @@ export class LeadsComponent implements OnInit {
   }
 
   onSave() {
-    if(this.lead['contact_name'].errors || this.lead['contact_phone'].errors || this.lead['city'].errors || this.lead['source_id'].errors)
+    if(this.lead['contact_name'].errors || 
+      this.lead['contact_phone'].errors || 
+      this.lead['city'].errors || 
+      this.lead['source_id'].errors ||
+      this.lead['status'].errors)
       return;
 
     const data = {};
@@ -256,6 +260,11 @@ export class LeadsComponent implements OnInit {
           this.onRefresh();
         }
       });
+  }
+
+  onChangeAssignee($event) {
+    if($event.value)
+      this.lead['status'].setValue(1);//set as assigned
   }
 
   onUpdateLead() {

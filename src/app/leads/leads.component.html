@@ -130,7 +130,7 @@
         <div fxFlex="33%">
             <!--<span *ngIf="lead['assignee'].value">{{(lead['assignee'].value}}</span>-->
             <mat-form-field>
-                <mat-select [formControl]="lead['assignee']" placeholder="办理人">
+                <mat-select [formControl]="lead['assignee']" placeholder="办理人" (selectionChange)="onChangeAssignee($event)">
                     <mat-option *ngFor="let r of users" [value]="r.id">
                         {{r.display_name}}
                     </mat-option>
@@ -141,7 +141,7 @@
     <div fxLayout="row" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="0">
         <div fxFlex="33%">
             <mat-form-field>
-                <mat-select [formControl]="lead['status']" placeholder="状态" required>
+                <mat-select [formControl]="lead['status']" [(value)]="lead['status'].value" placeholder="状态" required>
                     <mat-option *ngFor="let r of lead_status" [value]="r.id">
                         {{r.label}}
                     </mat-option>
