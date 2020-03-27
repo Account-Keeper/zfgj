@@ -154,7 +154,7 @@ export class ConfigService extends BaseService {
     if(!this.currentUserValue)
       return false;
 
-    return this.currentUserValue.role_id===1;
+    return this.currentUserValue.role_id===1 || this.currentUserValue.role_id===3;
   }
 
   getUsers(filter) {
