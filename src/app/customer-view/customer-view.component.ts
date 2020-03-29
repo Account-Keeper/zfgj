@@ -81,11 +81,16 @@ export class CustomerViewComponent implements OnInit {
       this.Pagelength = data[1]['count'] || 0;
       this.is_loading = false;
 
-      if (this.selected_customer_id) {
+      if (this.selected_customer_id && this.selected_customer_id>=0) {
         this.selectedItem = this.customers.find(item => item.id === this.selected_customer_id);
         this.selectedJob['customer'] = [];
         this.selectedJob['customer'].push(this.selectedItem);
         this.isDetail = true;
+      }
+      else if( this.selected_customer_id == -1) {
+        this.selectedJob['customer'] = [{}];
+        this.isDetail = true;
+        this.isEdit = true;
       }
 
     });
@@ -133,8 +138,12 @@ export class CustomerViewComponent implements OnInit {
     this.isEdit = true;
   }
 
-  onCancel() {
+  onAdd() {
+    this.router.navigate(['/customers/view/-1']);
+  }
 
+  onCancel() {
+    this.isEdit = false;
   }
 
   onSearch() {
@@ -221,7 +230,7 @@ export class CustomerViewComponent implements OnInit {
         this.selectedJob = {};
         this.selectedJob['customer'] = [];
         this.selectedJob['customer'].push(this.selectedItem);
-        this.isEdit = false;
+        this.router.navigate(['/customers/list']);
       }
     });
   }
