@@ -202,6 +202,7 @@ export class LeadsComponent implements OnInit {
     const lead = {};
     lead['id'] = id;
     lead['assignee'] = user['id'];
+    lead['status'] = 1;
     this.lead_service.saveLead(lead).subscribe(data=>{
       if(data){
         this.getLeads();
