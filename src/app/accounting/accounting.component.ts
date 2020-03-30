@@ -106,6 +106,22 @@ export class AccountingComponent implements OnInit, OnDestroy {
     });
   }
 
+  getRenewTo(payments) {
+    if(payments && payments.length>0) {
+      return payments[0].renew_to;
+    }
+    return;
+  }
+
+  isExpired(date) {
+    if(!date)
+      return false;
+
+    let today = new Date();
+    let pay_date = new Date(date);
+    return pay_date<today;
+  }
+
   getTaxPayerType(type) {
     const t = this.taxPayerType.find(item => item.id === type);
     return t ? t.label : '';
@@ -151,10 +167,12 @@ export class AccountingComponent implements OnInit, OnDestroy {
 })
 export class AccountingDialogComponent {
   is_adding = false;
+  is_duplicated = false;
   account = {};
   customer: Object;
   customers = [];
   payments = [];
+  accountings = [];
   payment = {};
   taxPayerType = TAXPAYER_TYPE;
   _currencyFormat = currencyFormat;
@@ -173,6 +191,7 @@ export class AccountingDialogComponent {
 
   ngOnInit() {
     this.loadData();
+    this.onLoadData();
   }
 
   loadData() {
@@ -222,8 +241,9 @@ export class AccountingDialogComponent {
     let txt = this.searchTxt.value;
     this.searchResults = this.customers.filter(item => {
       let line = `${item.company_name} ${item.contact_fullname} ${item.cell_phone} ${item.work_phone} ${item.customer_email}`;
-      if (line.indexOf(txt) > -1)
+      if (line.indexOf(txt) > -1 && !this.hasCustomer(item.id))
         return true;
+
       return false;
     });
   }
@@ -233,6 +253,12 @@ export class AccountingDialogComponent {
       const keeping = {};
       keeping['customer_id'] = id;
       keeping['type'] = 0;
+      this.is_duplicated = false;
+
+      if(this.hasCustomer(id)) {
+        this.is_duplicated = true;
+      }
+
       this.job_service.addKeepingCustomer(keeping).subscribe(data => {
         if (data) {
           let id = data['results'][0];
@@ -263,6 +289,31 @@ export class AccountingDialogComponent {
 
   ngOnDestroy() {
     //this.customers = [];
+  }
+
+  hasCustomer(id):boolean {
+    let res = this.accountings.find(item => {
+      if(!item['customer'])
+        return false;
+
+      return item['customer']['id'] === id;
+    })
+    return res?true:false;
+  }
+
+  onLoadData() {
+    let filter = {};
+    this.job_service.getKeepings(filter).subscribe(data => {
+      if (data) {
+        let accounting = [...data['results']];
+        for (let d of accounting) {
+          if (d.customer.length > 0) {
+            d['customer'] = d.customer[0];
+          }
+        }
+        this.accountings = [...accounting];
+      }
+    });
   }
 
   onCloseDialog() {
